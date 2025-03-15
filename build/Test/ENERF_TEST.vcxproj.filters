@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\build\Test\CMakeFiles\ENERF_TEST.dir\cmake_pch.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\EventTest.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\EventComponentTest.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\EventCellTest.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\ObserverEventCellTest.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\EventMocks.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\ENerfAppTest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\WindowsWindowTest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\Event\EventMocks.h">
+      <Filter>src\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\FreqUsedSymbolsOfTesting.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\Test\CMakeFiles\ENERF_TEST.dir\R_DEBUG\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\Test\CMakeFiles\ENERF_TEST.dir\R_RELEASE\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\Test\CMakeFiles\ENERF_TEST.dir\R_PROFILE\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\Test\CMakeFiles\ENERF_TEST.dir\R_TEST\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Dev\Local\EnhancedNerf\Code\Test\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Precompile Header File">
+      <UniqueIdentifier>{3DD13BBA-DDC5-32E4-84DC-46914D697E7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D5158143-18FF-304F-9822-453C21E7135F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{35720F6A-2321-3517-8F30-1E65357A2222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Event">
+      <UniqueIdentifier>{0D63B907-3EDB-3272-BD7F-BDAD43CD6286}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

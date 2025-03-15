@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\cmake_pch.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\ENerfApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\WindowsWindow.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventComponent.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventThread.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventQueue.cpp">
+      <Filter>src\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventCell\EventCell.cpp">
+      <Filter>src\Event\EventCell</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventCell\ObserverEventCell.cpp">
+      <Filter>src\Event\EventCell</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\ENerfApp.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\WindowsWindow.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\Event.h">
+      <Filter>include\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventComponent.h">
+      <Filter>include\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventThread.h">
+      <Filter>include\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventQueue.h">
+      <Filter>include\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventCell\EventCell.h">
+      <Filter>include\Event\EventCell</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventCell\ObserverEventCell.h">
+      <Filter>include\Event\EventCell</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Preprocessor\API.h">
+      <Filter>include\Preprocessor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Utility\UUID.h">
+      <Filter>include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_DEBUG\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_RELEASE\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_PROFILE\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_TEST\cmake_pch.hxx">
+      <Filter>Precompile Header File</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Precompile Header File">
+      <UniqueIdentifier>{3DD13BBA-DDC5-32E4-84DC-46914D697E7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D5158143-18FF-304F-9822-453C21E7135F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{7AFB6660-7CA1-3B9F-9CDF-1B7AB0E733CD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Event">
+      <UniqueIdentifier>{0C3654E2-D5E5-326C-B33D-47D495BA2DD9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Event\EventCell">
+      <UniqueIdentifier>{3EF6BDD2-CCFC-31A5-8C5F-1E6A06E1F24C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Preprocessor">
+      <UniqueIdentifier>{C2961696-1719-3D2C-B146-9A70A227AC58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Utility">
+      <UniqueIdentifier>{C4B1CEED-6D86-3D66-9358-D042D7B5D973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{35720F6A-2321-3517-8F30-1E65357A2222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Event">
+      <UniqueIdentifier>{0D63B907-3EDB-3272-BD7F-BDAD43CD6286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Event\EventCell">
+      <UniqueIdentifier>{880E0139-65C4-3C95-8BE5-5BE7B9714DB1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

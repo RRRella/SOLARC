@@ -1,0 +1,11 @@
+add_compile_definitions(
+"
+$<$<CONFIG:ENERF_DEBUG>:
+>;
+$<$<CONFIG:ENERF_TEST>:
+>
+$<$<CONFIG:ENERF_RELEASE>:
+NDEBUG>;
+$<$<CONFIG:ENERF_PROFILE>:
+NDEBUG>;
+")

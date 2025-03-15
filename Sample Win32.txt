@@ -1,0 +1,10 @@
+WNDCLASS wc = { };
+
+LPCTSTR iconPathName;
+UINT icon_flags = LR_LOADFROMFILE | LR_DEFAULTSIZE;
+HANDLE hIcon = LoadImage(hInstance, iconPathName, IMAGE_ICON, 0, 0, icon_flags);
+
+wc.hIcon = (HICON)hIcon;
+
+
+//////////////////////

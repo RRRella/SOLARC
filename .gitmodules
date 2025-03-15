@@ -1,0 +1,9 @@
+[submodule "ThirdParty/googletest"]
+	path = ThirdParty/googletest
+	url = https://github.com/RRRella/googletest
+[submodule "ThirdParty/instant-ngp"]
+	path = ThirdParty/instant-ngp
+	url = https://github.com/RRRella/instant-ngp
+[submodule "ThirdParty/uuid"]
+	path = ThirdParty/uuid
+	url = https://github.com/RRRella/uuid

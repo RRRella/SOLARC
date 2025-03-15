@@ -1,0 +1,6 @@
+foreach(source IN LISTS ${MODULE_NAME}_SRC ${MODULE_NAME}_HDRS)
+    get_filename_component(source_path "${source}" PATH )
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" source_path "${source_path}")
+    string(REPLACE "/" "\\" source_path "${source_path}")
+    source_group("${source_path}" FILES "${source}")
+endforeach()

@@ -1,0 +1,30 @@
+//enum class R_EVENT_TYPE
+//{
+//	MOCK
+//};
+//
+//class REvent
+//{
+//public:
+//	R_EVENT_TYPE GetType() const noexcept { return m_Type; }
+//
+//	virtual ~REvent(){}
+//protected:
+//	REvent(R_EVENT_TYPE type) :m_Type{type} {}
+//private:
+//	R_EVENT_TYPE m_Type;
+//};
+//
+//class RMockEvent : public REvent
+//{
+//public:
+//	RMockEvent():REvent(R_EVENT_TYPE::MOCK){}
+//private:
+//};
+//
+//TEST (A_REvent,ReportsItsType)
+//{
+//	std::unique_ptr<REvent> event = std::make_unique<RMockEvent>();
+//
+//	ASSERT_THAT(event->GetType(),::testing::Eq(R_EVENT_TYPE::MOCK));
+//}
