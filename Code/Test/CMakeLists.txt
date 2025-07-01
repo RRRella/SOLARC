@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.30.2)
 
 project(ENERF_TEST LANGUAGES CXX C)
 
+include("${CMAKE_SOURCE_DIR}/cmake/GoogleTestSetup.cmake")
+
 #ENERF_TEST setup
 set(MODULE_NAME ENERF_TEST)
 

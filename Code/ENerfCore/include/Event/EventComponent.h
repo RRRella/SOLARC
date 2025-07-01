@@ -3,29 +3,39 @@
 
 #include "Event/EventQueue.h"
 
-using OwnedEventCallBack  = std::shared_ptr<std::function<void(Event&)>>;
-using SharedEventCallBack = std::weak_ptr<std::function<void(Event&)>>;
+#include "Utility/UUID.h"
+
+using SharedEventCallBack  = std::shared_ptr<std::function<void(Event&)>>;
+using WeakEventCallBack = std::weak_ptr<std::function<void(Event&)>>;
 
 class ENERF_CORE_API EventComponent
 {
 public:
-	EventComponent(unsigned int numConsumers)
+	explicit EventComponent(const uint64_t numConsumers)
 	{
 		m_Consumers.resize(numConsumers);
+
+		GeenerateUUID(m_UUID);
 	};
 
 	~EventComponent() = default;
 
-	void SetProducerCallBack(SharedEventCallBack callBack) noexcept
+	void SetProducerCallBack(WeakEventCallBack callBack) noexcept
 	{
 		m_Producers.emplace_back(callBack);
 	}
 
-	SharedEventCallBack GetConsumerCallBack(size_t id) noexcept { return m_Consumers[id]; }
+	uint64_t GetEventConsumersCount() const noexcept { return m_Consumers.size(); }
+
+	UUID GetID() const noexcept { return m_UUID; }
+
+	WeakEventCallBack GetConsumerCallBack(size_t id) noexcept { return m_Consumers[id]; }
 
 protected:
 	
-	std::list<SharedEventCallBack> m_Producers;
+	std::list<WeakEventCallBack> m_Producers;
 
-	std::vector<OwnedEventCallBack> m_Consumers;
+	std::vector<SharedEventCallBack> m_Consumers;
+
+	UUID m_UUID = {};
 };

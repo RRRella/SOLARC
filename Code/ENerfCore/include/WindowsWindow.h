@@ -1,11 +1,34 @@
 #pragma once
 #include "Preprocessor/API.h"
+#include <windows.h>
+#include "Window.h"
 
-class ENERF_CORE_API Win32Window
+#ifndef UNICODE
+#define UNICODE
+#endif 
+
+class ENERF_CORE_API WindowsWindow : public Window
 {
 public:
-	Win32Window() {}
-	~Win32Window() {}
+	WindowsWindow(const WindowsMetaData& metaData);
+	~WindowsWindow();
 
-	void Update(){}
+    static void RegisterWindowClass() noexcept;
+private:
+
+    HWND m_Hwnd;
+
+    //For now window class is going to get defined the same for every window instance
+    //Will refactor later
+    static inline WNDCLASS m_WindowClass = {};
+};
+
+class ENERF_CORE_API WindowsWindowFactory : public WindowFactory
+{
+public:
+    WindowsWindowFactory() = default;
+    ~WindowsWindowFactory() = default;
+
+    std::unique_ptr<Window> Create(const WindowsMetaData& metaData) const override;
+private:
 };

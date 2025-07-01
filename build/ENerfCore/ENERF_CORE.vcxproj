@@ -87,8 +87,8 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -98,20 +98,18 @@
       </ExceptionHandling>
       <ForcedIncludeFiles>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx</ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_DEBUG/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
+      <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);ENERF_CORE_BUILD;R_DEBUG;
 ;
 
-;CMAKE_INTDIR="R_DEBUG";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="R_DEBUG";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -119,11 +117,11 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;ENERF_CORE_BUILD;R_DEBUG;
 ;
 
-;CMAKE_INTDIR=\"R_DEBUG\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"R_DEBUG\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -148,7 +146,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\out\R_DEBUG\lib\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /OPT:LBR</AdditionalOptions>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -168,8 +166,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -178,20 +176,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       </ExceptionHandling>
       <ForcedIncludeFiles>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx</ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
+      <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);ENERF_CORE_BUILD;R_RELEASE;
 ;
 
-;CMAKE_INTDIR="R_RELEASE";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="R_RELEASE";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
@@ -201,11 +197,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;ENERF_CORE_BUILD;R_RELEASE;
 ;
 
-;CMAKE_INTDIR=\"R_RELEASE\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"R_RELEASE\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -230,7 +226,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\out\R_RELEASE\lib\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /OPT:LBR</AdditionalOptions>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -249,8 +245,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -260,20 +256,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       </ExceptionHandling>
       <ForcedIncludeFiles>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx</ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_PROFILE/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
+      <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);ENERF_CORE_BUILD;R_PROFILE;
 ;
 
-;CMAKE_INTDIR="R_PROFILE";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="R_PROFILE";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -281,11 +275,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;ENERF_CORE_BUILD;R_PROFILE;
 ;
 
-;CMAKE_INTDIR=\"R_PROFILE\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"R_PROFILE\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -310,7 +304,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\out\R_PROFILE\lib\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /OPT:LBR</AdditionalOptions>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -329,8 +323,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -340,20 +334,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       </ExceptionHandling>
       <ForcedIncludeFiles>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx</ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <MinimalRebuild>
-      </MinimalRebuild>
+      <MinimalRebuild></MinimalRebuild>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_TEST/cmake_pch.pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <SupportJustMyCode>
-      </SupportJustMyCode>
+      <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);ENERF_CORE_BUILD;R_TEST;
 ;
 
-;CMAKE_INTDIR="R_TEST";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="R_TEST";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
@@ -361,11 +353,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;ENERF_CORE_BUILD;R_TEST;
 ;
 
-;CMAKE_INTDIR=\"R_TEST\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"R_TEST\";ENERF_CORE_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src;D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include;D:\Dev\Local\EnhancedNerf\ThirdParty\nlohmann-json\single_include;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -390,7 +382,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\out\R_TEST\lib\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /OPT:LBR /RTC1</AdditionalOptions>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -488,25 +480,43 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\WindowContext.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Scene.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Renderer.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Window.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\WindowsWindow.cpp">
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Utility\CompileTimeUtil.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventComponent.cpp">
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-    </ClCompile>
-    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventThread.cpp">
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-    </ClCompile>
-    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventQueue.cpp">
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_DEBUG/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_RELEASE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_PROFILE/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -525,15 +535,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:/Dev/Local/EnhancedNerf/build/ENerfCore/CMakeFiles/ENERF_CORE.dir/R_TEST/cmake_pch.hxx;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\ENerfApp.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\WindowContext.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Scene.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Renderer.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Window.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\WindowsWindow.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\Event.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventComponent.h" />
-    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventThread.h" />
-    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventQueue.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventCell\EventCell.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventCell\ObserverEventCell.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Preprocessor\API.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Utility\UUID.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Utility\CompileTimeUtil.h" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_DEBUG\cmake_pch.hxx" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_RELEASE\cmake_pch.hxx" />
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_PROFILE\cmake_pch.hxx" />
@@ -546,6 +559,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Dev\Local\EnhancedNerf\build\spdlog\spdlog.vcxproj">
+      <Project>{18792DF7-C5D6-3C6C-A878-2EF207833FAF}</Project>
+      <Name>spdlog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

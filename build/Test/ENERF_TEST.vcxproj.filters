@@ -25,6 +25,9 @@
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\WindowTest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\Test\src\WindowsWindowTest.cpp">
       <Filter>src</Filter>
     </ClCompile>

@@ -27,7 +27,7 @@ public:
 	enum class CONSUMERS
 	{
 		ON_FAKE_EVENT,
-		NUMBER_OF_CONSUMERS
+		NUM_CONSUMERS
 	};
 
 	FakeEventComponent();
@@ -42,23 +42,26 @@ private:
 //
 
 //Mock event cell
-enum class MOCK_CELL_CONSUMER_ROLES
+enum class FAKE_EVENT_CELL_CATCHER_ROLES
 {
 	TYPE_A
 };
 
-enum class MOCK_CELL_PRODUCER_ROLES
+enum class FAKE_EVENT_CELL_DISPATCHER_ROLES
 {
 	TYPE_A
 };
 
-class MockEventCell : public EventCell
+class FakeEventCell : public EventCell
 {
 public:
-	MockEventCell();
-	~MockEventCell() = default;
+	FakeEventCell();
+	~FakeEventCell() = default;
 
-	MOCK_METHOD(void, Communicate, (), (override));
+	virtual void Communicate() override
+	{
+
+	}
 
 private:
 };

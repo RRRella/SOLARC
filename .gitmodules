@@ -7,3 +7,6 @@
 [submodule "ThirdParty/uuid"]
 	path = ThirdParty/uuid
 	url = https://github.com/RRRella/uuid
+[submodule "ThirdParty/spdlog"]
+	path = ThirdParty/spdlog
+	url = https://github.com/gabime/spdlog

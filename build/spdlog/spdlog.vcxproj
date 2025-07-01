@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="R_DEBUG|x64">
+      <Configuration>R_DEBUG</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="R_RELEASE|x64">
+      <Configuration>R_RELEASE</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="R_PROFILE|x64">
+      <Configuration>R_PROFILE</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="R_TEST|x64">
+      <Configuration>R_TEST</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{18792DF7-C5D6-3C6C-A878-2EF207833FAF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>spdlog</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:\Dev\Local\EnhancedNerf\build\out\R_DEBUG\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">spdlog.dir\R_DEBUG\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">spdlog</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:\Dev\Local\EnhancedNerf\build\out\R_RELEASE\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">spdlog.dir\R_RELEASE\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">spdlog</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:\Dev\Local\EnhancedNerf\build\out\R_PROFILE\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">spdlog.dir\R_PROFILE\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">spdlog</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:\Dev\Local\EnhancedNerf\build\out\R_TEST\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">spdlog.dir\R_TEST\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">spdlog</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /Zc:__cplusplus /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_DEBUG;
+;
+
+;CMAKE_INTDIR="R_DEBUG"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_DEBUG;
+;
+
+;CMAKE_INTDIR=\"R_DEBUG\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /Zc:__cplusplus /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_RELEASE;
+;
+
+;CMAKE_INTDIR="R_RELEASE"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_RELEASE;
+;
+
+;CMAKE_INTDIR=\"R_RELEASE\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /Zc:__cplusplus /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_PROFILE;
+;
+
+;CMAKE_INTDIR="R_PROFILE"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_PROFILE;
+;
+
+;CMAKE_INTDIR=\"R_PROFILE\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t /Zc:__cplusplus /utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_TEST;
+;
+
+;CMAKE_INTDIR="R_TEST"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;SPDLOG_COMPILED_LIB;SPDLOG_FWRITE_UNLOCKED;R_TEST;
+;
+
+;CMAKE_INTDIR=\"R_TEST\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">Building Custom Rule D:/Dev/Local/EnhancedNerf/ThirdParty/spdlog/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Dev/Local/EnhancedNerf -BD:/Dev/Local/EnhancedNerf/build --check-stamp-file D:/Dev/Local/EnhancedNerf/build/spdlog/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\ide.cmake;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\utils.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">D:\Dev\Local\EnhancedNerf\build\spdlog\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='R_DEBUG|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">Building Custom Rule D:/Dev/Local/EnhancedNerf/ThirdParty/spdlog/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Dev/Local/EnhancedNerf -BD:/Dev/Local/EnhancedNerf/build --check-stamp-file D:/Dev/Local/EnhancedNerf/build/spdlog/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\ide.cmake;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\utils.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">D:\Dev\Local\EnhancedNerf\build\spdlog\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='R_RELEASE|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">Building Custom Rule D:/Dev/Local/EnhancedNerf/ThirdParty/spdlog/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Dev/Local/EnhancedNerf -BD:/Dev/Local/EnhancedNerf/build --check-stamp-file D:/Dev/Local/EnhancedNerf/build/spdlog/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\ide.cmake;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\utils.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">D:\Dev\Local\EnhancedNerf\build\spdlog\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='R_PROFILE|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">Building Custom Rule D:/Dev/Local/EnhancedNerf/ThirdParty/spdlog/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Dev/Local/EnhancedNerf -BD:/Dev/Local/EnhancedNerf/build --check-stamp-file D:/Dev/Local/EnhancedNerf/build/spdlog/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\ide.cmake;D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\cmake\utils.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">D:\Dev\Local\EnhancedNerf\build\spdlog\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='R_TEST|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\spdlog.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\stdout_sinks.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\color_sinks.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\file_sinks.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\async.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\cfg.cpp" />
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\src\bundled_fmtlib_format.cpp" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\async.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\async_logger-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\async_logger.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\common-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\common.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\formatter.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fwd.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\logger-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\logger.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\mdc.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\pattern_formatter-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\pattern_formatter.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\spdlog-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\spdlog.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\stopwatch.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\tweakme.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\version.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\backtracer-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\backtracer.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\circular_q.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\console_globals.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\file_helper-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\file_helper.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\log_msg-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\log_msg.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\log_msg_buffer-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\log_msg_buffer.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\null_mutex.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\os-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\os.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\periodic_worker-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\registry-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\registry.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\synchronous_factory.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\tcp_client-windows.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\tcp_client.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\thread_pool-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\thread_pool.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\udp_client-windows.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\udp_client.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\details\windows_include.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\ansicolor_sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\base_sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\basic_file_sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\callback_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\dup_filter_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\hourly_file_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\kafka_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\mongo_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\qt_sinks.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\ringbuffer_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\rotating_file_sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\stdout_color_sinks-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\stdout_sinks-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\systemd_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\tcp_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\udp_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\win_eventlog_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\wincolor_sink-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\chrono.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\compile.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\fmt.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\ostr.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\ranges.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\std.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\xchar.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\args.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\base.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\chrono.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\color.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\compile.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\os.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\std.h" />
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\ThirdParty\spdlog\include\spdlog\fmt\bundled\xchar.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Dev\Local\EnhancedNerf\build\ZERO_CHECK.vcxproj">
+      <Project>{D0BAD453-F2F6-3406-8427-FF5BC7F1C05D}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

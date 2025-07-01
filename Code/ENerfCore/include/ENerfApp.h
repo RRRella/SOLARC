@@ -1,21 +1,13 @@
 #pragma once
 #include "Preprocessor/API.h"
-//#include "Window"
+#include "Window.h"
 
 class ENERF_CORE_API ENerfApp
 {
 public:
 
-	static ENerfApp& Get() noexcept
-	{
-		if (!m_Instance)
-			m_Instance = std::make_unique<ENerfApp>();
-
-		return *m_Instance;
-	}
-
-	//Special functions
 	ENerfApp();
+	ENerfApp(const std::string& configDataPath);
 	~ENerfApp() = default;
 
 	ENerfApp(ENerfApp&& other) = delete;
@@ -23,7 +15,17 @@ public:
 
 	ENerfApp(const ENerfApp& other) = delete;
 	ENerfApp& operator=(const ENerfApp& other) = delete;
-	//
+
+	static void Initialize();
+	static void Initialize(const std::string& configDataPath);
+
+	static ENerfApp& Get()
+	{
+		if (!m_Instance)
+			throw std::runtime_error("ENerfApp not initialized. Call Initialize() first.");
+
+		return *m_Instance;
+	}
 
 	void Run();
 
@@ -31,7 +33,10 @@ private:
 
 	inline static std::unique_ptr<ENerfApp> m_Instance = nullptr;
 
-	//std::unique_ptr<Window> m_Window;
+	std::unique_ptr<WindowFactory> m_WindowFactory;
+
+	//temp
+	std::unique_ptr<Window> m_Window;
 
 	bool m_IsRunning = true;
 };

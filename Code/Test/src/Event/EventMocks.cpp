@@ -1,20 +1,30 @@
 #include "EventMocks.h"
 
-MockEventCell::MockEventCell() : EventCell(1, 1)
+FakeEventCell::FakeEventCell() : EventCell(1, 1)
 {
-	m_Producers[static_cast<unsigned int>(MOCK_CELL_PRODUCER_ROLES::TYPE_A)] = std::make_shared<std::function<void(Event&)>>(
+	//We are implementing this dispatcher with assertions because it's going to be used in test only
+
+	m_Dispatchers[static_cast<unsigned int>(FAKE_EVENT_CELL_DISPATCHER_ROLES::TYPE_A)] = std::function<void(Event&)>(
 		[this](Event& e)
 		{
-			auto safeCallBack = m_Consumers[static_cast<unsigned int>(MOCK_CELL_CONSUMER_ROLES::TYPE_A)].lock();
+			auto catcher = m_RegisteredCatchers[static_cast<unsigned int>(FAKE_EVENT_CELL_CATCHER_ROLES::TYPE_A)];
 
-			assert(safeCallBack != nullptr, "consumer is null");
+			if (!catcher)
+				assert(false, "catcher block is null");
+
+			if (!catcher->isRegistered)
+				assert(false, "catcher block is not registered");
+
+			auto safeCallBack = catcher->callBack.lock();
+
+			assert(safeCallBack != nullptr, "catcher callback is null");
 
 			(*safeCallBack)(e);
 		}
 	);
 }
 
-FakeEventComponent::FakeEventComponent() : EventComponent(static_cast<unsigned int>(CONSUMERS::NUMBER_OF_CONSUMERS))
+FakeEventComponent::FakeEventComponent() : EventComponent(static_cast<uint64_t>(CONSUMERS::NUM_CONSUMERS))
 {
 	m_Consumers[static_cast<unsigned int>(CONSUMERS::ON_FAKE_EVENT)]
 		=

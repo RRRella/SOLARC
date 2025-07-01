@@ -13,6 +13,7 @@ ${${MODULE_NAME}_SRC_DIR}/Event/EventMocks.cpp
 ${${MODULE_NAME}_SRC_DIR}/ENerfAppTest.cpp
 ${${MODULE_NAME}_SRC_DIR}/main.cpp
 ${${MODULE_NAME}_SRC_DIR}/FreqUsedSymbolsOfTesting.h
+${${MODULE_NAME}_SRC_DIR}/WindowTest.cpp
 ${${MODULE_NAME}_SRC_DIR}/WindowsWindowTest.cpp
 
 )

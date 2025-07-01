@@ -178,6 +178,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{4F919C7F-97CC-3A62-8D51-1D528D2851B2}</Project>
       <Name>ENERF_CORE</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Dev\Local\EnhancedNerf\build\spdlog\spdlog.vcxproj">
+      <Project>{18792DF7-C5D6-3C6C-A878-2EF207833FAF}</Project>
+      <Name>spdlog</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

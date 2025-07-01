@@ -397,6 +397,134 @@ GTEST_HAS_ABSL:BOOL=OFF
 // may want to turn this OFF.)
 INSTALL_GTEST:BOOL=ON
 
+//Build the unit tests when BUILD_TESTING is enabled.
+JSON_BuildTests:BOOL=OFF
+
+//Enable CI build targets.
+JSON_CI:BOOL=OFF
+
+//Enable diagnostic positions.
+JSON_Diagnostic_Positions:BOOL=OFF
+
+//Use extended diagnostic messages.
+JSON_Diagnostics:BOOL=OFF
+
+//Disable default integer enum serialization.
+JSON_DisableEnumSerialization:BOOL=OFF
+
+//Place user-defined string literals in the global namespace.
+JSON_GlobalUDLs:BOOL=ON
+
+//Enable implicit conversions.
+JSON_ImplicitConversions:BOOL=ON
+
+//Install CMake targets during install step.
+JSON_Install:BOOL=OFF
+
+//Enable legacy discarded value comparison.
+JSON_LegacyDiscardedValueComparison:BOOL=OFF
+
+//Use non-amalgamated version of the library.
+JSON_MultipleHeaders:BOOL=ON
+
+//Include as system headers (skip for clang-tidy).
+JSON_SystemInclude:BOOL=OFF
+
+//Build all artifacts
+SPDLOG_BUILD_ALL:BOOL=OFF
+
+//Build benchmarks (Requires https://github.com/google/benchmark.git
+// to be installed)
+SPDLOG_BUILD_BENCH:BOOL=OFF
+
+//Build example
+SPDLOG_BUILD_EXAMPLE:BOOL=OFF
+
+//Build header only example
+SPDLOG_BUILD_EXAMPLE_HO:BOOL=OFF
+
+//Build position independent code (-fPIC)
+SPDLOG_BUILD_PIC:BOOL=OFF
+
+//Build shared library
+SPDLOG_BUILD_SHARED:BOOL=OFF
+
+//Build tests
+SPDLOG_BUILD_TESTS:BOOL=OFF
+
+//Build tests using the header only version
+SPDLOG_BUILD_TESTS_HO:BOOL=OFF
+
+//Enable compiler warnings
+SPDLOG_BUILD_WARNINGS:BOOL=OFF
+
+//non supported option
+SPDLOG_CLOCK_COARSE:BOOL=OFF
+
+//Disable default logger creation
+SPDLOG_DISABLE_DEFAULT_LOGGER:BOOL=OFF
+
+//Build static or shared library using precompiled header to speed
+// up compilation time
+SPDLOG_ENABLE_PCH:BOOL=OFF
+
+//Use external fmt library instead of bundled
+SPDLOG_FMT_EXTERNAL:BOOL=OFF
+
+//Use external fmt header-only library instead of bundled
+SPDLOG_FMT_EXTERNAL_HO:BOOL=OFF
+
+//Use the unlocked variant of fwrite. Leave this on unless your
+// libc doesn't have it
+SPDLOG_FWRITE_UNLOCKED:BOOL=ON
+
+//Generate the install target
+SPDLOG_INSTALL:BOOL=OFF
+
+//Enable/disable msvc /utf-8 flag required by fmt lib
+SPDLOG_MSVC_UTF8:BOOL=ON
+
+//prevent spdlog from using of std::atomic log levels (use only
+// if your code never modifies log levels concurrently
+SPDLOG_NO_ATOMIC_LEVELS:BOOL=OFF
+
+//Compile with -fno-exceptions. Call abort() on any spdlog exceptions
+SPDLOG_NO_EXCEPTIONS:BOOL=OFF
+
+//prevent spdlog from querying the thread id on each log call if
+// thread id is not needed
+SPDLOG_NO_THREAD_ID:BOOL=OFF
+
+//prevent spdlog from using thread local storage
+SPDLOG_NO_TLS:BOOL=OFF
+
+//Prevent from child processes to inherit log file descriptors
+SPDLOG_PREVENT_CHILD_FD:BOOL=OFF
+
+//Enable address sanitizer in tests
+SPDLOG_SANITIZE_ADDRESS:BOOL=OFF
+
+//Enable thread sanitizer in tests
+SPDLOG_SANITIZE_THREAD:BOOL=OFF
+
+//Include as system headers (skip for clang-tidy).
+SPDLOG_SYSTEM_INCLUDES:BOOL=OFF
+
+//run clang-tidy
+SPDLOG_TIDY:BOOL=OFF
+
+//Use std::format instead of fmt library.
+SPDLOG_USE_STD_FORMAT:BOOL=OFF
+
+//Support wchar output to console
+SPDLOG_WCHAR_CONSOLE:BOOL=OFF
+
+//Support wchar filenames
+SPDLOG_WCHAR_FILENAMES:BOOL=OFF
+
+//Support wchar api
+SPDLOG_WCHAR_SUPPORT:BOOL=OFF
+
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=D:/Dev/Local/EnhancedNerf/build/googletest/googlemock
 
@@ -442,6 +570,24 @@ gtest_force_shared_crt:BOOL=OFF
 
 //Build gtest with internal symbols hidden in shared libraries.
 gtest_hide_internal_symbols:BOOL=OFF
+
+//Value Computed by CMake
+nlohmann_json_BINARY_DIR:STATIC=D:/Dev/Local/EnhancedNerf/build/nlohmann-json
+
+//Value Computed by CMake
+nlohmann_json_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+nlohmann_json_SOURCE_DIR:STATIC=D:/Dev/Local/EnhancedNerf/ThirdParty/nlohmann-json
+
+//Value Computed by CMake
+spdlog_BINARY_DIR:STATIC=D:/Dev/Local/EnhancedNerf/build/spdlog
+
+//Value Computed by CMake
+spdlog_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+spdlog_SOURCE_DIR:STATIC=D:/Dev/Local/EnhancedNerf/ThirdParty/spdlog
 
 
 ########################
@@ -598,7 +744,7 @@ CMAKE_MODULE_LINKER_FLAGS_R_TEST-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
@@ -670,6 +816,9 @@ CMAKE_STATIC_LINKER_FLAGS_R_TEST-ADVANCED:INTERNAL=1
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Have symbol _fwrite_nolock
+HAVE_FWRITE_UNLOCKED:INTERNAL=1
+NLOHMANN_JSON_CONFIG_INSTALL_DIR:INTERNAL=share/cmake/nlohmann_json
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=D:/Program Files (x86)/EnhancedNerf
 cmake_package_name:INTERNAL=GTest

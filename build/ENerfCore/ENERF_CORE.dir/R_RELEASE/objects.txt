@@ -1,8 +1,11 @@
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/cmake_pch.obj
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/ENerfApp.obj
+D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/WindowContext.obj
+D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/Scene.obj
+D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/Renderer.obj
+D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/Window.obj
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/WindowsWindow.obj
+D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/CompileTimeUtil.obj
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/EventComponent.obj
-D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/EventThread.obj
-D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/EventQueue.obj
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/EventCell.obj
 D:/Dev/Local/EnhancedNerf/build/ENerfCore/ENERF_CORE.dir/R_RELEASE/ObserverEventCell.obj

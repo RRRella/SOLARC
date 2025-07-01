@@ -5,7 +5,7 @@ events:
     kind: "message-v1"
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
-      - "CMakeLists.txt:10 (project)"
+      - "CMakeLists.txt:11 (project)"
     message: |
       The target system is: Windows -  - 
       The host system is: Windows - 10.0.26100 - AMD64
@@ -15,7 +15,7 @@ events:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:10 (project)"
+      - "CMakeLists.txt:11 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
       Compiler: cl 
@@ -25,7 +25,7 @@ events:
       The output was:
       0
       MSBuild version 17.9.8+b34f75857 for .NET Framework
-      Build started 1/22/2025 4:22:24 PM.
+      Build started 25/05/17 12:08:49 PM.
       
       Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\3.31.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -54,7 +54,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.62
+      Time Elapsed 00:00:00.52
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -69,12 +69,12 @@ events:
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:10 (project)"
+      - "CMakeLists.txt:11 (project)"
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-ldod4s"
-      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-ldod4s"
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-82ssbr"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-82ssbr"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "
       CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -84,41 +84,41 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-ldod4s'
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-82ssbr'
         
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_204c7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_ef539.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.9.8+b34f75857 for .NET Framework
-        Build started 1/22/2025 4:22:24 PM.
+        Build started 25/05/17 12:08:50 PM.
         
-        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\cmTC_204c7.vcxproj" on node 1 (default targets).
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\cmTC_ef539.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_204c7.dir\\Debug\\".
+          Creating directory "cmTC_ef539.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\Debug\\".
-          Creating directory "cmTC_204c7.dir\\Debug\\cmTC_204c7.tlog\\".
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\Debug\\".
+          Creating directory "cmTC_ef539.dir\\Debug\\cmTC_ef539.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_204c7.dir\\Debug\\cmTC_204c7.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_204c7.dir\\Debug\\cmTC_204c7.tlog\\unsuccessfulbuild".
+          Creating "cmTC_ef539.dir\\Debug\\cmTC_ef539.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_ef539.dir\\Debug\\cmTC_ef539.tlog\\unsuccessfulbuild".
         ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"cmTC_204c7.dir\\Debug\\\\" /Fd"cmTC_204c7.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"cmTC_ef539.dir\\Debug\\\\" /Fd"cmTC_ef539.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"cmTC_204c7.dir\\Debug\\\\" /Fd"cmTC_204c7.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /permissive- /Fo"cmTC_ef539.dir\\Debug\\\\" /Fd"cmTC_ef539.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\Debug\\cmTC_204c7.exe" /INCREMENTAL /ILK:"cmTC_204c7.dir\\Debug\\cmTC_204c7.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-ldod4s/Debug/cmTC_204c7.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-ldod4s/Debug/cmTC_204c7.lib" /MACHINE:X64  /OPT:LBR cmTC_204c7.dir\\Debug\\CMakeCXXCompilerABI.obj
-        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\cmTC_204c7.vcxproj]
-          cmTC_204c7.vcxproj -> D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\Debug\\cmTC_204c7.exe
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\Debug\\cmTC_ef539.exe" /INCREMENTAL /ILK:"cmTC_ef539.dir\\Debug\\cmTC_ef539.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-82ssbr/Debug/cmTC_ef539.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-82ssbr/Debug/cmTC_ef539.lib" /MACHINE:X64  /OPT:LBR cmTC_ef539.dir\\Debug\\CMakeCXXCompilerABI.obj
+        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\cmTC_ef539.vcxproj]
+          cmTC_ef539.vcxproj -> D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\Debug\\cmTC_ef539.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_204c7.dir\\Debug\\cmTC_204c7.tlog\\unsuccessfulbuild".
-          Touching "cmTC_204c7.dir\\Debug\\cmTC_204c7.tlog\\cmTC_204c7.lastbuildstate".
-        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\cmTC_204c7.vcxproj" (default targets).
+          Deleting file "cmTC_ef539.dir\\Debug\\cmTC_ef539.tlog\\unsuccessfulbuild".
+          Touching "cmTC_ef539.dir\\Debug\\cmTC_ef539.tlog\\cmTC_ef539.lastbuildstate".
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\cmTC_ef539.vcxproj" (default targets).
         
         Build succeeded.
         
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\cmTC_204c7.vcxproj" (default target) (1) ->
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\cmTC_ef539.vcxproj" (default target) (1) ->
         (Link target) -> 
-          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ldod4s\\cmTC_204c7.vcxproj]
+          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-82ssbr\\cmTC_ef539.vcxproj]
         
             1 Warning(s)
             0 Error(s)
@@ -131,7 +131,7 @@ events:
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:10 (project)"
+      - "CMakeLists.txt:11 (project)"
     message: |
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
@@ -149,18 +149,264 @@ events:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:10 (project)"
+      - "CMakeLists.txt:11 (project)"
     message: |
       Running the CXX compiler's linker: "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.39.33519/bin/HostX64/x64/link.exe" "-v"
       Microsoft (R) Incremental Linker Version 14.39.33523.0
       Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "ThirdParty/spdlog/CMakeLists.txt:151 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9lwh3u"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9lwh3u"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9lwh3u'
+        
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f6b8d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.9.8+b34f75857 for .NET Framework
+        Build started 25/05/17 12:08:51 PM.
+        
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\cmTC_f6b8d.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_f6b8d.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\Debug\\".
+          Creating directory "cmTC_f6b8d.dir\\Debug\\cmTC_f6b8d.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_f6b8d.dir\\Debug\\cmTC_f6b8d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_f6b8d.dir\\Debug\\cmTC_f6b8d.tlog\\unsuccessfulbuild".
+        ClCompile:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_f6b8d.dir\\Debug\\\\" /Fd"cmTC_f6b8d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\src.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_f6b8d.dir\\Debug\\\\" /Fd"cmTC_f6b8d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\src.cxx"
+          src.cxx
+        D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\src.cxx(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\cmTC_f6b8d.vcxproj]
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\cmTC_f6b8d.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\cmTC_f6b8d.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\src.cxx(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9lwh3u\\cmTC_f6b8d.vcxproj]
+        
+            0 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.36
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "ThirdParty/spdlog/CMakeLists.txt:151 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-qoyvey"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-qoyvey"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-qoyvey'
+        
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_2e5b9.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.9.8+b34f75857 for .NET Framework
+        Build started 25/05/17 12:08:51 PM.
+        
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_2e5b9.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\Debug\\".
+          Creating directory "cmTC_2e5b9.dir\\Debug\\cmTC_2e5b9.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_2e5b9.dir\\Debug\\cmTC_2e5b9.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_2e5b9.dir\\Debug\\cmTC_2e5b9.tlog\\unsuccessfulbuild".
+        ClCompile:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_2e5b9.dir\\Debug\\\\" /Fd"cmTC_2e5b9.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\CheckFunctionExists.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_2e5b9.dir\\Debug\\\\" /Fd"cmTC_2e5b9.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\Debug\\cmTC_2e5b9.exe" /INCREMENTAL /ILK:"cmTC_2e5b9.dir\\Debug\\cmTC_2e5b9.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-qoyvey/Debug/cmTC_2e5b9.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-qoyvey/Debug/cmTC_2e5b9.lib" /MACHINE:X64  /OPT:LBR cmTC_2e5b9.dir\\Debug\\CheckFunctionExists.obj
+        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj]
+        LINK : fatal error LNK1181: cannot open input file 'pthreads.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj]
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj]
+        
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1181: cannot open input file 'pthreads.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qoyvey\\cmTC_2e5b9.vcxproj]
+        
+            1 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.42
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "ThirdParty/spdlog/CMakeLists.txt:151 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9czmls"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9czmls"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9czmls'
+        
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_fdf9f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.9.8+b34f75857 for .NET Framework
+        Build started 25/05/17 12:08:52 PM.
+        
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_fdf9f.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\Debug\\".
+          Creating directory "cmTC_fdf9f.dir\\Debug\\cmTC_fdf9f.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_fdf9f.dir\\Debug\\cmTC_fdf9f.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_fdf9f.dir\\Debug\\cmTC_fdf9f.tlog\\unsuccessfulbuild".
+        ClCompile:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_fdf9f.dir\\Debug\\\\" /Fd"cmTC_fdf9f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\CheckFunctionExists.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_fdf9f.dir\\Debug\\\\" /Fd"cmTC_fdf9f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\Debug\\cmTC_fdf9f.exe" /INCREMENTAL /ILK:"cmTC_fdf9f.dir\\Debug\\cmTC_fdf9f.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9czmls/Debug/cmTC_fdf9f.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-9czmls/Debug/cmTC_fdf9f.lib" /MACHINE:X64  /OPT:LBR cmTC_fdf9f.dir\\Debug\\CheckFunctionExists.obj
+        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj]
+        LINK : fatal error LNK1181: cannot open input file 'pthread.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj]
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj" (default targets) -- FAILED.
+        
+        Build FAILED.
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj]
+        
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : fatal error LNK1181: cannot open input file 'pthread.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9czmls\\cmTC_fdf9f.vcxproj]
+        
+            1 Warning(s)
+            1 Error(s)
+        
+        Time Elapsed 00:00:00.40
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckSymbolExists.cmake:163 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckSymbolExists.cmake:72 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "ThirdParty/spdlog/CMakeLists.txt:248 (check_symbol_exists)"
+    checks:
+      - "Looking for _fwrite_nolock"
+    directories:
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-zkjadg"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-zkjadg"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "
+      CMAKE_CXX_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
+    buildResult:
+      variable: "HAVE_FWRITE_UNLOCKED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-zkjadg'
+        
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_901cf.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.9.8+b34f75857 for .NET Framework
+        Build started 25/05/17 12:08:52 PM.
+        
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\cmTC_901cf.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_901cf.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\Debug\\".
+          Creating directory "cmTC_901cf.dir\\Debug\\cmTC_901cf.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_901cf.dir\\Debug\\cmTC_901cf.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_901cf.dir\\Debug\\cmTC_901cf.tlog\\unsuccessfulbuild".
+        ClCompile:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_901cf.dir\\Debug\\\\" /Fd"cmTC_901cf.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\CheckSymbolExists.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++20 /permissive- /Fo"cmTC_901cf.dir\\Debug\\\\" /Fd"cmTC_901cf.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\CheckSymbolExists.cxx"
+          CheckSymbolExists.cxx
+        Link:
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\Debug\\cmTC_901cf.exe" /INCREMENTAL /ILK:"cmTC_901cf.dir\\Debug\\cmTC_901cf.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-zkjadg/Debug/cmTC_901cf.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-zkjadg/Debug/cmTC_901cf.lib" /MACHINE:X64  /OPT:LBR cmTC_901cf.dir\\Debug\\CheckSymbolExists.obj
+        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\cmTC_901cf.vcxproj]
+          cmTC_901cf.vcxproj -> D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\Debug\\cmTC_901cf.exe
+        FinalizeBuildStatus:
+          Deleting file "cmTC_901cf.dir\\Debug\\cmTC_901cf.tlog\\unsuccessfulbuild".
+          Touching "cmTC_901cf.dir\\Debug\\cmTC_901cf.tlog\\cmTC_901cf.lastbuildstate".
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\cmTC_901cf.vcxproj" (default targets).
+        
+        Build succeeded.
+        
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\cmTC_901cf.vcxproj" (default target) (1) ->
+        (Link target) -> 
+          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-zkjadg\\cmTC_901cf.vcxproj]
+        
+            1 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.52
+        
+      exitCode: 0
   -
     kind: "message-v1"
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "ThirdParty/googletest/CMakeLists.txt:6 (project)"
+      - "Code/Test/CMakeLists.txt:3 (project)"
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
       Compiler:  
@@ -170,7 +416,7 @@ events:
       The output was:
       0
       MSBuild version 17.9.8+b34f75857 for .NET Framework
-      Build started 1/22/2025 4:22:25 PM.
+      Build started 25/05/17 12:08:53 PM.
       
       Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\3.31.2\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -199,7 +445,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.54
+      Time Elapsed 00:00:00.50
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -214,12 +460,12 @@ events:
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "ThirdParty/googletest/CMakeLists.txt:6 (project)"
+      - "Code/Test/CMakeLists.txt:3 (project)"
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uh740s"
-      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uh740s"
+      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-i13dpo"
+      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-i13dpo"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
@@ -228,41 +474,41 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uh740s'
+        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-i13dpo'
         
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_24041.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_8df07.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.9.8+b34f75857 for .NET Framework
-        Build started 1/22/2025 4:22:26 PM.
+        Build started 25/05/17 12:08:54 PM.
         
-        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\cmTC_24041.vcxproj" on node 1 (default targets).
+        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\cmTC_8df07.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_24041.dir\\Debug\\".
+          Creating directory "cmTC_8df07.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\Debug\\".
-          Creating directory "cmTC_24041.dir\\Debug\\cmTC_24041.tlog\\".
+          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\Debug\\".
+          Creating directory "cmTC_8df07.dir\\Debug\\cmTC_8df07.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_24041.dir\\Debug\\cmTC_24041.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_24041.dir\\Debug\\cmTC_24041.tlog\\unsuccessfulbuild".
+          Creating "cmTC_8df07.dir\\Debug\\cmTC_8df07.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_8df07.dir\\Debug\\cmTC_8df07.tlog\\unsuccessfulbuild".
         ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_24041.dir\\Debug\\\\" /Fd"cmTC_24041.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8df07.dir\\Debug\\\\" /Fd"cmTC_8df07.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_24041.dir\\Debug\\\\" /Fd"cmTC_24041.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_8df07.dir\\Debug\\\\" /Fd"cmTC_8df07.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\Debug\\cmTC_24041.exe" /INCREMENTAL /ILK:"cmTC_24041.dir\\Debug\\cmTC_24041.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uh740s/Debug/cmTC_24041.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uh740s/Debug/cmTC_24041.lib" /MACHINE:X64  /OPT:LBR cmTC_24041.dir\\Debug\\CMakeCCompilerABI.obj
-        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\cmTC_24041.vcxproj]
-          cmTC_24041.vcxproj -> D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\Debug\\cmTC_24041.exe
+          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\Debug\\cmTC_8df07.exe" /INCREMENTAL /ILK:"cmTC_8df07.dir\\Debug\\cmTC_8df07.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-i13dpo/Debug/cmTC_8df07.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-i13dpo/Debug/cmTC_8df07.lib" /MACHINE:X64  /OPT:LBR cmTC_8df07.dir\\Debug\\CMakeCCompilerABI.obj
+        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\cmTC_8df07.vcxproj]
+          cmTC_8df07.vcxproj -> D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\Debug\\cmTC_8df07.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_24041.dir\\Debug\\cmTC_24041.tlog\\unsuccessfulbuild".
-          Touching "cmTC_24041.dir\\Debug\\cmTC_24041.tlog\\cmTC_24041.lastbuildstate".
-        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\cmTC_24041.vcxproj" (default targets).
+          Deleting file "cmTC_8df07.dir\\Debug\\cmTC_8df07.tlog\\unsuccessfulbuild".
+          Touching "cmTC_8df07.dir\\Debug\\cmTC_8df07.tlog\\cmTC_8df07.lastbuildstate".
+        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\cmTC_8df07.vcxproj" (default targets).
         
         Build succeeded.
         
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\cmTC_24041.vcxproj" (default target) (1) ->
+        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\cmTC_8df07.vcxproj" (default target) (1) ->
         (Link target) -> 
-          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uh740s\\cmTC_24041.vcxproj]
+          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-i13dpo\\cmTC_8df07.vcxproj]
         
             1 Warning(s)
             0 Error(s)
@@ -275,7 +521,7 @@ events:
     backtrace:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "ThirdParty/googletest/CMakeLists.txt:6 (project)"
+      - "Code/Test/CMakeLists.txt:3 (project)"
     message: |
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
@@ -293,197 +539,9 @@ events:
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
       - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "ThirdParty/googletest/CMakeLists.txt:6 (project)"
+      - "Code/Test/CMakeLists.txt:3 (project)"
     message: |
       Running the C compiler's linker: "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.39.33519/bin/HostX64/x64/link.exe" "-v"
       Microsoft (R) Incremental Linker Version 14.39.33523.0
       Copyright (C) Microsoft Corporation.  All rights reserved.
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
-      - "ThirdParty/googletest/googletest/cmake/internal_utils.cmake:66 (find_package)"
-      - "ThirdParty/googletest/googletest/CMakeLists.txt:83 (config_compiler_and_linker)"
-    checks:
-      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
-    directories:
-      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uitsls"
-      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uitsls"
-    cmakeVariables:
-      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
-      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
-    buildResult:
-      variable: "CMAKE_HAVE_LIBC_PTHREAD"
-      cached: true
-      stdout: |
-        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-uitsls'
-        
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_1b547.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
-        MSBuild version 17.9.8+b34f75857 for .NET Framework
-        Build started 1/22/2025 4:22:27 PM.
-        
-        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\cmTC_1b547.vcxproj" on node 1 (default targets).
-        PrepareForBuild:
-          Creating directory "cmTC_1b547.dir\\Debug\\".
-          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\Debug\\".
-          Creating directory "cmTC_1b547.dir\\Debug\\cmTC_1b547.tlog\\".
-        InitializeBuildStatus:
-          Creating "cmTC_1b547.dir\\Debug\\cmTC_1b547.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_1b547.dir\\Debug\\cmTC_1b547.tlog\\unsuccessfulbuild".
-        ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1b547.dir\\Debug\\\\" /Fd"cmTC_1b547.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\src.c"
-          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
-          Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_1b547.dir\\Debug\\\\" /Fd"cmTC_1b547.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\src.c"
-          src.c
-        D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\src.c(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\cmTC_1b547.vcxproj]
-        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\cmTC_1b547.vcxproj" (default targets) -- FAILED.
-        
-        Build FAILED.
-        
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\cmTC_1b547.vcxproj" (default target) (1) ->
-        (ClCompile target) -> 
-          D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\src.c(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uitsls\\cmTC_1b547.vcxproj]
-        
-            0 Warning(s)
-            1 Error(s)
-        
-        Time Elapsed 00:00:00.39
-        
-      exitCode: 1
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
-      - "ThirdParty/googletest/googletest/cmake/internal_utils.cmake:66 (find_package)"
-      - "ThirdParty/googletest/googletest/CMakeLists.txt:83 (config_compiler_and_linker)"
-    checks:
-      - "Looking for pthread_create in pthreads"
-    directories:
-      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-au6d4m"
-      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-au6d4m"
-    cmakeVariables:
-      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
-      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
-    buildResult:
-      variable: "CMAKE_HAVE_PTHREADS_CREATE"
-      cached: true
-      stdout: |
-        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-au6d4m'
-        
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_181c6.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
-        MSBuild version 17.9.8+b34f75857 for .NET Framework
-        Build started 1/22/2025 4:22:27 PM.
-        
-        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj" on node 1 (default targets).
-        PrepareForBuild:
-          Creating directory "cmTC_181c6.dir\\Debug\\".
-          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\Debug\\".
-          Creating directory "cmTC_181c6.dir\\Debug\\cmTC_181c6.tlog\\".
-        InitializeBuildStatus:
-          Creating "cmTC_181c6.dir\\Debug\\cmTC_181c6.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_181c6.dir\\Debug\\cmTC_181c6.tlog\\unsuccessfulbuild".
-        ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_181c6.dir\\Debug\\\\" /Fd"cmTC_181c6.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\CheckFunctionExists.c"
-          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
-          Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_181c6.dir\\Debug\\\\" /Fd"cmTC_181c6.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\CheckFunctionExists.c"
-          CheckFunctionExists.c
-        Link:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\Debug\\cmTC_181c6.exe" /INCREMENTAL /ILK:"cmTC_181c6.dir\\Debug\\cmTC_181c6.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-au6d4m/Debug/cmTC_181c6.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-au6d4m/Debug/cmTC_181c6.lib" /MACHINE:X64  /OPT:LBR cmTC_181c6.dir\\Debug\\CheckFunctionExists.obj
-        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj]
-        LINK : fatal error LNK1181: cannot open input file 'pthreads.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj]
-        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj" (default targets) -- FAILED.
-        
-        Build FAILED.
-        
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj" (default target) (1) ->
-        (Link target) -> 
-          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj]
-        
-        
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj" (default target) (1) ->
-        (Link target) -> 
-          LINK : fatal error LNK1181: cannot open input file 'pthreads.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-au6d4m\\cmTC_181c6.vcxproj]
-        
-            1 Warning(s)
-            1 Error(s)
-        
-        Time Elapsed 00:00:00.43
-        
-      exitCode: 1
-  -
-    kind: "try_compile-v1"
-    backtrace:
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
-      - "D:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
-      - "ThirdParty/googletest/googletest/cmake/internal_utils.cmake:66 (find_package)"
-      - "ThirdParty/googletest/googletest/CMakeLists.txt:83 (config_compiler_and_linker)"
-    checks:
-      - "Looking for pthread_create in pthread"
-    directories:
-      source: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-fylzhy"
-      binary: "D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-fylzhy"
-    cmakeVariables:
-      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/Ob0 /Od /RTC1"
-      CMAKE_EXE_LINKER_FLAGS: "/OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE "
-    buildResult:
-      variable: "CMAKE_HAVE_PTHREAD_CREATE"
-      cached: true
-      stdout: |
-        Change Dir: 'D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-fylzhy'
-        
-        Run Build Command(s): "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_5369d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
-        MSBuild version 17.9.8+b34f75857 for .NET Framework
-        Build started 1/22/2025 4:22:28 PM.
-        
-        Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj" on node 1 (default targets).
-        PrepareForBuild:
-          Creating directory "cmTC_5369d.dir\\Debug\\".
-          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\Debug\\".
-          Creating directory "cmTC_5369d.dir\\Debug\\cmTC_5369d.tlog\\".
-        InitializeBuildStatus:
-          Creating "cmTC_5369d.dir\\Debug\\cmTC_5369d.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_5369d.dir\\Debug\\cmTC_5369d.tlog\\unsuccessfulbuild".
-        ClCompile:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5369d.dir\\Debug\\\\" /Fd"cmTC_5369d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\CheckFunctionExists.c"
-          Microsoft (R) C/C++ Optimizing Compiler Version 19.39.33523 for x64
-          Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5369d.dir\\Debug\\\\" /Fd"cmTC_5369d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\CheckFunctionExists.c"
-          CheckFunctionExists.c
-        Link:
-          D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.39.33519\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\Debug\\cmTC_5369d.exe" /INCREMENTAL /ILK:"cmTC_5369d.dir\\Debug\\cmTC_5369d.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-fylzhy/Debug/cmTC_5369d.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:/Dev/Local/EnhancedNerf/build/CMakeFiles/CMakeScratch/TryCompile-fylzhy/Debug/cmTC_5369d.lib" /MACHINE:X64  /OPT:LBR cmTC_5369d.dir\\Debug\\CheckFunctionExists.obj
-        LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj]
-        LINK : fatal error LNK1181: cannot open input file 'pthread.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj]
-        Done Building Project "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj" (default targets) -- FAILED.
-        
-        Build FAILED.
-        
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj" (default target) (1) ->
-        (Link target) -> 
-          LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj]
-        
-        
-        "D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj" (default target) (1) ->
-        (Link target) -> 
-          LINK : fatal error LNK1181: cannot open input file 'pthread.lib' [D:\\Dev\\Local\\EnhancedNerf\\build\\CMakeFiles\\CMakeScratch\\TryCompile-fylzhy\\cmTC_5369d.vcxproj]
-        
-            1 Warning(s)
-            1 Error(s)
-        
-        Time Elapsed 00:00:00.42
-        
-      exitCode: 1
 ...

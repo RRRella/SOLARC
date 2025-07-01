@@ -7,16 +7,25 @@
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\ENerfApp.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\WindowContext.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Scene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Window.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\WindowsWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Utility\CompileTimeUtil.cpp">
+      <Filter>src\Utility</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventComponent.cpp">
-      <Filter>src\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventThread.cpp">
-      <Filter>src\Event</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventQueue.cpp">
       <Filter>src\Event</Filter>
     </ClCompile>
     <ClCompile Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\src\Event\EventCell\EventCell.cpp">
@@ -30,6 +39,18 @@
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\ENerfApp.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\WindowContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Scene.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Renderer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Window.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\WindowsWindow.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -37,12 +58,6 @@
       <Filter>include\Event</Filter>
     </ClInclude>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventComponent.h">
-      <Filter>include\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventThread.h">
-      <Filter>include\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventQueue.h">
       <Filter>include\Event</Filter>
     </ClInclude>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Event\EventCell\EventCell.h">
@@ -55,6 +70,9 @@
       <Filter>include\Preprocessor</Filter>
     </ClInclude>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Utility\UUID.h">
+      <Filter>include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Dev\Local\EnhancedNerf\Code\ENerfCore\include\Utility\CompileTimeUtil.h">
       <Filter>include\Utility</Filter>
     </ClInclude>
     <ClInclude Include="D:\Dev\Local\EnhancedNerf\build\ENerfCore\CMakeFiles\ENERF_CORE.dir\R_DEBUG\cmake_pch.hxx">
@@ -103,6 +121,9 @@
     </Filter>
     <Filter Include="src\Event\EventCell">
       <UniqueIdentifier>{880E0139-65C4-3C95-8BE5-5BE7B9714DB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility">
+      <UniqueIdentifier>{CAF20C76-399B-37CC-8B93-BED23990E119}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
