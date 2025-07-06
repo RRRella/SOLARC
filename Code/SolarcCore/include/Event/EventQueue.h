@@ -3,7 +3,7 @@
 
 #include "Event/Event.h"
 
-class ENERF_CORE_API EventQueue
+class SOLARC_CORE_API EventQueue
 {
 public:
 	EventQueue(EVENT_TYPE type) : m_Type(type){}

@@ -2,7 +2,7 @@
 #include "Preprocessor/API.h"
 #include "Event/EventComponent.h"
 
-struct WindowsMetaData
+struct SOLARC_CORE_API WindowsMetaData
 {
 	std::string name = "ENerf Window";
 	uint32_t style = WS_OVERLAPPEDWINDOW;
@@ -13,7 +13,7 @@ struct WindowsMetaData
 	int height = 1080;
 };
 
-class WindowPlatform
+class SOLARC_CORE_API WindowPlatform
 {
 public:
 	virtual bool PeekNextMessage() = 0;
@@ -22,7 +22,7 @@ public:
 
 };
 
-class ENERF_CORE_API Window : public EventComponent
+class SOLARC_CORE_API Window : public EventComponent
 {
 public:
 	enum class CONSUMERS
@@ -44,7 +44,7 @@ protected:
 	std::unique_ptr<WindowPlatform> m_Platform;
 };
 
-class ENERF_CORE_API WindowFactory
+class SOLARC_CORE_API WindowFactory
 {
 public:
 	WindowFactory() = default;

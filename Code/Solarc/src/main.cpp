@@ -1,4 +1,4 @@
-#include "ENerfApp.h"
+#include "SolarcApp.h"
 #include "Utility/CompileTimeUtil.h"
  
 int main(int argc, char** argv)
@@ -7,8 +7,8 @@ int main(int argc, char** argv)
 
     try
     {
-        ENerfApp::Initialize(".\\Data\\config.json");
-        auto& app = ENerfApp::Get();
+        SolarcApp::Initialize(".\\Data\\config.json");
+        auto& app = SolarcApp::Get();
 
         app.Run();
     }

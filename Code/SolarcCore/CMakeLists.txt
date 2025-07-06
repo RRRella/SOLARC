@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(ENERF_CORE LANGUAGES CXX)
+project(SOLARC_CORE LANGUAGES CXX)
 
-#ENerfCore setup
-set(MODULE_NAME ENERF_CORE)
+#SolarcCore setup
+set(MODULE_NAME SOLARC_CORE)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SRC_FILES.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/GROUP_FILES.cmake")

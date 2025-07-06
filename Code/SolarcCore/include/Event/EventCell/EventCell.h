@@ -5,7 +5,7 @@
 
 #include "Utility/UUID.h"
 
-struct RegisteredDispatcher
+struct SOLARC_CORE_API RegisteredDispatcher
 {
 	RegisteredDispatcher(SharedEventCallBack inCallBack, UUID inComponentID)
 		:callBack(inCallBack), componentID(inComponentID), isRegistered(true){}
@@ -15,7 +15,7 @@ struct RegisteredDispatcher
 	bool isRegistered = false;
 };
 
-struct RegisteredCatcher
+struct SOLARC_CORE_API RegisteredCatcher
 {
 	RegisteredCatcher(WeakEventCallBack inCallBack, UUID inComponentID)
 		:callBack(inCallBack), componentID(inComponentID), isRegistered(true) {}
@@ -29,13 +29,13 @@ using SharedRegDispatcher = std::shared_ptr<RegisteredDispatcher>;
 using SharedRegCatcher = std::shared_ptr<RegisteredCatcher>;
 
 
-enum class EVENT_ROLE_TYPE : short
+enum class SOLARC_CORE_API EVENT_ROLE_TYPE : short
 {
 	DISPATCHER,
 	CATCHER
 };
 
-struct ENERF_CORE_API EventRegisterInfo
+struct SOLARC_CORE_API EventRegisterInfo
 {
 	EVENT_ROLE_TYPE roleTypeInCell;
 	uint8_t roleIDInCell;
@@ -43,7 +43,7 @@ struct ENERF_CORE_API EventRegisterInfo
 	UUID eventComponentID;
 };
 
-class ENERF_CORE_API EventCell
+class SOLARC_CORE_API EventCell
 {
 public:
 	EventCell(uint8_t numDispatcherRoles , uint8_t numCatcherRoles)

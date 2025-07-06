@@ -1,26 +1,26 @@
-#include "ENerfApp.h"
+#include "SolarcApp.h"
 #include "spdlog/spdlog.h"
 #include "Utility/CompileTimeUtil.h"
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-void ENerfApp::Initialize()
+void SolarcApp::Initialize()
 {
 	if (!m_Instance)
-		m_Instance = std::make_unique<ENerfApp>();
+		m_Instance = std::make_unique<SolarcApp>();
 	else
-		throw std::runtime_error("ENerfApp already initialized");
+		throw std::runtime_error("SolarcApp already initialized");
 }
 
-void ENerfApp::Initialize(const std::string& configDataPath)
+void SolarcApp::Initialize(const std::string& configDataPath)
 {
 	if (!m_Instance)
-		m_Instance = std::make_unique<ENerfApp>(configDataPath);
+		m_Instance = std::make_unique<SolarcApp>(configDataPath);
 	else
-		throw std::runtime_error("ENerfApp already initialized");
+		throw std::runtime_error("SolarcApp already initialized");
 }
 
-ENerfApp::ENerfApp()
+SolarcApp::SolarcApp()
 {
 	m_WindowFactory = GetWindowFactory();
 
@@ -38,11 +38,11 @@ ENerfApp::ENerfApp()
 	m_Window = m_WindowFactory->Create(windowsMetaData);
 }
 
-ENerfApp::ENerfApp(const std::string& configDataPath)
+SolarcApp::SolarcApp(const std::string& configDataPath)
 {
-	std::ifstream f("D:/Dev/Local/EnhancedNerf/build/out/R_DEBUG/bin/Data/config.json");
+	std::ifstream f(configDataPath);
 
-	assert(f,"Failed to open ENerf config file.");
+	assert(f,"Failed to open Solarc config file.");
 
 	json configData;
 
@@ -74,7 +74,7 @@ ENerfApp::ENerfApp(const std::string& configDataPath)
 	m_Window = m_WindowFactory->Create(windowsMetaData);
 }
 
-void ENerfApp::Run()
+void SolarcApp::Run()
 {
 	while(m_IsRunning)
 	{

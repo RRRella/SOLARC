@@ -7,7 +7,7 @@
 #define UNICODE
 #endif 
 
-class ENERF_CORE_API WindowsWindow : public Window
+class SOLARC_CORE_API WindowsWindow : public Window
 {
 public:
 	WindowsWindow(const WindowsMetaData& metaData);
@@ -23,7 +23,7 @@ private:
     static inline WNDCLASS m_WindowClass = {};
 };
 
-class ENERF_CORE_API WindowsWindowFactory : public WindowFactory
+class SOLARC_CORE_API WindowsWindowFactory : public WindowFactory
 {
 public:
     WindowsWindowFactory() = default;

@@ -1,6 +1,6 @@
 #include "Preprocessor/API.h"
 
-class ENERF_CORE_API WindowContext
+class SOLARC_CORE_API WindowContext
 {
 public:
 

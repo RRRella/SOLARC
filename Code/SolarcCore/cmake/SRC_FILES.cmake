@@ -3,7 +3,7 @@ set(${MODULE_NAME}_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(${MODULE_NAME}_SRC 
 
-${${MODULE_NAME}_SRC_DIR}/ENerfApp.cpp
+${${MODULE_NAME}_SRC_DIR}/SolarcApp.cpp
 
 ${${MODULE_NAME}_SRC_DIR}/WindowContext.cpp
 
@@ -24,7 +24,7 @@ ${${MODULE_NAME}_SRC_DIR}/Event/EventCell/ObserverEventCell.cpp
 
 set(${MODULE_NAME}_HDRS
 
-${${MODULE_NAME}_INC_DIR}/ENerfApp.h
+${${MODULE_NAME}_INC_DIR}/SolarcApp.h
 
 ${${MODULE_NAME}_INC_DIR}/WindowContext.h
 

@@ -8,7 +8,7 @@ static_assert(sizeof(_GUID) == 128 / CHAR_BIT, "GUID");
 
 // Specialize std::hash
 namespace std {
-    template<> struct ENERF_CORE_API hash<UUID>
+    template<> struct SOLARC_CORE_API hash<UUID>
     {
         size_t operator()(const UUID& uuid) const noexcept {
             const std::uint64_t* ptr = reinterpret_cast<const std::uint64_t*>(&uuid);
@@ -18,7 +18,7 @@ namespace std {
     };
 }
 
-ENERF_CORE_API inline void GeenerateUUID(UUID& uuid)
+SOLARC_CORE_API inline void GeenerateUUID(UUID& uuid)
 {
     UuidCreate(&uuid);
 }

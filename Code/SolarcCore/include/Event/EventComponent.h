@@ -8,7 +8,7 @@
 using SharedEventCallBack  = std::shared_ptr<std::function<void(Event&)>>;
 using WeakEventCallBack = std::weak_ptr<std::function<void(Event&)>>;
 
-class ENERF_CORE_API EventComponent
+class SOLARC_CORE_API EventComponent
 {
 public:
 	explicit EventComponent(const uint64_t numConsumers)

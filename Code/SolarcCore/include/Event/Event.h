@@ -1,12 +1,12 @@
 #pragma once
 #include "Preprocessor/API.h"
 
-enum class ENERF_CORE_API EVENT_TYPE
+enum class SOLARC_CORE_API EVENT_TYPE
 {
 	MOCK_EVENT_TYPE
 };
 
-class ENERF_CORE_API Event
+class SOLARC_CORE_API Event
 {
 public:
 	Event(EVENT_TYPE type) :m_Type(type) {}

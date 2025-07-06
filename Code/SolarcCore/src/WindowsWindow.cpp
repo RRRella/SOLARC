@@ -75,7 +75,7 @@ void WindowsWindow::RegisterWindowClass() noexcept
 
     m_WindowClass.lpfnWndProc = WindowProc;
     m_WindowClass.hInstance = hInstance;
-    m_WindowClass.lpszClassName = "ENerf win32 class name";
+    m_WindowClass.lpszClassName = "Solarc win32 class name";
 
     RegisterClass(&m_WindowClass);
 }
