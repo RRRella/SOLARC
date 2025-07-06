@@ -1,6 +1,10 @@
 #include <memory>
 #include <unordered_map>
 #include <queue>
+#include <vector>
 #include <mutex>
 #include <thread>
 #include <functional>
+#include <fstream>
+#include <iostream>
+#include <assert.h>

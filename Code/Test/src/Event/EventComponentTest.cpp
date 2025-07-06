@@ -33,7 +33,7 @@ protected:
 
 TEST_F(EventComponentTest, ReturnsItsEventHandlerCalLBacks)
 {
-	SharedEventCallBack callBack = eventComponent->GetConsumerCallBack(static_cast<size_t>(FakeEventComponent::CONSUMERS::ON_FAKE_EVENT));
+	WeakEventCallBack callBack = eventComponent->GetConsumerCallBack(static_cast<size_t>(FakeEventComponent::CONSUMERS::ON_FAKE_EVENT));
 
 	FakeEvent fakeEvent;
 
