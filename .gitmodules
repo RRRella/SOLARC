@@ -1,9 +1,12 @@
 [submodule "ThirdParty/googletest"]
 	path = ThirdParty/googletest
 	url = https://github.com/RRRella/googletest
-[submodule "ThirdParty/instant-ngp"]
-	path = ThirdParty/instant-ngp
-	url = https://github.com/RRRella/instant-ngp
 [submodule "ThirdParty/uuid"]
 	path = ThirdParty/uuid
 	url = https://github.com/RRRella/uuid
+[submodule "ThirdParty/nlohmann-json"]
+	path = ThirdParty/nlohmann-json
+	url = https://github.com/nlohmann/json.git
+[submodule "ThirdParty/spdlog"]
+	path = ThirdParty/spdlog
+	url = https://github.com/gabime/spdlog.git
