@@ -13,6 +13,8 @@ ${${MODULE_NAME}_SRC_DIR}/Window.cpp
 ${${MODULE_NAME}_SRC_DIR}/WindowsWindow.cpp
 
 ${${MODULE_NAME}_SRC_DIR}/Utility/CompileTimeUtil.cpp
+${${MODULE_NAME}_SRC_DIR}/Utility/FileSystemUtil.cpp
+
 
 ${${MODULE_NAME}_SRC_DIR}/Event/EventComponent.cpp
 ${${MODULE_NAME}_SRC_DIR}/Event/EventCell/EventCell.cpp
@@ -42,5 +44,6 @@ ${${MODULE_NAME}_INC_DIR}/Preprocessor/API.h
 
 ${${MODULE_NAME}_INC_DIR}/Utility/UUID.h
 ${${MODULE_NAME}_INC_DIR}/Utility/CompileTimeUtil.h
+${${MODULE_NAME}_INC_DIR}/Utility/FileSystemUtil.h
 
 )

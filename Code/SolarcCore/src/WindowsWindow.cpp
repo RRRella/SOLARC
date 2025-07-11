@@ -59,7 +59,6 @@ WindowsWindow::WindowsWindow(const WindowsMetaData& metaData)
     );
 
     ShowWindow(m_Hwnd, SW_SHOW);
-    m_Platform->Update();
 
     assert(m_Hwnd, "Failed to create win32 window.");
 }

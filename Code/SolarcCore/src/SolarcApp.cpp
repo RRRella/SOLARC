@@ -28,7 +28,7 @@ SolarcApp::SolarcApp()
 
 	windowsMetaData.width = 1920;
 	windowsMetaData.height = 1080;
-	windowsMetaData.name = "Default ENerf Window";
+	windowsMetaData.name = "Default SOLARC Window";
 
 	windowsMetaData.posX = 0;
 	windowsMetaData.posY = 0;
@@ -41,6 +41,7 @@ SolarcApp::SolarcApp()
 SolarcApp::SolarcApp(const std::string& configDataPath)
 {
 	std::ifstream f(configDataPath);
+
 
 	assert(f,"Failed to open Solarc config file.");
 

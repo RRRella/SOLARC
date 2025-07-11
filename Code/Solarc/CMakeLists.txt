@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(SOLARC LANGUAGES CXX)
 
-#ENERF_EDITOR setup
+#SOLARC_EDITOR setup
 set(MODULE_NAME SOLARC)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SRC_FILES.cmake")
