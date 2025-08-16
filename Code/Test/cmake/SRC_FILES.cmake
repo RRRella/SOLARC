@@ -7,8 +7,11 @@ ${${MODULE_NAME}_SRC_DIR}/Event/EventTest.cpp
 ${${MODULE_NAME}_SRC_DIR}/Event/EventComponentTest.cpp
 ${${MODULE_NAME}_SRC_DIR}/Event/EventCellTest.cpp
 ${${MODULE_NAME}_SRC_DIR}/Event/ObserverEventCellTest.cpp
-${${MODULE_NAME}_SRC_DIR}/Event/EventMocks.h
-${${MODULE_NAME}_SRC_DIR}/Event/EventMocks.cpp
+${${MODULE_NAME}_SRC_DIR}/Event/EventFakes.h
+${${MODULE_NAME}_SRC_DIR}/Event/EventFakes.cpp
+${${MODULE_NAME}_SRC_DIR}/Event/EventCommunicationTest.cpp
+
+${${MODULE_NAME}_SRC_DIR}/MT/ThreadPoolTest.cpp
 
 ${${MODULE_NAME}_SRC_DIR}/main.cpp
 ${${MODULE_NAME}_SRC_DIR}/FreqUsedSymbolsOfTesting.h

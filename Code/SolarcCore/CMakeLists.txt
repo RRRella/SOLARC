@@ -33,7 +33,7 @@ set(NLOHMANN_JSON_BIN_DIR ${CMAKE_BINARY_DIR}/nlohmann-json)
 add_subdirectory(${CMAKE_SOURCE_DIR}/ThirdParty/nlohmann-json    ${NLOHMANN_JSON_BIN_DIR})
 
 target_include_directories(${MODULE_NAME}
-    PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/nlohmann-json/single_include
+    PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/nlohmann-json/single_include
 )
 
 set_target_properties( ${MODULE_NAME}

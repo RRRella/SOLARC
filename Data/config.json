@@ -3,5 +3,10 @@
         "Width" : 1920,
         "Height" : 1080,
         "Name" : "Solarc Debug Window"
+    },
+    "MTData" : 
+    {
+        "Event Thread" : 10 ,
+        "Other" : 90
     }
 }

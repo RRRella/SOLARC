@@ -1,6 +1,6 @@
 #pragma once
 #include "Preprocessor/API.h"
-#include "Event/EventComponent.h"
+#include "Event/EventCommunication.h"
 
 struct SOLARC_CORE_API WindowsMetaData
 {
@@ -25,11 +25,6 @@ public:
 class SOLARC_CORE_API Window : public EventComponent
 {
 public:
-	enum class CONSUMERS
-	{
-		NUM_CONSUMERS
-	};
-
 	void Update();
 
 	WindowPlatform* GetMessagePipe() const { return m_Platform.get(); }
@@ -37,7 +32,7 @@ protected:
 
 
 	Window(std::unique_ptr<WindowPlatform> platform)
-		:EventComponent(static_cast<uint64_t>(CONSUMERS::NUM_CONSUMERS)), m_Platform(std::move(platform))
+		:EventComponent(), m_Platform(std::move(platform))
 	{
 	}
 

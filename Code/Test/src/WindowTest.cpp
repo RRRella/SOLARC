@@ -72,13 +72,6 @@ protected:
 	std::unique_ptr<MockWindowPlatform> platform;
 };
 
-TEST_F(WindowTest, ReturnsItsConsumersCount)
-{
-	window = std::make_unique<FakeWindow>(std::move(platform));
-
-	ASSERT_EQ(window->GetEventConsumersCount(), static_cast<uint64_t>(Window::CONSUMERS::NUM_CONSUMERS));
-}
-
 TEST_F(WindowTest, UpdatesMessegesUsingItsPipe)
 {
 	MockWindowPlatform* platformPtr = platform.get();

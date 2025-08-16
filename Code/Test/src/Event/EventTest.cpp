@@ -1,6 +1,6 @@
 #include "FreqUsedSymbolsOfTesting.h"
 #include "Event/Event.h"
-#include "Event/EventMocks.h"
+#include "Event/EventFakes.h"
 
 
 TEST(AEvent, ReturnsItsType)
@@ -9,5 +9,5 @@ TEST(AEvent, ReturnsItsType)
 
 	Event* event = &mockEvent;
 
-	ASSERT_EQ(event->GetType(), EVENT_TYPE::MOCK_EVENT_TYPE);
+	ASSERT_EQ(event->GetType(), EVENT_TYPE::FAKE_EVENT_TYPE);
 }
