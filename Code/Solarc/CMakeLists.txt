@@ -2,31 +2,24 @@ cmake_minimum_required(VERSION 3.22)
 
 project(SOLARC LANGUAGES CXX)
 
-#SOLARC_EDITOR setup
-set(MODULE_NAME SOLARC)
-
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SRC_FILES.cmake")
+
+add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HDRS})
+
 include("${CMAKE_SOURCE_DIR}/cmake/GROUP_FILES.cmake")
-
-add_executable(${MODULE_NAME} ${${MODULE_NAME}_SRC} ${${MODULE_NAME}_HDRS})
-
+include("${CMAKE_SOURCE_DIR}/cmake/PCH.cmake")
 add_compile_options("/ENTRY:wWinMainCRTStartup")
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/DEFS.cmake")
-include("${CMAKE_SOURCE_DIR}/cmake/PCH.cmake")
+target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INC_DIR})
+target_link_directories(${PROJECT_NAME} PRIVATE ${LIB_DIR})
+target_link_libraries(${PROJECT_NAME}
 
-target_include_directories(${MODULE_NAME} PRIVATE ${${MODULE_NAME}_SRC_DIR})
-target_include_directories(${MODULE_NAME} PUBLIC ${${MODULE_NAME}_INC_DIR})
-
-target_link_directories(${MODULE_NAME} PRIVATE ${LIB_DIR})
-
-target_link_libraries(${MODULE_NAME}
-
-PRIVATE SOLARC_CORE
+PRIVATE SOLARC_CORE COMMON_FLAGS
 
 )
 
-set_target_properties( ${MODULE_NAME}
+set_target_properties( ${PROJECT_NAME}
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}"
 )
