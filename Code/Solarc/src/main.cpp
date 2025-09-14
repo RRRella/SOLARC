@@ -4,13 +4,11 @@
  
 int main(int argc, char** argv)
 {
-    InitilizeCompileTimeCode();
-
     try
     {
         std::string configPath = GetExeDir() + "\\Data\\config.json";
 
-        SolarcApp::Initialize(configPath);
+        SolarcApp::Initialize(configPath,false);
         auto& app = SolarcApp::Get();
 
         app.Run();

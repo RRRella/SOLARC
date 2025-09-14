@@ -8,7 +8,7 @@ class SOLARC_CORE_API SolarcApp
 {
 public:
 
-	SolarcApp(const std::string& configDataPath);
+	SolarcApp(const std::string& configDataPath, bool test);
 	~SolarcApp() = default;
 
 	SolarcApp(SolarcApp&& other) = delete;
@@ -17,7 +17,7 @@ public:
 	SolarcApp(const SolarcApp& other) = delete;
 	SolarcApp& operator=(const SolarcApp& other) = delete;
 
-	static void Initialize(const std::string& configDataPath);
+	static void Initialize(const std::string& configDataPath, bool test);
 
 	static SolarcApp& Get()
 	{
@@ -35,11 +35,12 @@ private:
 	void ParseWindowData(const json& configData);
 	void ParseMTData(const json& configData);
 
+	void InitializeResources();
+
+
 	inline static std::unique_ptr<SolarcApp> m_Instance = nullptr;
 
 	std::unordered_map<std::string, uint8_t> m_ThreadCounts;
-
-	std::unique_ptr<WindowFactory> m_WindowFactory;
 
 	//temp
 	std::unique_ptr<Window> m_Window;

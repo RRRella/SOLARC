@@ -10,7 +10,7 @@ ${${PROJECT_NAME}_SRC_DIR}/WindowContext.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Scene.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Renderer.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Window.cpp
-${${PROJECT_NAME}_SRC_DIR}/WindowsWindow.cpp
+${${PROJECT_NAME}_SRC_DIR}/WindowsWindowPlatform.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Utility/CompileTimeUtil.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Utility/FileSystemUtil.cpp
@@ -32,7 +32,7 @@ ${${PROJECT_NAME}_INC_DIR}/WindowContext.h
 ${${PROJECT_NAME}_INC_DIR}/Scene.h
 ${${PROJECT_NAME}_INC_DIR}/Renderer.h
 ${${PROJECT_NAME}_INC_DIR}/Window.h
-${${PROJECT_NAME}_INC_DIR}/WindowsWindow.h
+${${PROJECT_NAME}_INC_DIR}/WindowsWindowPlatform.h
 
 ${${PROJECT_NAME}_INC_DIR}/Event/EventQueue.h
 ${${PROJECT_NAME}_INC_DIR}/Event/Event.h

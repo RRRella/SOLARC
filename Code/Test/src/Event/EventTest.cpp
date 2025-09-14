@@ -5,9 +5,9 @@
 
 TEST(AEvent, ReturnsItsType)
 {
-	FakeEvent mockEvent;
+	FakeEvent fakeEvent("");
 
-	Event* event = &mockEvent;
+	Event* event = &fakeEvent;
 
 	ASSERT_EQ(event->GetType(), EVENT_TYPE::FAKE_EVENT_TYPE);
 }

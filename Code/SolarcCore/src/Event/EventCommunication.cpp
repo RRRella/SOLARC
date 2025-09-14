@@ -1,11 +1,14 @@
 #include "Event/EventCommunication.h"
 
+
 std::shared_ptr<const Event> EventCell::ProducerRegisterBlock::GetEvent()
 {
-	std::lock_guard lock(m_Mtx);
+	{
+		std::lock_guard lock(m_Mtx);
 
-	if (!m_EventQueue)
-		return nullptr;
+		if (!m_EventQueue)
+			return nullptr;
+	}
 
 	return m_EventQueue->TryNext();
 }

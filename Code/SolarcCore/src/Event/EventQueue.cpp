@@ -1,7 +1,7 @@
 #include "Event/EventQueue.h"
 #include "Event/Event.h"
 #include "SolarcApp.h"
-
+#include "Window.h"
 std::shared_ptr<const Event> EventQueue::TryNext()
 {
 	std::lock_guard lock(m_Mtx);
@@ -28,14 +28,16 @@ bool EventQueue::IsEmpty()
 
 void ProducerEventQueue::Dispatch(std::shared_ptr<const Event> e)
 {
-	std::lock_guard lock(m_Mtx);
-	m_Queue.push(e);
-	m_CV.notify_one();
+	{
+		std::lock_guard lock(m_Mtx);
+		m_Queue.push(e);
+		m_CV.notify_one();
+	}
 
-	if (!threadPool)
-		threadPool = std::make_unique<ThreadPool>(std::make_unique<FcfsTaskScheduler<void()>>(), SolarcApp::Get().GetThreadCountFor("Event Thread"));
-
-	threadPool->Execute(std::bind(&EventCell::Communicate , m_EventCell));
+	if (threadPool)
+		threadPool->Execute(std::bind(&EventCell::Communicate, m_EventCell));
+	else
+		m_EventCell->Communicate();
 }
 
 void ConsumerEventQueue::Dispatch(std::shared_ptr<const Event> e)
