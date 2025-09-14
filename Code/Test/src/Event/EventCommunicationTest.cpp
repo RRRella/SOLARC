@@ -11,7 +11,7 @@ TEST(EventCommunication, IntegrationTestBetweenEventCellAndComponent)
 
 	eventCell.RegisterProducer(producerComponent);
 	eventCell.RegisterConsumer(consumerComponent);
-	producerComponent.TriggerEvent();
+	producerComponent.TriggerEvent("Affected");
 	ASSERT_EQ(dependentData, "Unaffected");
 	consumerComponent.WaitToConsumeEvent();
 	ASSERT_EQ(dependentData, "Affected");
@@ -21,10 +21,8 @@ TEST(EventCommunication, IntegrationTestBetweenEventCellAndComponent)
 
 	dependentData = "Unaffected";
 	eventCell.UnRegisterProducer(producerComponent.GetEventCommunicationID());
-	producerComponent.TriggerEvent();
+	producerComponent.TriggerEvent("Affected");
 	ASSERT_EQ(dependentData, "Unaffected");
-
-	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	consumerComponent.ConsumeEvent();
 	ASSERT_EQ(dependentData, "Unaffected");
@@ -34,10 +32,8 @@ TEST(EventCommunication, IntegrationTestBetweenEventCellAndComponent)
 
 	eventCell.RegisterProducer(producerComponent);
 	eventCell.UnRegisterConsumer(consumerComponent.GetEventCommunicationID());
-	producerComponent.TriggerEvent();
+	producerComponent.TriggerEvent("Affected");
 	ASSERT_EQ(dependentData, "Unaffected");
-
-	std::this_thread::sleep_for(std::chrono::seconds(2));
 
 	consumerComponent.ConsumeEvent();
 	ASSERT_EQ(dependentData, "Unaffected");

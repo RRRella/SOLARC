@@ -129,15 +129,15 @@ protected:
 	std::shared_ptr<ConsumerEventQueue> m_EventQueue;
 
 
-private:
 
 	//This mutex and function are temproary
 	//I need to make a thread safe doubly linked list later
 	//And create producer queues with that
-	mutable std::mutex m_Mtx;
+	mutable std::mutex m_ProducerQueuesMtx;
+private:
 	void RegisterProducerRole(std::weak_ptr<ProducerEventQueue> queue) noexcept
 	{
-		std::lock_guard lock(m_Mtx);
+		std::lock_guard lock(m_ProducerQueuesMtx);
 		m_ProducerQueues.emplace_back(queue);
 	}
 };

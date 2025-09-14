@@ -1,16 +1,22 @@
 #include "SolarcApp.h"
 #include "spdlog/spdlog.h"
 #include "Utility/CompileTimeUtil.h"
+#include "Event/EventQueue.h"
 
-void SolarcApp::Initialize(const std::string& configDataPath)
+void SolarcApp::Initialize(const std::string& configDataPath , bool test)
 {
 	if (!m_Instance)
-		m_Instance = std::make_unique<SolarcApp>(configDataPath);
+		m_Instance = std::make_unique<SolarcApp>(configDataPath, test);
 	else
 		throw std::runtime_error("SolarcApp already initialized");
 }
 
-SolarcApp::SolarcApp(const std::string& configDataPath)
+void SolarcApp::InitializeResources()
+{
+	ProducerEventQueue::InitilizeThreadPool(GetThreadCountFor("Event Thread"));
+}
+
+SolarcApp::SolarcApp(const std::string& configDataPath, bool test)
 {
 	std::ifstream f(configDataPath);
 
@@ -29,23 +35,24 @@ SolarcApp::SolarcApp(const std::string& configDataPath)
 		std::cerr << "At byte position: " << e.byte << std::endl;
 	}
 
-	ParseWindowData(configData);
+	if(!test)
+		ParseWindowData(configData);
 	ParseMTData(configData);
+
+	InitializeResources();
 }
 
 void SolarcApp::Run()
 {
 	while(m_IsRunning)
 	{
-		m_Window->Update();
+		m_Window->PollEvents();
 	}
 }
 
 void SolarcApp::ParseWindowData(const json& configData)
 {
-	m_WindowFactory = GetWindowFactory();
-
-	WindowsMetaData windowsMetaData;
+	WindowMetaData windowsMetaData;
 
 	const json& windowData = configData["WindowData"];
 
@@ -55,10 +62,11 @@ void SolarcApp::ParseWindowData(const json& configData)
 
 	windowsMetaData.posX = 0;
 	windowsMetaData.posY = 0;
-	windowsMetaData.extendedStyle = 0;
-	windowsMetaData.style = WS_OVERLAPPEDWINDOW;
+	std::unique_ptr<int> a;
+	std::shared_ptr<int> b;
 
-	m_Window = m_WindowFactory->Create(windowsMetaData);
+	m_Window = std::make_unique<Window>(windowsMetaData , GetWindowPlatformFactory());
+	m_Window->Show();
 }
 
 void SolarcApp::ParseMTData(const json& configData)
@@ -124,3 +132,5 @@ void SolarcApp::ParseMTData(const json& configData)
 	for (auto& item : order)
 		m_ThreadCounts[item.key] = item.value;
 }
+
+

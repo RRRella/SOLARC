@@ -27,6 +27,11 @@ public:
 	ProducerEventQueue(EventCell* eventCell) : m_EventCell(eventCell) {}
 	~ProducerEventQueue() = default;
 	void Dispatch(std::shared_ptr<const Event> e) override;
+
+	inline static void InitilizeThreadPool(size_t threadCount)
+	{
+		threadPool = std::make_unique<ThreadPool>(std::make_unique<FcfsTaskScheduler<void()>>(), threadCount);
+	}
 private:
 	inline static std::unique_ptr<ThreadPool> threadPool = nullptr;
 	EventCell* m_EventCell;

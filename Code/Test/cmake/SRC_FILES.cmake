@@ -16,6 +16,5 @@ ${${PROJECT_NAME}_SRC_DIR}/MT/ThreadPoolTest.cpp
 ${${PROJECT_NAME}_SRC_DIR}/main.cpp
 ${${PROJECT_NAME}_SRC_DIR}/FreqUsedSymbolsOfTesting.h
 ${${PROJECT_NAME}_SRC_DIR}/WindowTest.cpp
-${${PROJECT_NAME}_SRC_DIR}/WindowsWindowTest.cpp
 
 )

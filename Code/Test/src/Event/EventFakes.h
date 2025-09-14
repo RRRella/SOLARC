@@ -1,6 +1,7 @@
 #pragma once
 #include "FreqUsedSymbolsOfTesting.h"
 #include "Event/Event.h"
+#include "Window.h"
 #include "Event/EventCommunication.h"
 #include "Utility/CompileTimeUtil.h"
 
@@ -8,9 +9,12 @@
 class FakeEvent : public Event
 {
 public:
-	FakeEvent() : Event(EVENT_TYPE::FAKE_EVENT_TYPE) {}
+	FakeEvent(const std::string& eventMessage) : Event(EVENT_TYPE::FAKE_EVENT_TYPE), m_Message(eventMessage){}
 	~FakeEvent() = default;
+
+	std::string GetEventMessage() const { return m_Message; }
 private:
+	std::string m_Message;
 
 };
 //
@@ -25,7 +29,7 @@ public:
 	};
 	std::string& GetData() { return dataDependentOnEvent; }
 
-	void TriggerEvent()
+	void TriggerEvent(const std::string& eventMessage)
 	{
 		for (auto eventQueue : m_ProducerQueues)
 		{
@@ -33,7 +37,7 @@ public:
 
 			if (eventQueuePtr)
 			{
-				eventQueuePtr->Dispatch(std::make_shared<FakeEvent>());
+				eventQueuePtr->Dispatch(std::make_shared<FakeEvent>(eventMessage));
 			}
 		}
 	}
@@ -43,7 +47,7 @@ public:
 		//We are not going to do anything special with the event itself
 		auto event = m_EventQueue->WaitOnNext();
 
-		dataDependentOnEvent = "Affected";
+		dataDependentOnEvent = std::static_pointer_cast<const FakeEvent>(event)->GetEventMessage();
 	}
 
 	void ConsumeEvent()
@@ -53,7 +57,12 @@ public:
 		if (!event)
 			return;
 
-		dataDependentOnEvent = "Affected";
+		dataDependentOnEvent = std::static_pointer_cast<const FakeEvent>(event)->GetEventMessage();
+	}
+
+	std::shared_ptr<const Event> ReturnEvent()
+	{
+		return m_EventQueue->TryNext();
 	}
 
 private:
@@ -72,6 +81,7 @@ public:
 	void Communicate() override
 	{
 		auto event = m_ProducerReg.GetEvent();
+		const WindowResizeEvent* ee = (const WindowResizeEvent*)event.get();
 		if (event)
 			m_ConsumerReg.PushEvent(event);
 	}

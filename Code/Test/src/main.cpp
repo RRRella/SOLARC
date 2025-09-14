@@ -4,25 +4,10 @@
 #include "Utility/CompileTimeUtil.h"
 #include "Utility/FileSystemUtil.h"
 
+#define SOLARC_TEST
+
 int main(int argc, char** argv) 
 {
-	InitilizeCompileTimeCode();
-
-    try
-    {
-        std::string configPath = GetExeDir() + "\\Data\\config.json";
-        SolarcApp::Initialize(configPath);
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << e.what();
-        return EXIT_FAILURE;
-    }
-    catch (...)
-    {
-        return EXIT_FAILURE;
-    }
-
 	// Since Google Mock depends on Google Test, InitGoogleMock() is
 	// also responsible for initializing Google Test.  Therefore there's
 	// no need for calling testing::InitGoogleTest() separately.
