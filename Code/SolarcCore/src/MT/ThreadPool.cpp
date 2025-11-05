@@ -14,7 +14,7 @@ ThreadPool::ThreadPool(std::unique_ptr <TaskScheduler<void()>>&& scheduler, size
 		m_Threads.emplace_back(&ThreadPool::ExecuteOnThread, this);
 	}
 
-	GeenerateUUID(m_ID);
+	GenerateUUID(m_ID);
 
 	std::lock_guard lock(m_GlobalSchedulersMtx);
 	m_GlobalSchedulers.insert({ m_ID , m_Scheduler });

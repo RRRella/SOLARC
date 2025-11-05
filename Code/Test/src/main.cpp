@@ -6,8 +6,6 @@
 
 int main(int argc, char** argv) 
 {
-	InitilizeCompileTimeCode();
-
     try
     {
         std::string configPath = GetExeDir() + "\\Data\\config.json";

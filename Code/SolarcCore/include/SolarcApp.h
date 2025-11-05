@@ -39,8 +39,6 @@ private:
 
 	std::unordered_map<std::string, uint8_t> m_ThreadCounts;
 
-	std::unique_ptr<WindowFactory> m_WindowFactory;
-
 	//temp
 	std::unique_ptr<Window> m_Window;
 

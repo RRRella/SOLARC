@@ -18,3 +18,4 @@
 #include <latch>
 #include <algorithm>
 #include <barrier>
+#include <atomic>

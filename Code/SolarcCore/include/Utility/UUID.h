@@ -18,7 +18,7 @@ namespace std {
     };
 }
 
-SOLARC_CORE_API inline void GeenerateUUID(UUID& uuid)
+SOLARC_CORE_API inline void GenerateUUID(UUID& uuid)
 {
     UuidCreate(&uuid);
 }

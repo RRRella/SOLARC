@@ -43,22 +43,6 @@ void SolarcApp::Run()
 
 void SolarcApp::ParseWindowData(const json& configData)
 {
-	m_WindowFactory = GetWindowFactory();
-
-	WindowsMetaData windowsMetaData;
-
-	const json& windowData = configData["WindowData"];
-
-	windowsMetaData.width = windowData["Width"].get<int>();
-	windowsMetaData.height = windowData["Height"].get<int>();
-	windowsMetaData.name = windowData["Name"].get<std::string>();
-
-	windowsMetaData.posX = 0;
-	windowsMetaData.posY = 0;
-	windowsMetaData.extendedStyle = 0;
-	windowsMetaData.style = WS_OVERLAPPEDWINDOW;
-
-	m_Window = m_WindowFactory->Create(windowsMetaData);
 }
 
 void SolarcApp::ParseMTData(const json& configData)

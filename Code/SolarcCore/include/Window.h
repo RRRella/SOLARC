@@ -1,50 +1,33 @@
 #pragma once
 #include "Preprocessor/API.h"
-#include "Event/EventCommunication.h"
+#include "Event/Event.h"
+#include "Event/EventProducer.h"
+#include "WindowPlatform.h"
 
-struct SOLARC_CORE_API WindowsMetaData
-{
-	std::string name = "ENerf Window";
-	uint32_t style = WS_OVERLAPPEDWINDOW;
-	uint32_t extendedStyle = 0;
-	int posX = 0;
-	int posY = 0;
-	int width = 1920;
-	int height = 1080;
-};
-
-class SOLARC_CORE_API WindowPlatform
+class WindowEvent : public Event
 {
 public:
-	virtual bool PeekNextMessage() = 0;
-	virtual void ProcessMessage() = 0;
-	virtual void Update() = 0;
+	WindowEvent() :Event(TOP_LEVEL_EVENT_TYPE::WINDOW_EVENT) {}
+	~WindowEvent() = default;
+
+protected:
 
 };
 
-class SOLARC_CORE_API Window : public EventComponent
+class SOLARC_CORE_API Window : public EventProducer<WindowEvent>
 {
 public:
 	void Update();
 
 	WindowPlatform* GetMessagePipe() const { return m_Platform.get(); }
+
 protected:
 
 
 	Window(std::unique_ptr<WindowPlatform> platform)
-		:EventComponent(), m_Platform(std::move(platform))
+		: EventProducer<WindowEvent>(), m_Platform(std::move(platform))
 	{
 	}
 
 	std::unique_ptr<WindowPlatform> m_Platform;
-};
-
-class SOLARC_CORE_API WindowFactory
-{
-public:
-	WindowFactory() = default;
-	~WindowFactory() = default;
-
-	virtual std::unique_ptr<Window> Create(const WindowsMetaData& metaData) const = 0;
-private:
 };
