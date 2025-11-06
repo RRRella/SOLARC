@@ -4,12 +4,14 @@
 #include "Utility/CompileTimeUtil.h"
 #include "Utility/FileSystemUtil.h"
 
+#define SOLARC_TEST
+
 int main(int argc, char** argv) 
 {
     try
     {
         std::string configPath = GetExeDir() + "\\Data\\config.json";
-        SolarcApp::Initialize(configPath);
+        SolarcApp::Initialize(configPath, true);
     }
     catch (std::runtime_error& e)
     {

@@ -2,15 +2,20 @@
 #include "spdlog/spdlog.h"
 #include "Utility/CompileTimeUtil.h"
 
-void SolarcApp::Initialize(const std::string& configDataPath)
+void SolarcApp::Initialize(const std::string& configDataPath , bool test)
 {
 	if (!m_Instance)
-		m_Instance = std::make_unique<SolarcApp>(configDataPath);
+		m_Instance = std::make_unique<SolarcApp>(configDataPath, test);
 	else
 		throw std::runtime_error("SolarcApp already initialized");
 }
 
-SolarcApp::SolarcApp(const std::string& configDataPath)
+void SolarcApp::InitializeResources()
+{
+	//ProducerEventQueue::InitilizeThreadPool(GetThreadCountFor("Event Thread"));
+}
+
+SolarcApp::SolarcApp(const std::string& configDataPath, bool test)
 {
 	std::ifstream f(configDataPath);
 
@@ -29,15 +34,18 @@ SolarcApp::SolarcApp(const std::string& configDataPath)
 		std::cerr << "At byte position: " << e.byte << std::endl;
 	}
 
-	ParseWindowData(configData);
+	if(!test)
+		ParseWindowData(configData);
 	ParseMTData(configData);
+
+	InitializeResources();
 }
 
 void SolarcApp::Run()
 {
 	while(m_IsRunning)
 	{
-		m_Window->Update();
+		//m_Window->PollEvents();
 	}
 }
 
@@ -108,3 +116,5 @@ void SolarcApp::ParseMTData(const json& configData)
 	for (auto& item : order)
 		m_ThreadCounts[item.key] = item.value;
 }
+
+
