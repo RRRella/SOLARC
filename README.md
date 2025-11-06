@@ -1,2 +1,2 @@
-# EnhancedNerf
-This is the beginning of a "cutting-edge" <clown emoji> application with aim to enhance the Nerf AI model using 3D rendering techniques data. Maybe it never gets to a real state but here we are.
+# SOLARC
+A simple experimental rendering engine project, currently writing simple event system and window management
