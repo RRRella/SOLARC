@@ -3,7 +3,42 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Build folders
 build/
+out/
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+*.pdb
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+*.cmake.user
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# User presets (never commit!)
+CMakeUserPresets.json
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*.swp
+
 
 # User-specific files
 *.rsuser
