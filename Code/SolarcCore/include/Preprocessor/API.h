@@ -1,4 +1,4 @@
-#ifdef _WIN32 || _WIN64
+#if defined(_WIN32) || defined(_WIN64)
 #ifdef SOLARC_CORE_STATIC
 	#define SOLARC_CORE_API
 #else

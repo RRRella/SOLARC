@@ -30,6 +30,10 @@ target_include_directories(${PROJECT_NAME}
 )
 #
 
+#toml11
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/toml11/include)
+#
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INC_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog COMMON_FLAGS)

@@ -3,14 +3,12 @@
 #include "Event/Event.h"
 #include "Event/EventBus.h"
 
-// ------------------------ ObserverBus ------------------------
+// ------------------------ ObserverBus (only queued implementation now) ------------------------
 
 template<event_type EVENT_TYPE>
 class ObserverBus : public EventBus<EVENT_TYPE>
 {
-    using ListenerRegistration = typename EventBus<EVENT_TYPE>::ListenerRegistration;
-    using ProducerRegistration = typename EventBus<EVENT_TYPE>::ProducerRegistration;
-    using Dispatcher = typename EventBus<EVENT_TYPE>::Dispatcher;
+    using EventRegistration = typename EventBus<EVENT_TYPE>::EventRegistration;
 
 public:
     ObserverBus() = default;
@@ -21,8 +19,8 @@ public:
     // the bus waits for unregisters to complete, but avoids callback re-entry.
     virtual ~ObserverBus()
     {
-        std::vector<std::shared_ptr<ListenerRegistration>> listeners;
-        std::vector<std::shared_ptr<ProducerRegistration>> producers;
+        std::vector<std::shared_ptr<EventRegistration>> listeners;
+        std::vector<std::shared_ptr<EventRegistration>> producers;
 
         {
             std::lock_guard lk(m_Mtx);
@@ -45,107 +43,90 @@ public:
         for (auto& pr : producers) if (pr) pr->Unregister();
     }
 
-    virtual void RegisterProducer(EventProducer<EVENT_TYPE>* producer) noexcept = 0;
-    virtual void RegisterListener(EventListener<EVENT_TYPE>* listener) noexcept = 0;
-
-    virtual void UnRegisterProducer(EventProducer<EVENT_TYPE>* producer) = 0;
-    virtual void UnRegisterListener(EventListener<EVENT_TYPE>* listener) = 0;
-
-protected:
-    std::unordered_map<EventProducer<EVENT_TYPE>*, std::shared_ptr<ProducerRegistration>> m_ProducersMap;
-    std::unordered_map<EventListener<EVENT_TYPE>*, std::shared_ptr<ListenerRegistration>> m_ListenersMap;
-    mutable std::mutex m_Mtx;
-};
-
-// ------------------------ DirectObserverBus ------------------------
-
-template<event_type EVENT_TYPE>
-class DirectObserverBus : public ObserverBus<EVENT_TYPE>
-{
-    using ListenerRegistration = typename EventBus<EVENT_TYPE>::ListenerRegistration;
-    using ProducerRegistration = typename EventBus<EVENT_TYPE>::ProducerRegistration;
-    using Dispatcher = typename EventBus<EVENT_TYPE>::Dispatcher;
-    using DISPATCH_TYPE = typename EventBus<EVENT_TYPE>::DISPATCH_TYPE;
-
-public:
-    DirectObserverBus() = default;
-    ~DirectObserverBus() override = default;
-
-    void Communicate() noexcept override {}
-
-    void RegisterProducer(EventProducer<EVENT_TYPE>* producer) noexcept override
+    void Communicate() noexcept override
     {
-        std::shared_ptr<ProducerRegistration> reg;
+        // Move events from the bus's internal queue to all listener queues
+        std::optional<std::shared_ptr<const EVENT_TYPE>> event;
+        while (event = m_BusQueue.TryNext())
         {
-            std::lock_guard lk(this->m_Mtx);
-            auto unregisterCB = [this, producer]() { this->UnRegisterProducer(producer); };
+            // Forward to all listeners using their registrations
+            std::vector<std::shared_ptr<EventRegistration>> listenerRegs;
+            {
+                std::lock_guard lk(m_Mtx);
+                for (auto& pair : m_ListenersMap)
+                {
+                    listenerRegs.push_back(pair.second);
+                }
+            }
+
+            for (auto& reg : listenerRegs)
+            {
+                // Dispatch the same event to each listener's registration
+                reg->Dispatch(event.value());
+            }
+        }
+    }
+
+    void RegisterProducer(EventProducer<EVENT_TYPE>* producer) noexcept
+    {
+        std::shared_ptr<EventRegistration> reg;
+        {
+            std::lock_guard lk(m_Mtx);
+            auto unregisterCB = [this, producer]() { this->UnregisterProducer(producer); };
             reg = this->RegisterProducerHelper(producer, unregisterCB);
 
-            // Wire existing listener dispatchers into this producer's registration.
-            for (auto& kv : this->m_ListenersMap)
-            {
-                auto& listenerReg = kv.second;
-                if (listenerReg && listenerReg->dispatcher)
-                    reg->AddDispatcher(listenerReg->dispatcher);
-            }
+            // Set the queue to the bus's internal queue
+            reg->SetQueue(&m_BusQueue);
 
-            this->m_ProducersMap[producer] = reg;
+            m_ProducersMap[producer] = reg;
         }
     }
 
-    void RegisterListener(EventListener<EVENT_TYPE>* listener) noexcept override
+    void RegisterListener(EventListener<EVENT_TYPE>* listener) noexcept
     {
-        std::shared_ptr<ListenerRegistration> reg;
+        std::shared_ptr<EventRegistration> reg;
         {
-            std::lock_guard lk(this->m_Mtx);
-            auto unregisterCB = [this, listener]() { this->UnRegisterListener(listener); };
-            reg = this->RegisterListenerHelper(listener, unregisterCB, DISPATCH_TYPE::DIRECT);
+            std::lock_guard lk(m_Mtx);
+            auto unregisterCB = [this, listener]() { this->UnregisterListener(listener); };
+            reg = this->RegisterListenerHelper(listener, unregisterCB);
 
-            // Wire this listener's dispatcher into all existing producers so they will call it.
-            for (auto& kv : this->m_ProducersMap)
-            {
-                auto& producerReg = kv.second;
-                if (producerReg && reg->dispatcher)
-                    producerReg->AddDispatcher(reg->dispatcher);
-            }
-
-            this->m_ListenersMap[listener] = reg;
+            // The listener's registration already points to its own queue
+            m_ListenersMap[listener] = reg;
         }
     }
 
-    void UnRegisterProducer(EventProducer<EVENT_TYPE>* producer) override
+    void UnregisterProducer(EventProducer<EVENT_TYPE>* producer)
     {
-        std::shared_ptr<ProducerRegistration> reg;
+        std::shared_ptr<EventRegistration> reg;
         {
-            std::lock_guard lk(this->m_Mtx);
-            auto it = this->m_ProducersMap.find(producer);
-            if (it == this->m_ProducersMap.end()) return;
+            std::lock_guard lk(m_Mtx);
+            auto it = m_ProducersMap.find(producer);
+            if (it == m_ProducersMap.end()) return;
             reg = it->second;
-            this->m_ProducersMap.erase(it);
+            m_ProducersMap.erase(it);
         }
 
         if (reg) reg->Unregister();
     }
 
-    void UnRegisterListener(EventListener<EVENT_TYPE>* listener) override
+    void UnregisterListener(EventListener<EVENT_TYPE>* listener)
     {
-        std::shared_ptr<ListenerRegistration> reg;
+        std::shared_ptr<EventRegistration> reg;
         {
-            std::lock_guard lk(this->m_Mtx);
-            auto it = this->m_ListenersMap.find(listener);
-            if (it == this->m_ListenersMap.end()) return;
+            std::lock_guard lk(m_Mtx);
+            auto it = m_ListenersMap.find(listener);
+            if (it == m_ListenersMap.end()) return;
             reg = it->second;
 
-            // Remove this listener's dispatcher from all producers
-            for (auto& kv : this->m_ProducersMap)
-                if (kv.second && reg && reg->dispatcher)
-                    kv.second->RemoveDispatcher(reg->dispatcher);
-
-            this->m_ListenersMap.erase(it);
+            m_ListenersMap.erase(it);
         }
 
         if (reg) reg->Unregister();
     }
 
 private:
+    EventQueue<EVENT_TYPE> m_BusQueue;
+    std::unordered_map<EventProducer<EVENT_TYPE>*, std::shared_ptr<EventRegistration>> m_ProducersMap;
+    std::unordered_map<EventListener<EVENT_TYPE>*, std::shared_ptr<EventRegistration>> m_ListenersMap;
+    mutable std::mutex m_Mtx;
 };

@@ -1,0 +1,13 @@
+# solarc.toml
+[window]
+width = 1920
+height = 1080
+fullscreen = false
+Name = "Solarc Window"
+
+[threading]
+"Render Thread" = 70
+"Asset Loader" = 30
+
+[startup]
+# project_to_open = "projects/demo.solarcproj"

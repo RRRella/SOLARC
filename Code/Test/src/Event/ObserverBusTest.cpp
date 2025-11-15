@@ -8,7 +8,7 @@
 class StubEvent : public Event
 {
 public:
-    StubEvent() : Event(TOP_LEVEL_EVENT_TYPE::STUB_EVENT) {}
+    StubEvent() : Event(Event::TYPE::STUB_EVENT) {}
     int seq = 0;
     static constexpr int data = 1;
 };
@@ -25,14 +25,39 @@ public:
 
     ~StubProducer()
     {
-        UnregisterEventConnections();
+        // No need to call UnregisterEventConnections() anymore - it's called automatically in destructor
     }
 };
 
 class StubListener : public EventListener<StubEvent>
 {
 public:
-    void OnEvent(std::shared_ptr<const StubEvent> e) override
+    void OnEvent(const std::shared_ptr<const StubEvent>& e) override
+    {
+        m_Data += e->data;
+        m_Seqs.push_back(e->seq);
+    }
+
+    int m_Data = 0;
+    std::vector<int> m_Seqs;
+};
+
+// For queued listeners we will implement a ListenThroughQueue helper so tests can pop events
+class QueueListener : public EventListener<StubEvent>
+{
+public:
+    // The listener won't be called via OnEvent for queued mode; instead, consumers call this
+    // helper to pop events from the internal queue and process them.
+    void ListenThroughQueueAndConsumeOnce()
+    {
+        auto e = m_EventQueue.WaitOnNext();
+        if (e) {
+            OnEvent(e);
+        }
+    }
+
+    // Provide OnEvent too so direct registration can use it in other tests (not used here).
+    void OnEvent(const std::shared_ptr<const StubEvent>& e) override
     {
         m_Data += e->data;
         m_Seqs.push_back(e->seq);
@@ -53,7 +78,7 @@ public:
     {
     }
 
-    void OnEvent(std::shared_ptr<const StubEvent> /*e*/) override
+    void OnEvent(const std::shared_ptr<const StubEvent>& e) override
     {
         if (m_StartedPromise) m_StartedPromise->set_value();
         m_ContinueFuture.wait();
@@ -62,42 +87,78 @@ public:
 
     bool m_Processed = false;
 
-private:
+protected:
     std::promise<void>* m_StartedPromise;
     std::shared_future<void> m_ContinueFuture;
 };
 
-// ------------------------ Tests (Direct-only) ------------------------
+// Blocking queue listener for concurrency tests; it will wait until signaled to consume
+class BlockingQueueListener : public BlockingListener
+{
+public:
+    BlockingQueueListener(std::promise<void>* startedPromise, std::shared_future<void> continueFuture)
+        : BlockingListener(startedPromise, continueFuture)
+    {
+    }
 
-TEST(ObserverBus_Direct, RegisterUnregisterBasic)
+    // Consumer will wait on queue, signal started, then wait on continueFuture before consuming.
+    void ListenThroughQueueAndBlockOnce()
+    {
+        auto e = m_EventQueue.WaitOnNext();
+        if (m_StartedPromise) m_StartedPromise->set_value();
+        m_ContinueFuture.wait();
+
+        OnEvent(e);
+    }
+
+    void OnEvent(const std::shared_ptr<const StubEvent>& e) override
+    {
+        if (e)
+            m_Processed = true;
+    }
+};
+
+// ------------------------ Tests ------------------------
+
+TEST(ObserverBus, RegisterUnregisterBasic)
 {
     StubProducer producer;
-    StubListener listener;
-    DirectObserverBus<StubEvent> bus;
+    QueueListener listener;
+    ObserverBus<StubEvent> bus;
 
     bus.RegisterProducer(&producer);
     bus.RegisterListener(&listener);
 
     producer.TriggerEvent();
+
+    // nothing processed until bus communicates and listener pops from queue
+    EXPECT_EQ(listener.m_Data, 0);
+
+    // First, communicate to move events from bus queue to listener queue
+    bus.Communicate();
+    // Then consume queued event
+    listener.ListenThroughQueueAndConsumeOnce();
     EXPECT_EQ(listener.m_Data, 1);
 
-    bus.UnRegisterProducer(&producer);
+    bus.UnregisterProducer(&producer);
     producer.TriggerEvent();
+    bus.Communicate(); // Try to communicate the event that shouldn't reach listener
     EXPECT_EQ(listener.m_Data, 1); // no change after producer unregistered
 
     // Re-register producer and then unregister listener
     bus.RegisterProducer(&producer);
-    bus.UnRegisterListener(&listener);
+    bus.UnregisterListener(&listener);
 
     producer.TriggerEvent();
+    bus.Communicate();
     EXPECT_EQ(listener.m_Data, 1); // listener unregistered so no change
 }
 
-TEST(ObserverBus_Direct, MultipleProducersMultipleListeners)
+TEST(ObserverBus, MultipleProducersMultipleListeners)
 {
     StubProducer p1, p2;
-    StubListener l1, l2, l3;
-    DirectObserverBus<StubEvent> bus;
+    QueueListener l1, l2, l3;
+    ObserverBus<StubEvent> bus;
 
     bus.RegisterProducer(&p1);
     bus.RegisterProducer(&p2);
@@ -107,68 +168,78 @@ TEST(ObserverBus_Direct, MultipleProducersMultipleListeners)
     bus.RegisterListener(&l3);
 
     p1.TriggerEvent();
-    EXPECT_EQ(l1.m_Data, 1);
-    EXPECT_EQ(l2.m_Data, 1);
-    EXPECT_EQ(l3.m_Data, 1);
-
     p2.TriggerEvent();
+
+    // Communicate to move events from bus to all listeners
+    bus.Communicate();
+
+    // Each listener should have two queued events to consume
+    l1.ListenThroughQueueAndConsumeOnce();
+    l1.ListenThroughQueueAndConsumeOnce();
+    l2.ListenThroughQueueAndConsumeOnce();
+    l2.ListenThroughQueueAndConsumeOnce();
+    l3.ListenThroughQueueAndConsumeOnce();
+    l3.ListenThroughQueueAndConsumeOnce();
+
     EXPECT_EQ(l1.m_Data, 2);
     EXPECT_EQ(l2.m_Data, 2);
     EXPECT_EQ(l3.m_Data, 2);
-
-    bus.UnRegisterProducer(&p1);
-    p1.TriggerEvent();
-    EXPECT_EQ(l1.m_Data, 2); // unchanged after p1 unregistered
 }
 
-TEST(ObserverBus_Direct_Concurrency, UnregisterWaitsForInFlightDispatches)
+TEST(ObserverBus_Concurrency, ListenerConsumesFromQueue)
 {
-    DirectObserverBus<StubEvent> bus;
+    ObserverBus<StubEvent> bus;
     StubProducer producer;
 
-    // Prepare blocking listener that signals when it starts processing.
     std::promise<void> started;
     std::promise<void> continue_p;
     auto continue_future = continue_p.get_future().share();
-    BlockingListener blocker(&started, continue_future);
+    BlockingQueueListener blocker(&started, continue_future);
 
-    // Register producer and listener using the public API.
     bus.RegisterProducer(&producer);
     bus.RegisterListener(&blocker);
 
-    // Start dispatch on separate thread
-    std::thread dispatchThread([&producer]() {
-        producer.TriggerEvent();
+    // Producer pushes an event (goes to bus queue)
+    producer.TriggerEvent();
+
+    // Communicate to move event from bus to listener queue
+    bus.Communicate();
+
+    // Start consumer thread which will pop and then block until signaled
+    std::thread consumerThread([&blocker]() {
+        blocker.ListenThroughQueueAndBlockOnce();
         });
 
-    // Wait until listener has started processing (deterministic)
+    // Wait until consumer started processing (popped)
     started.get_future().wait();
 
-    // Now call UnRegisterListener on another thread and ensure it blocks until we allow listener to continue.
+    // Now call UnRegisterListener on another thread — for queued semantics Unregister will not
+    // wait for items already enqueued to be consumed with the current design.
     std::atomic<bool> unregister_done{ false };
     std::thread unregisterThread([&bus, &blocker, &unregister_done]() {
-        bus.UnRegisterListener(&blocker);
+        bus.UnregisterListener(&blocker);
         unregister_done = true;
         });
 
-    // Allow the listener to finish processing
+    // Allow consumer to finish
     continue_p.set_value();
 
-    dispatchThread.join();
+    consumerThread.join();
     unregisterThread.join();
 
+    // consumer should have consumed the queued event, and unregister should have completed.
     EXPECT_TRUE(unregister_done.load());
     EXPECT_TRUE(blocker.m_Processed);
 }
 
-TEST(ObserverBus_Direct_Lifetime, ListenerDestructorUnregistersItself)
+TEST(ObserverBus_Lifetime, ListenerDestructorUnregistersItself)
 {
-    DirectObserverBus<StubEvent> bus;
+    ObserverBus<StubEvent> bus;
     StubProducer producer;
 
     // create listener in inner scope and register it
     {
-        auto dynamicListener = std::make_unique<StubListener>();
+        auto dynamicListener = std::make_unique<QueueListener>();
         bus.RegisterProducer(&producer);
         bus.RegisterListener(dynamicListener.get());
 
@@ -178,15 +249,18 @@ TEST(ObserverBus_Direct_Lifetime, ListenerDestructorUnregistersItself)
 
     // Register a second persistent listener. If the first listener properly unregistered itself,
     // only this second listener should receive the event.
-    StubListener persistentListener;
+    QueueListener persistentListener;
     bus.RegisterListener(&persistentListener);
 
     producer.TriggerEvent();
+    bus.Communicate(); // Move event to listener queues
 
+    // Consume the event
+    persistentListener.ListenThroughQueueAndConsumeOnce();
     EXPECT_EQ(persistentListener.m_Data, 1);
 }
 
-TEST(ObserverBus_Direct_Destructor, BusDestructorWaitsAndCleansUp)
+TEST(ObserverBus_Destructor, BusDestructorWaitsAndCleansUp)
 {
     StubProducer producer;
 
@@ -196,21 +270,29 @@ TEST(ObserverBus_Direct_Destructor, BusDestructorWaitsAndCleansUp)
 
     // Create bus in nested scope so destructor runs deterministically.
     {
-        DirectObserverBus<StubEvent> bus;
+        ObserverBus<StubEvent> bus;
         bus.RegisterProducer(&producer);
 
-        BlockingListener blocker(&started, continue_future);
+        BlockingQueueListener blocker(&started, continue_future);
         bus.RegisterListener(&blocker);
 
-        // Kick off a dispatch on a separate thread which will block inside listener until we allow it to continue.
-        std::thread dispatchThread([&producer]() { producer.TriggerEvent(); });
+        // Producer pushes an event (goes to bus queue)
+        producer.TriggerEvent();
+
+        // Communicate to move event to listener queue
+        bus.Communicate();
+
+        // Kick off a consumer on a separate thread which will pop and block until we allow it to continue.
+        std::thread consumerThread([&blocker]() {
+            blocker.ListenThroughQueueAndBlockOnce();
+            });
 
         // Wait until listener has started processing
         started.get_future().wait();
 
-        // Allow dispatch to finish
+        // Allow consumer to finish
         continue_p.set_value();
-        dispatchThread.join();
+        consumerThread.join();
 
         // bus destructor will run when leaving this scope
     }

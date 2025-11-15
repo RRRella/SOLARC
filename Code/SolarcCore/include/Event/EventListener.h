@@ -9,41 +9,38 @@ template<event_type EVENT_TYPE>
 class EventListener
 {
     friend class EventBus<EVENT_TYPE>;
-    using EventCallBack = std::function<void(std::shared_ptr<const EVENT_TYPE>)>;
-    using ListenerRegistration = typename EventBus<EVENT_TYPE>::ListenerRegistration;
+    using EventRegistration = typename EventBus<EVENT_TYPE>::EventRegistration;
 
 public:
     EventListener() = default;
     virtual ~EventListener()
     {
-        try { UnregisterEventConnections(); }
+        try {
+            // Unregister connections automatically in the destructor
+            UnregisterEventConnections();
+        }
         catch (...) {}
     }
 
 protected:
-    virtual void OnEvent(std::shared_ptr<const EVENT_TYPE> e) = 0;
+    virtual void OnEvent(const std::shared_ptr<const EVENT_TYPE>& e) = 0;
 
-    EventCallBack m_EventCallBack = std::bind(&EventListener<EVENT_TYPE>::OnEvent, this, std::placeholders::_1);
+    EventQueue<EVENT_TYPE> m_EventQueue;
 
-    EventQueue<EVENT_TYPE> m_Queue;
-
-    //MUST be called on top of every derived class's destructor of this
-    void UnregisterEventConnections();
 private:
-    mutable std::mutex m_RegisterMtx;
-    std::list<std::weak_ptr<ListenerRegistration>> m_Registration;
-};
-
-template<event_type EVENT_TYPE>
-inline void EventListener<EVENT_TYPE>::UnregisterEventConnections()
-{
-    std::vector<std::shared_ptr<ListenerRegistration>> strongRef;
+    void UnregisterEventConnections()
     {
-        std::lock_guard lock(m_RegisterMtx);
-        strongRef = EventBus<EVENT_TYPE>::template CollectLive<std::list<std::weak_ptr<ListenerRegistration>>, ListenerRegistration>(m_Registration);
-        EventBus<EVENT_TYPE>::template PruneAndRemove<std::list<std::weak_ptr<ListenerRegistration>>, ListenerRegistration>(m_Registration, nullptr);
+        std::vector<std::shared_ptr<EventRegistration>> strongRef;
+        {
+            std::lock_guard lock(m_RegisterMtx);
+            strongRef = EventBus<EVENT_TYPE>::template CollectLive<std::list<std::weak_ptr<EventRegistration>>, EventRegistration>(m_Registration);
+            EventBus<EVENT_TYPE>::template PruneAndRemove<std::list<std::weak_ptr<EventRegistration>>, EventRegistration>(m_Registration, nullptr);
+        }
+
+        for (auto&& d : strongRef)
+            d->Unregister();
     }
 
-    for (auto&& d : strongRef)
-        d->Unregister();
-}
+    mutable std::mutex m_RegisterMtx;
+    std::list<std::weak_ptr<EventRegistration>> m_Registration;
+};
