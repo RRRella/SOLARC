@@ -2,15 +2,17 @@
 #include "Preprocessor/API.h"
 #include "Window/Window.h"
 #include "Window/WindowContext.h"
-#include "Event/ObserverBus.h"
-#include "Event/ApplicationEvent.h"
+#include "MT/JobSystem.h"
 #include "toml.hpp"
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 class SOLARC_CORE_API SolarcApp
 {
 public:
     SolarcApp(const std::string& configDataPath);
-    ~SolarcApp() = default;
+    ~SolarcApp();
 
     SolarcApp(SolarcApp&& other) = delete;
     SolarcApp& operator=(SolarcApp&& other) = delete;
@@ -22,15 +24,20 @@ public:
 
     void SetInitialProject(const std::string& projectPath);
 
-    uint8_t GetThreadCountFor(const std::string& systemComponent) { return m_ThreadCounts[systemComponent]; }
+    uint8_t GetThreadCountFor(const std::string& systemComponent);
 
     void Run();
     void RequestQuit() { m_IsRunning = false; }
 
 private:
+    friend class SolarcState;
+    friend class SolarcStateInitialize;
+    friend class SolarcStateLoading;
+
     struct SolarcContext
     {
         std::unique_ptr<WindowContext> windowCtx;
+        JobSystem* jobSystem = nullptr; // Non-owning pointer
     };
 
     enum class SOLARC_STATE_TYPE
@@ -42,42 +49,39 @@ private:
         CLEANUP
     };
 
+    enum class StateTransition
+    {
+        NONE,
+        TO_STAGING,
+        TO_LOADING,
+        TO_RUNNING,
+        TO_CLEANUP,
+        QUIT
+    };
+
+    struct StateTransitionData
+    {
+        StateTransition transition = StateTransition::NONE;
+        std::string projectPath;
+    };
+
+    // Forward declarations
     class SolarcState;
     class SolarcStateInitialize;
     class SolarcStateStaging;
     class SolarcStateLoading;
     class SolarcStateRunning;
     class SolarcStateCleanup;
-
-    class SolarcStateMachine : public EventListener<ApplicationEvent>
-    {
-    public:
-        SolarcStateMachine(SolarcContext& solarcCtx);
-        void Update();
-        void OnEvent(const std::shared_ptr<const ApplicationEvent>& e) override;
-
-        void SetInitialProject(const std::string& path) { m_InitialProjectPath = path; }
-
-    private:
-        using TransitionFunc = std::function<void(SolarcStateMachine&, std::shared_ptr<const ApplicationEvent>)>;
-        void BuildTransitionTable();
-
-        ObserverBus<ApplicationEvent> m_Bus;
-        SolarcContext& m_SolarctCtxRef;
-        std::unique_ptr<SolarcState> m_State;
-        std::string m_InitialProjectPath; // set once at startup
-        std::string m_ProjectToOpen;      // for runtime changes (e.g., from staging)
-        std::unordered_map<ApplicationEvent::TYPE, TransitionFunc> m_TransitionTable;
-    };
+    class SolarcStateMachine;
 
     void ParseWindowData(const toml::value& configData);
     void ParseMTData(const toml::value& configData);
     void ParseStartupData(const toml::value& configData);
-    void PerformInitializationLogic();
 
     inline static std::unique_ptr<SolarcApp> m_Instance = nullptr;
 
     SolarcContext m_Ctx;
+    std::unique_ptr<JobSystem> m_JobSystem;
     std::unique_ptr<SolarcStateMachine> m_StateMachine;
     std::unordered_map<std::string, uint8_t> m_ThreadCounts;
     bool m_IsRunning = true;
@@ -88,15 +92,48 @@ private:
     int m_WindowHeight = 1080;
     bool m_WindowFullscreen = false;
     std::string m_WindowName = "Solarc Window";
+
+    // Initial project path (set before state machine starts)
+    std::string m_InitialProjectPath;
 };
 
-// --- Base State ---
-class SolarcApp::SolarcState : public EventProducer<ApplicationEvent>
+// ============================================================================
+// State Machine
+// ============================================================================
+
+class SolarcApp::SolarcStateMachine
+{
+public:
+    SolarcStateMachine(SolarcContext& solarcCtx, const std::string& initialProjectPath);
+    void Update();
+
+private:
+    void TransitionTo(StateTransition transition, const std::string& data);
+
+    SolarcContext& m_SolarctCtxRef;
+    std::unique_ptr<SolarcState> m_CurrentState;
+    std::string m_InitialProjectPath;
+};
+
+// ============================================================================
+// Base State
+// ============================================================================
+
+class SolarcApp::SolarcState
 {
 public:
     SolarcState(SolarcContext& ctxRef, SOLARC_STATE_TYPE type);
     virtual ~SolarcState() = default;
-    virtual void Update() = 0;
+
+    // Returns what should happen next
+    virtual StateTransitionData Update() = 0;
+
+    // Called once when entering this state
+    virtual void OnEnter() {}
+
+    // Called once when leaving this state
+    virtual void OnExit() {}
+
     SOLARC_STATE_TYPE GetType() const { return m_Type; }
 
 protected:
@@ -106,39 +143,46 @@ private:
     SOLARC_STATE_TYPE m_Type;
 };
 
-// --- Concrete States ---
+// ============================================================================
+// Concrete States
+// ============================================================================
+
 class SolarcApp::SolarcStateInitialize : public SolarcState
 {
 public:
-    SolarcStateInitialize(SolarcContext& ctx);
-    void Update() override;
+    SolarcStateInitialize(SolarcContext & ctx);
+    StateTransitionData Update() override;
 };
 
 class SolarcApp::SolarcStateStaging : public SolarcState
 {
 public:
-    SolarcStateStaging(SolarcContext& ctx, std::string& projectToOpen);
-    void Update() override;
+    SolarcStateStaging(SolarcContext& ctx, const std::string& projectToOpen);
+    StateTransitionData Update() override;
 
 private:
-    std::string& m_ProjectToOpen;
+    std::string m_ProjectToOpen;
 };
 
 class SolarcApp::SolarcStateLoading : public SolarcState
 {
 public:
     SolarcStateLoading(SolarcContext& ctx, const std::string& projectToOpen);
-    void Update() override;
+    void OnEnter() override;
+    StateTransitionData Update() override;
 
 private:
-    std::string m_ProjectToOpen;
+    std::string m_ProjectPath;
+    JobHandle m_LoadingJob;
 };
 
 class SolarcApp::SolarcStateRunning : public SolarcState
 {
 public:
     SolarcStateRunning(SolarcContext& ctx);
-    void Update() override;
+    void OnEnter() override;
+    StateTransitionData Update() override;
+    void OnExit() override;
 
 private:
     std::shared_ptr<Window> m_MainWindow;
@@ -148,5 +192,5 @@ class SolarcApp::SolarcStateCleanup : public SolarcState
 {
 public:
     SolarcStateCleanup(SolarcContext& ctx);
-    void Update() override;
+    StateTransitionData Update() override;
 };

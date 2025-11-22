@@ -1,144 +1,63 @@
 ﻿#include "SolarcApp.h"
-#include "spdlog/spdlog.h"
 #include "Utility/CompileTimeUtil.h"
 #include "Window/WindowContextPlatform.h"
+#include <thread>
+#include <algorithm>
+#include <cmath>
+#include "Logging/LogMacros.h"
 
-// --- SolarcState base ---
-SolarcApp::SolarcState::SolarcState(SolarcContext& ctxRef, SOLARC_STATE_TYPE type)
-    : m_SolarctCtxRef(ctxRef), m_Type(type)
-{
-}
+// ============================================================================
+// SolarcApp - Singleton and Initialization
+// ============================================================================
 
-// --- Concrete States (Update implementations) ---
-void SolarcApp::SolarcStateInitialize::Update()
-{
-    // Perform the initialization logic that was previously in Initialize() and constructor
-    SolarcApp& app = SolarcApp::Get();
-    const std::string& configDataPath = app.m_ConfigDataPath;
-
-    toml::value configData;
-    try
-    {
-        configData = toml::parse(configDataPath);
-    }
-    catch (const toml::syntax_error& e)
-    {
-        std::cerr << "TOML Parse Error in '" << configDataPath << "':\n" << e.what() << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-
-    // Parse window data
-    app.ParseWindowData(configData);
-
-    // Parse threading data
-    app.ParseMTData(configData);
-
-    // Parse startup data
-    app.ParseStartupData(configData);
-
-    //We're done , emit InitializeCompleteEvent to state machine
-    auto event = std::make_shared<InitializeCompleteEvent>();
-    DispatchEvent(event);
-}
-
-void SolarcApp::SolarcStateStaging::Update()
-{
-    // In a real implementation, this would show a UI for project selection
-    // For now, we'll just use a hardcoded project path or skip to loading
-    // Since we're skipping the actual UI, let's just emit the event with the current project path
-    auto event = std::make_shared<StagingCompleteEvent>(m_ProjectToOpen);
-    DispatchEvent(event);
-}
-
-void SolarcApp::SolarcStateLoading::Update()
-{
-    // Skip loading and emit LoadingCompleteEvent immediately
-    auto event = std::make_shared<LoadingCompleteEvent>();
-    DispatchEvent(event);
-}
-
-void SolarcApp::SolarcStateRunning::Update()
-{
-    // Create the main window if it doesn't exist
-    if (!m_MainWindow) {
-        SolarcApp& app = SolarcApp::Get();
-        SolarcApp::SolarcContext& ctx = app.m_Ctx;
-
-        // Create the main window using the parsed configuration
-        m_MainWindow = ctx.windowCtx->CreateWindow(
-            app.m_WindowName,
-            app.m_WindowWidth,
-            app.m_WindowHeight
-        );
-
-        m_MainWindow->Show();
-    }
-
-    m_MainWindow->Update();
-
-    // Check if the main window is still valid (not destroyed)
-    if (m_MainWindow && !m_MainWindow->IsVisible()) {
-        // Window closed, emit RunningCompleteEvent with SHUTDOWN action
-        auto event = std::make_shared<RunningCompleteEvent>(PostRunAction::SHUTDOWN);
-        DispatchEvent(event);
-    }
-}
-
-void SolarcApp::SolarcStateCleanup::Update()
-{
-    //We're done , emit CleanupCompleteEvent to state machine
-    auto event = std::make_shared<CleanupCompleteEvent>();
-    DispatchEvent(event);
-}
-
-// --- State Constructors ---
-SolarcApp::SolarcStateInitialize::SolarcStateInitialize(SolarcContext& ctx)
-    : SolarcState(ctx, SOLARC_STATE_TYPE::INITIALIZE) {
-}
-
-SolarcApp::SolarcStateStaging::SolarcStateStaging(SolarcContext& ctx, std::string& projectToOpen)
-    : SolarcState(ctx, SOLARC_STATE_TYPE::STAGING), m_ProjectToOpen(projectToOpen) {
-}
-
-SolarcApp::SolarcStateLoading::SolarcStateLoading(SolarcContext& ctx, const std::string& projectToOpen)
-    : SolarcState(ctx, SOLARC_STATE_TYPE::LOADING), m_ProjectToOpen(projectToOpen) {
-}
-
-SolarcApp::SolarcStateRunning::SolarcStateRunning(SolarcContext& ctx)
-    : SolarcState(ctx, SOLARC_STATE_TYPE::RUNNING) {
-}
-
-SolarcApp::SolarcStateCleanup::SolarcStateCleanup(SolarcContext& ctx)
-    : SolarcState(ctx, SOLARC_STATE_TYPE::CLEANUP) {
-}
-
-// --- SolarcApp ---
 void SolarcApp::Initialize(const std::string& configDataPath)
 {
-    assert(!m_Instance, "SolarcApp already initialized");
+    assert(!m_Instance && "SolarcApp already initialized");
     m_Instance = std::make_unique<SolarcApp>(configDataPath);
 }
 
 SolarcApp& SolarcApp::Get()
 {
-    assert(m_Instance, "SolarcApp not initialized. Call Initialize() first.");
+    assert(m_Instance && "SolarcApp not initialized. Call Initialize() first.");
     return *m_Instance;
+}
+
+SolarcApp::SolarcApp(const std::string& configDataPath)
+    : m_ConfigDataPath(configDataPath)
+{
+    // Note: We don't parse config here anymore - that happens in INITIALIZE state
+
+    // Create the WindowContext with the platform
+    m_Ctx.windowCtx = std::make_unique<WindowContext>(
+        WindowContextPlatform::CreateWindowContextPlatform()
+    );
+
+    m_StateMachine = std::make_unique<SolarcStateMachine>(m_Ctx , configDataPath);
+
+    // JobSystem will be created after parsing thread counts in INITIALIZE state
+    // State machine will be created after JobSystem is ready
+}
+
+SolarcApp::~SolarcApp()
+{
+    // Destroy in reverse order of creation
+    m_StateMachine.reset();
+    m_Ctx.windowCtx.reset();
+    m_JobSystem.reset();
 }
 
 void SolarcApp::SetInitialProject(const std::string& projectPath)
 {
-    if (m_StateMachine)
-        m_StateMachine->SetInitialProject(projectPath);
-    else
-        m_StateMachine->SetInitialProject(projectPath); // will be read in constructor logic
+    m_InitialProjectPath = projectPath;
 }
 
-SolarcApp::SolarcApp(const std::string& configDataPath)
-    : m_ConfigDataPath(configDataPath) // Store the path for later use
+uint8_t SolarcApp::GetThreadCountFor(const std::string& systemComponent)
 {
-    // Create the WindowContext with the platform
-    m_Ctx.windowCtx = std::make_unique<WindowContext>(WindowContextPlatform::CreateWindowContextPlatform());
-    m_StateMachine = std::make_unique<SolarcStateMachine>(m_Ctx);
+    auto it = m_ThreadCounts.find(systemComponent);
+    if (it != m_ThreadCounts.end()) {
+        return it->second;
+    }
+    return 0; // Return 0 if not found (JobSystem will use default)
 }
 
 void SolarcApp::Run()
@@ -148,22 +67,27 @@ void SolarcApp::Run()
         if (m_Ctx.windowCtx)
             m_Ctx.windowCtx->PollEvents();
 
-        m_StateMachine->Update();
+        if (m_StateMachine)
+            m_StateMachine->Update();
     }
 }
+
+// ============================================================================
+// Configuration Parsing
+// ============================================================================
 
 void SolarcApp::ParseWindowData(const toml::value& configData)
 {
     if (!configData.contains("window"))
     {
-        spdlog::warn("Missing [window] table in config. Using defaults.");
+        SOLARC_APP_WARN("Missing [window] table in config. Using defaults.");
         return;
     }
 
     const auto& window = toml::find(configData, "window");
     if (!window.is_table())
     {
-        spdlog::error("[window] must be a table");
+        SOLARC_APP_ERROR("[window] must be a table");
         return;
     }
 
@@ -177,14 +101,14 @@ void SolarcApp::ParseMTData(const toml::value& configData)
 {
     if (!configData.contains("threading"))
     {
-        spdlog::warn("Missing [threading] table in config. Using defaults.");
+        SOLARC_APP_WARN("Missing [threading] table in config. Using defaults.");
         return;
     }
 
     const auto& threading = toml::find(configData, "threading");
     if (!threading.is_table())
     {
-        spdlog::error("[threading] must be a table");
+        SOLARC_APP_ERROR("[threading] must be a table");
         return;
     }
 
@@ -196,13 +120,13 @@ void SolarcApp::ParseMTData(const toml::value& configData)
     {
         if (!val.is_integer())
         {
-            spdlog::error("Thread count factor for '{}' must be an integer", key);
+            SOLARC_APP_ERROR("Thread count factor for '{}' must be an integer", key);
             continue;
         }
         int factor = toml::get<int>(val);
         if (factor < 0)
         {
-            spdlog::error("Factor for '{}' must be non-negative", key);
+            SOLARC_APP_ERROR("Factor for '{}' must be non-negative", key);
             continue;
         }
         factors.emplace_back(key, factor);
@@ -211,9 +135,7 @@ void SolarcApp::ParseMTData(const toml::value& configData)
 
     if (totalFactor == 0) return;
     if (totalFactor != 100)
-        spdlog::warn("Total thread distribution factor is {} (should be 100). Normalizing.", totalFactor);
-
-    std::vector<std::pair<std::string, uint8_t>> allocations;
+        SOLARC_APP_WARN("Total thread distribution factor is {} (should be 100). Normalizing.", totalFactor); std::vector<std::pair<std::string, uint8_t>> allocations;
     std::vector<std::pair<size_t, double>> remainders;
     unsigned int allocated = 0;
     size_t idx = 0;
@@ -243,6 +165,7 @@ void SolarcApp::ParseMTData(const toml::value& configData)
     for (auto& [key, count] : allocations)
     {
         m_ThreadCounts[key] = count;
+        spdlog::info("Thread allocation: {} = {} threads", key, count);
     }
 }
 
@@ -250,14 +173,14 @@ void SolarcApp::ParseStartupData(const toml::value& configData)
 {
     if (!configData.contains("startup"))
     {
-        spdlog::warn("Missing [startup] table in config.");
+        SOLARC_APP_WARN("Missing [startup] table in config.");
         return;
     }
 
     const auto& startup = toml::find(configData, "startup");
     if (!startup.is_table())
     {
-        spdlog::error("[startup] must be a table");
+        SOLARC_APP_ERROR("[startup] must be a table");
         return;
     }
 
@@ -268,104 +191,320 @@ void SolarcApp::ParseStartupData(const toml::value& configData)
     }
 }
 
-void SolarcApp::PerformInitializationLogic()
-{
-    // This function can be used if additional initialization logic is needed
-    // Currently, all initialization logic is in the SolarcStateInitialize::Update method
-}
+// ============================================================================
+// State Machine
+// ============================================================================
 
-// --- SolarcStateMachine ---
-SolarcApp::SolarcStateMachine::SolarcStateMachine(SolarcContext& solarcCtx)
+SolarcApp::SolarcStateMachine::SolarcStateMachine(SolarcContext& solarcCtx,
+    const std::string& initialProjectPath)
     : m_SolarctCtxRef(solarcCtx)
+    , m_InitialProjectPath(initialProjectPath)
 {
-    m_State = std::make_unique<SolarcStateInitialize>(m_SolarctCtxRef);
-    m_Bus.RegisterListener(this);
-    m_Bus.RegisterProducer(m_State.get());
-    BuildTransitionTable();
-}
-
-void SolarcApp::SolarcStateMachine::BuildTransitionTable()
-{
-    using ET = ApplicationEvent::TYPE;
-
-    auto reg = [this](ET type, TransitionFunc func) {
-        m_TransitionTable[type] = func;
-        };
-
-    reg(ET::INITIALIZE_COMPLETE,
-        [this](SolarcStateMachine& sm, std::shared_ptr<const ApplicationEvent> e) {
-            sm.m_Bus.UnregisterProducer(sm.m_State.get());
-            if (!sm.m_InitialProjectPath.empty()) {
-                sm.m_State = std::make_unique<SolarcStateLoading>(sm.m_SolarctCtxRef, sm.m_InitialProjectPath);
-            }
-            else {
-                sm.m_State = std::make_unique<SolarcStateStaging>(sm.m_SolarctCtxRef, sm.m_ProjectToOpen);
-            }
-            sm.m_Bus.RegisterProducer(sm.m_State.get());
-        });
-
-    reg(ET::STAGING_COMPLETE,
-        [this](SolarcStateMachine& sm, std::shared_ptr<const ApplicationEvent> e) {
-            sm.m_Bus.UnregisterProducer(sm.m_State.get());
-
-            // Extract project path from the event
-            auto stagingEvent = std::static_pointer_cast<const StagingCompleteEvent>(e);
-            sm.m_State = std::make_unique<SolarcStateLoading>(sm.m_SolarctCtxRef, stagingEvent->GetProjectPath());
-            sm.m_Bus.RegisterProducer(sm.m_State.get());
-        });
-
-    reg(ET::LOADING_COMPLETE,
-        [](SolarcStateMachine& sm, std::shared_ptr<const ApplicationEvent> e) {
-            sm.m_Bus.UnregisterProducer(sm.m_State.get());
-            sm.m_State = std::make_unique<SolarcStateRunning>(sm.m_SolarctCtxRef);
-            sm.m_Bus.RegisterProducer(sm.m_State.get());
-        });
-
-    reg(ET::RUNNING_COMPLETE,
-        [this](SolarcStateMachine& sm, std::shared_ptr<const ApplicationEvent> e) {
-            auto runningEvent = std::static_pointer_cast<const RunningCompleteEvent>(e);
-            sm.m_Bus.UnregisterProducer(sm.m_State.get());
-
-            switch (runningEvent->GetAction()) {
-            case PostRunAction::SHUTDOWN:
-                sm.m_State = std::make_unique<SolarcStateCleanup>(sm.m_SolarctCtxRef);
-                break;
-            case PostRunAction::OPEN_NEW_PROJECT:
-                sm.m_ProjectToOpen.clear();
-                sm.m_State = std::make_unique<SolarcStateStaging>(sm.m_SolarctCtxRef, sm.m_ProjectToOpen);
-                break;
-            case PostRunAction::RESTART:
-                sm.m_InitialProjectPath.clear();
-                sm.m_ProjectToOpen.clear();
-                sm.m_State = std::make_unique<SolarcStateInitialize>(sm.m_SolarctCtxRef);
-                break;
-            }
-            sm.m_Bus.RegisterProducer(sm.m_State.get());
-        });
-
-    reg(ET::CLEANUP_COMPLETE,
-        [](SolarcStateMachine& sm, std::shared_ptr<const ApplicationEvent> e) {
-            sm.m_Bus.UnregisterProducer(sm.m_State.get());
-            sm.m_State.reset();
-            SolarcApp::Get().RequestQuit();
-        });
+    m_CurrentState = std::make_unique<SolarcStateInitialize>(m_SolarctCtxRef);
+    m_CurrentState->OnEnter();
 }
 
 void SolarcApp::SolarcStateMachine::Update()
 {
-    m_Bus.Communicate();
+    if (!m_CurrentState) return;
 
-    auto event = m_EventQueue.TryNext();
-    if (event.has_value())
-        OnEvent(event.value());
+    // Update current state
+    StateTransitionData result = m_CurrentState->Update();
 
-    if (m_State)
-        m_State->Update();
+    // Handle transition immediately (same frame)
+    if (result.transition != StateTransition::NONE)
+    {
+        TransitionTo(result.transition, result.projectPath);
+    }
 }
 
-void SolarcApp::SolarcStateMachine::OnEvent(const std::shared_ptr<const ApplicationEvent>& e)
+void SolarcApp::SolarcStateMachine::TransitionTo(StateTransition transition,
+    const std::string& data)
 {
-    auto it = m_TransitionTable.find(e->GetApplicationEventType());
-    if (it != m_TransitionTable.end())
-        it->second(*this, e);
+    // Exit current state
+    if (m_CurrentState)
+    {
+        SOLARC_APP_INFO("Exiting state: {}", static_cast<int>(m_CurrentState->GetType()));
+        m_CurrentState->OnExit();
+    }
+
+    // Create new state based on transition
+    switch (transition)
+    {
+    case StateTransition::TO_STAGING:
+        m_CurrentState = std::make_unique<SolarcStateStaging>(m_SolarctCtxRef, data);
+        break;
+
+    case StateTransition::TO_LOADING:
+        m_CurrentState = std::make_unique<SolarcStateLoading>(m_SolarctCtxRef, data);
+        break;
+
+    case StateTransition::TO_RUNNING:
+        m_CurrentState = std::make_unique<SolarcStateRunning>(m_SolarctCtxRef);
+        break;
+
+    case StateTransition::TO_CLEANUP:
+        m_CurrentState = std::make_unique<SolarcStateCleanup>(m_SolarctCtxRef);
+        break;
+
+    case StateTransition::QUIT:
+        m_CurrentState.reset();
+        SolarcApp::Get().RequestQuit();
+        SOLARC_APP_INFO("Application shutdown requested");
+        return;
+
+    default:
+        SOLARC_APP_ERROR("Unknown state transition: {}", static_cast<int>(transition));
+        return;
+    }// Enter new state
+    if (m_CurrentState)
+    {
+        SOLARC_APP_INFO("Entering state: {}", static_cast<int>(m_CurrentState->GetType()));
+        m_CurrentState->OnEnter();
+    }
+}
+
+// ============================================================================
+// Base State
+// ============================================================================
+
+SolarcApp::SolarcState::SolarcState(SolarcContext& ctxRef, SOLARC_STATE_TYPE type)
+    : m_SolarctCtxRef(ctxRef)
+    , m_Type(type)
+{
+}
+
+// ============================================================================
+// Concrete States
+// ============================================================================
+
+// --- INITIALIZE State ---
+
+SolarcApp::SolarcStateInitialize::SolarcStateInitialize(SolarcContext& ctx)
+    : SolarcState(ctx, SOLARC_STATE_TYPE::INITIALIZE)
+{
+}
+
+SolarcApp::StateTransitionData SolarcApp::SolarcStateInitialize::Update()
+{
+    SOLARC_APP_INFO("Initializing application...");
+
+    SolarcApp& app = SolarcApp::Get();
+    const std::string& configDataPath = app.m_ConfigDataPath;
+
+    // Parse configuration file
+    toml::value configData;
+    try
+    {
+        configData = toml::parse(configDataPath);
+    }
+    catch (const toml::syntax_error& e)
+    {
+        SOLARC_APP_ERROR("TOML Parse Error in '{}': {}", configDataPath, e.what());
+        std::exit(EXIT_FAILURE);
+    }
+
+    // Parse window data
+    app.ParseWindowData(configData);
+
+    // Parse threading data
+    app.ParseMTData(configData);
+
+    // Parse startup data (sets initial project path)
+    app.ParseStartupData(configData);
+
+    // Create JobSystem now that we have thread counts
+    size_t numWorkers = app.GetThreadCountFor("job_system");
+    if (numWorkers == 0) {
+        numWorkers = std::max(1u, std::thread::hardware_concurrency() - 1);
+        SOLARC_APP_INFO("Using default job system thread count: {}", numWorkers);
+    }
+
+    app.m_JobSystem = std::make_unique<JobSystem>(numWorkers);
+    app.m_Ctx.jobSystem = app.m_JobSystem.get();
+
+    SOLARC_APP_INFO("JobSystem created with {} worker threads", numWorkers);
+
+    // Decide next state based on whether we have an initial project
+    if (!app.m_InitialProjectPath.empty())
+    {
+        SOLARC_APP_INFO("Initial project specified: {}", app.m_InitialProjectPath);
+        return { StateTransition::TO_LOADING, app.m_InitialProjectPath };
+    }
+    else
+    {
+        SOLARC_APP_INFO("No initial project, going to staging");
+        return { StateTransition::TO_STAGING, "" };
+    }
+}
+
+// --- STAGING State ---
+
+SolarcApp::SolarcStateStaging::SolarcStateStaging(SolarcContext& ctx,
+    const std::string& projectToOpen)
+    : SolarcState(ctx, SOLARC_STATE_TYPE::STAGING)
+    , m_ProjectToOpen(projectToOpen)
+{
+}
+
+SolarcApp::StateTransitionData SolarcApp::SolarcStateStaging::Update()
+{
+    SOLARC_APP_INFO("In staging state (project selection)");
+
+    // TODO: In a real implementation, this would show a UI for project selection
+    // For now, we'll just transition to loading with an empty/default project
+
+    if (m_ProjectToOpen.empty())
+    {
+        // Use a default project path or just go to running with no project
+        m_ProjectToOpen = "default_project";
+    }
+
+    return { StateTransition::TO_LOADING, m_ProjectToOpen };
+}
+
+// --- LOADING State ---
+
+SolarcApp::SolarcStateLoading::SolarcStateLoading(SolarcContext& ctx,
+    const std::string& projectToOpen)
+    : SolarcState(ctx, SOLARC_STATE_TYPE::LOADING)
+    , m_ProjectPath(projectToOpen)
+{
+}
+
+void SolarcApp::SolarcStateLoading::OnEnter()
+{
+    SOLARC_APP_INFO("Loading project: {}", m_ProjectPath);
+
+    // Kick off async asset loading
+    auto& jobSys = *m_SolarctCtxRef.jobSystem;
+
+    m_LoadingJob = jobSys.Schedule([projectPath = m_ProjectPath]() {// Simulate loading project configuration and assets
+        SOLARC_APP_INFO("Loading project data for: {}", projectPath);
+
+        // TODO: Real implementation would:
+        // - Parse project file
+        // - Load scene hierarchy
+        // - Queue asset loads (textures, models, etc.)
+        // - Initialize renderer with project settings
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        SOLARC_APP_INFO("Project loading complete: {}", projectPath);
+
+        }, {}, "Load Project");
+}
+
+SolarcApp::StateTransitionData SolarcApp::SolarcStateLoading::Update()
+{
+    // Check if loading is complete
+    if (m_LoadingJob.IsComplete())
+    {
+        SOLARC_APP_INFO("Assets loaded, transitioning to running state");
+        return { StateTransition::TO_RUNNING, "" };
+    }
+
+    // Still loading - could update loading UI here
+    // TODO: Show loading progress bar
+
+    return { StateTransition::NONE, "" };
+}
+
+// --- RUNNING State ---
+
+SolarcApp::SolarcStateRunning::SolarcStateRunning(SolarcContext& ctx)
+    : SolarcState(ctx, SOLARC_STATE_TYPE::RUNNING)
+{
+}
+
+void SolarcApp::SolarcStateRunning::OnEnter()
+{
+    SOLARC_APP_INFO("Entering running state - creating main window");
+
+    SolarcApp& app = SolarcApp::Get();
+
+    // Create the main window using parsed configuration
+    m_MainWindow = m_SolarctCtxRef.windowCtx->CreateWindow(
+        app.m_WindowName,
+        app.m_WindowWidth,
+        app.m_WindowHeight
+    );
+
+    m_MainWindow->Show();
+    SOLARC_APP_INFO("Main window created and shown");
+}
+
+SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
+{
+    // Update the window (processes its event queue)
+    m_MainWindow->Update();
+
+    // TODO: Main application loop work goes here:
+    // - Update game logic
+    // - Kick off parallel jobs (physics, animation, etc.)
+    // - Record rendering commands
+    // - Submit to GPU
+
+    // Example of how you'd use the job system in the future:
+    /*
+    auto& jobSys = *m_SolarctCtxRef.jobSystem;
+
+    // Update physics
+    auto physicsJob = jobSys.Schedule([&]() {
+        m_PhysicsWorld.Simulate(deltaTime);
+    }, {}, "Physics");
+
+    // Update animation (depends on physics)
+    auto animJob = jobSys.Schedule([&]() {
+        m_AnimationSystem.Update(deltaTime);
+    }, {physicsJob}, "Animation");
+
+    // Wait for simulation to complete
+    jobSys.WaitAll({physicsJob, animJob});
+
+    // Render
+    m_Renderer.RecordFrame(m_Scene);
+    m_Renderer.Submit();
+    */
+
+    // Check if window was closed
+    if (!m_MainWindow->IsVisible())
+    {
+        SOLARC_APP_INFO("Main window closed by user");
+        return { StateTransition::TO_CLEANUP, "" };
+    }
+
+    return { StateTransition::NONE, "" };
+}
+
+void SolarcApp::SolarcStateRunning::OnExit()
+{
+    SOLARC_APP_INFO("Exiting running state - cleaning up window");
+
+    if (m_MainWindow)
+    {
+        m_MainWindow->Hide();
+        m_MainWindow.reset();
+    }
+}
+
+// --- CLEANUP State ---
+
+SolarcApp::SolarcStateCleanup::SolarcStateCleanup(SolarcContext& ctx)
+    : SolarcState(ctx, SOLARC_STATE_TYPE::CLEANUP)
+{
+}
+
+SolarcApp::StateTransitionData SolarcApp::SolarcStateCleanup::Update()
+{
+    SOLARC_APP_INFO("Performing cleanup...");
+
+    // TODO: Real cleanup:
+    // - Save application state
+    // - Release GPU resources
+    // - Flush logs
+    // - etc.
+
+    SOLARC_APP_INFO("Cleanup complete");
+
+    return { StateTransition::QUIT, "" };
 }

@@ -14,6 +14,9 @@ include("${CMAKE_SOURCE_DIR}/cmake/PCH.cmake")
 set(SPDLOG_BIN_DIR ${CMAKE_BINARY_DIR}/spdlog)
 option(SPDLOG_BUILD_SHARED "Build spdlog as a shared library" OFF)
 add_subdirectory(${CMAKE_SOURCE_DIR}/ThirdParty/spdlog ${SPDLOG_BIN_DIR})
+target_include_directories(${PROJECT_NAME}
+    PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/spdlog/include
+)
 set_target_properties( spdlog
     	PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}"
