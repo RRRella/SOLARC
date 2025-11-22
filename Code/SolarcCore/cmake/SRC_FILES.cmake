@@ -13,15 +13,19 @@ ${${PROJECT_NAME}_SRC_DIR}/Window/WindowContextPlatform.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Window/WindowsWindowContextPlatform.cpp
 
 
-
 ${${PROJECT_NAME}_SRC_DIR}/Event/Event.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Event/WindowEvent.cpp
 
+${${PROJECT_NAME}_SRC_DIR}/Input/InputManager.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Utility/CompileTimeUtil.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Utility/FileSystemUtil.cpp
 
-${${PROJECT_NAME}_SRC_DIR}/MT/ThreadPool.cpp
+${${PROJECT_NAME}_SRC_DIR}/MT/JobHandle.cpp
+${${PROJECT_NAME}_SRC_DIR}/MT/JobSystem.cpp
+
+${${PROJECT_NAME}_SRC_DIR}/Logging/Log.cpp
+
 
 )
 
@@ -39,10 +43,14 @@ ${${PROJECT_NAME}_INC_DIR}/Window/WindowsWindowContextPlatform.h
 ${${PROJECT_NAME}_INC_DIR}/Event/Event.h
 ${${PROJECT_NAME}_INC_DIR}/Event/ApplicationEvent.h
 ${${PROJECT_NAME}_INC_DIR}/Event/WindowEvent.h
+${${PROJECT_NAME}_INC_DIR}/Event/InputEvent.h
+
 ${${PROJECT_NAME}_INC_DIR}/Event/ObserverBus.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventBus.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventListener.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventProducer.h
+
+${${PROJECT_NAME}_INC_DIR}/Input/InputManager.h
 
 ${${PROJECT_NAME}_INC_DIR}/Preprocessor/API.h
 
@@ -50,7 +58,14 @@ ${${PROJECT_NAME}_INC_DIR}/Utility/UUID.h
 ${${PROJECT_NAME}_INC_DIR}/Utility/CompileTimeUtil.h
 ${${PROJECT_NAME}_INC_DIR}/Utility/FileSystemUtil.h
 
-${${PROJECT_NAME}_INC_DIR}/MT/ThreadPool.h
+${${PROJECT_NAME}_INC_DIR}/MT/JobHandle.h
+${${PROJECT_NAME}_INC_DIR}/MT/Job.h
+${${PROJECT_NAME}_INC_DIR}/MT/JobSystem.h
 ${${PROJECT_NAME}_INC_DIR}/MT/ThreadSafeQueue.h
+${${PROJECT_NAME}_INC_DIR}/MT/ThreadChecker.h
+
+${${PROJECT_NAME}_INC_DIR}/Logging/Log.h
+${${PROJECT_NAME}_INC_DIR}/Logging/LogMacros.h
+${${PROJECT_NAME}_INC_DIR}/Logging/Log.h
 
 )

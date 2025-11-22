@@ -1,10 +1,26 @@
-#pragma once
+﻿#pragma once
 #include "Preprocessor/API.h"
 #include "Event/Event.h"
 #include "Event/EventBus.h"
+#include "MT/ThreadChecker.h"
 
-// ------------------------ ObserverBus (only queued implementation now) ------------------------
-
+/**
+ * Queued event bus implementation
+ *
+ * Architecture:
+ * - Producers dispatch events → Bus internal queue
+ * - Communicate() moves events from bus queue → Listener queues
+ * - Listeners process events from their own queues
+ *
+ * Thread Safety:
+ * - RegisterProducer/Listener: Thread-safe
+ * - UnregisterProducer/Listener: Thread-safe
+ * - Communicate(): Main thread only (enforced by ThreadChecker)
+ * - DispatchEvent() (from producers): Thread-safe
+ *
+ * Note: Listeners that unregister between event collection and dispatch
+ * will safely ignore the event (Dispatch checks m_unregistered).
+ */
 template<event_type EVENT_TYPE>
 class ObserverBus : public EventBus<EVENT_TYPE>
 {
@@ -13,46 +29,42 @@ class ObserverBus : public EventBus<EVENT_TYPE>
 public:
     ObserverBus() = default;
 
-    // Important: to prevent registration callbacks re-entering the bus while
-    // the bus is tearing down, we disable those callbacks before calling
-    // Registration::Unregister(). This preserves the behavior you wanted:
-    // the bus waits for unregisters to complete, but avoids callback re-entry.
     virtual ~ObserverBus()
     {
+        SOLARC_TRACE("ObserverBus destructor: Cleaning up registrations");
+
         std::vector<std::shared_ptr<EventRegistration>> listeners;
         std::vector<std::shared_ptr<EventRegistration>> producers;
 
         {
             std::lock_guard lk(m_Mtx);
+
             for (auto& p : m_ListenersMap) listeners.push_back(p.second);
             for (auto& p : m_ProducersMap) producers.push_back(p.second);
 
-            // Clear the maps so external lookups by ID won't find registrations anymore.
             m_ListenersMap.clear();
             m_ProducersMap.clear();
 
-            // Disable unregister callbacks while still holding the bus lock so that
-            // registrations won't call back into this bus during Unregister().
             for (auto& lr : listeners) if (lr) lr->DisableUnregisterCallback();
             for (auto& pr : producers) if (pr) pr->DisableUnregisterCallback();
         }
 
-        // Call Unregister outside of the bus lock. Unregister will wait for in-flight
-        // dispatches to finish but will not attempt to call back into the bus.
         for (auto& lr : listeners) if (lr) lr->Unregister();
         for (auto& pr : producers) if (pr) pr->Unregister();
+
+        SOLARC_TRACE("ObserverBus destructor: Complete");
     }
 
     void Communicate() noexcept override
     {
-        // Move events from the bus's internal queue to all listener queues
         std::optional<std::shared_ptr<const EVENT_TYPE>> event;
         while (event = m_BusQueue.TryNext())
         {
-            // Forward to all listeners using their registrations
             std::vector<std::shared_ptr<EventRegistration>> listenerRegs;
             {
                 std::lock_guard lk(m_Mtx);
+                listenerRegs.reserve(m_ListenersMap.size());
+
                 for (auto& pair : m_ListenersMap)
                 {
                     listenerRegs.push_back(pair.second);
@@ -61,7 +73,6 @@ public:
 
             for (auto& reg : listenerRegs)
             {
-                // Dispatch the same event to each listener's registration
                 reg->Dispatch(event.value());
             }
         }
@@ -69,30 +80,41 @@ public:
 
     void RegisterProducer(EventProducer<EVENT_TYPE>* producer) noexcept
     {
-        std::shared_ptr<EventRegistration> reg;
+        assert(producer != nullptr && "Cannot register null producer");
+
+        std::lock_guard lk(m_Mtx);
+
+        if (m_ProducersMap.find(producer) != m_ProducersMap.end())
         {
-            std::lock_guard lk(m_Mtx);
-            auto unregisterCB = [this, producer]() { this->UnregisterProducer(producer); };
-            reg = this->RegisterProducerHelper(producer, unregisterCB);
-
-            // Set the queue to the bus's internal queue
-            reg->SetQueue(&m_BusQueue);
-
-            m_ProducersMap[producer] = reg;
+            SOLARC_WARN("Producer already registered to this bus");
+            return;
         }
+
+        auto unregisterCB = [this, producer]() { this->UnregisterProducer(producer); };
+        auto reg = this->RegisterProducerHelper(producer, unregisterCB);
+        reg->SetQueue(&m_BusQueue);
+        m_ProducersMap[producer] = reg;
+
+        SOLARC_TRACE("Producer registered to ObserverBus");
     }
 
     void RegisterListener(EventListener<EVENT_TYPE>* listener) noexcept
     {
-        std::shared_ptr<EventRegistration> reg;
-        {
-            std::lock_guard lk(m_Mtx);
-            auto unregisterCB = [this, listener]() { this->UnregisterListener(listener); };
-            reg = this->RegisterListenerHelper(listener, unregisterCB);
+        assert(listener != nullptr && "Cannot register null listener");
 
-            // The listener's registration already points to its own queue
-            m_ListenersMap[listener] = reg;
+        std::lock_guard lk(m_Mtx);
+
+        if (m_ListenersMap.find(listener) != m_ListenersMap.end())
+        {
+            SOLARC_WARN("Listener already registered to this bus");
+            return;
         }
+
+        auto unregisterCB = [this, listener]() { this->UnregisterListener(listener); };
+        auto reg = this->RegisterListenerHelper(listener, unregisterCB);
+        m_ListenersMap[listener] = reg;
+
+        SOLARC_TRACE("Listener registered to ObserverBus");
     }
 
     void UnregisterProducer(EventProducer<EVENT_TYPE>* producer)
@@ -102,11 +124,16 @@ public:
             std::lock_guard lk(m_Mtx);
             auto it = m_ProducersMap.find(producer);
             if (it == m_ProducersMap.end()) return;
+
             reg = it->second;
             m_ProducersMap.erase(it);
         }
 
-        if (reg) reg->Unregister();
+        if (reg)
+        {
+            reg->Unregister();
+            SOLARC_TRACE("Producer unregistered from ObserverBus");
+        }
     }
 
     void UnregisterListener(EventListener<EVENT_TYPE>* listener)
@@ -116,12 +143,28 @@ public:
             std::lock_guard lk(m_Mtx);
             auto it = m_ListenersMap.find(listener);
             if (it == m_ListenersMap.end()) return;
-            reg = it->second;
 
+            reg = it->second;
             m_ListenersMap.erase(it);
         }
 
-        if (reg) reg->Unregister();
+        if (reg)
+        {
+            reg->Unregister();
+            SOLARC_TRACE("Listener unregistered from ObserverBus");
+        }
+    }
+
+    size_t GetProducerCount() const
+    {
+        std::lock_guard lk(m_Mtx);
+        return m_ProducersMap.size();
+    }
+
+    size_t GetListenerCount() const
+    {
+        std::lock_guard lk(m_Mtx);
+        return m_ListenersMap.size();
     }
 
 private:

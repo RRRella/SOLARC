@@ -5,16 +5,23 @@ WindowContext::WindowContext(std::unique_ptr<WindowContextPlatform> platform)
     : m_Platform(std::move(platform))
 {
     if (!m_Platform)
+    {
+        SOLARC_WINDOW_ERROR("WindowContextPlatform cannot be null");
         throw std::invalid_argument("WindowContextPlatform must not be null");
+    }
 
     m_Bus.RegisterProducer(this);
+
     m_Platform->SetEventDispatcher([this](std::shared_ptr<const WindowEvent> e) {
         DispatchEvent(e);
         });
+
+    SOLARC_WINDOW_INFO("WindowContext initialized");
 }
 
 WindowContext::~WindowContext()
 {
+    SOLARC_WINDOW_INFO("WindowContext destructor");
     Shutdown();
     m_Bus.UnregisterProducer(this);
 }
@@ -22,17 +29,27 @@ WindowContext::~WindowContext()
 void WindowContext::OnDestroyWindow(Window* window)
 {
     std::lock_guard lock(m_WindowsMutex);
+
     auto it = std::find_if(m_Windows.begin(), m_Windows.end(),
         [window](const auto& w) { return w.get() == window; });
+
     if (it != m_Windows.end())
+    {
+        SOLARC_WINDOW_DEBUG("Removing window from tracking: '{}'", (*it)->GetTitle());
         m_Windows.erase(it);
+    }
 }
 
 void WindowContext::PollEvents()
 {
+    m_ThreadChecker.AssertOnOwnerThread("WindowContext::PollEvents");
+
+    if (m_Shutdown) return;
+
+    // Poll platform events
     m_Platform->PollEvents();
 
-    // Communicate events from bus queue to windows
+    // Distribute events from bus to windows
     m_Bus.Communicate();
 
     // Update all windows to process their queued events
@@ -44,12 +61,20 @@ void WindowContext::PollEvents()
 
     for (auto& window : windows)
     {
-        window->Update();
+        if (window && window->IsVisible())
+        {
+            window->Update();
+        }
     }
 }
 
 void WindowContext::Shutdown()
 {
+    if (m_Shutdown) return;
+
+    SOLARC_WINDOW_INFO("WindowContext shutting down...");
+    m_Shutdown = true;
+
     std::vector<std::shared_ptr<Window>> windowsToDestroy;
     {
         std::lock_guard lock(m_WindowsMutex);
@@ -57,9 +82,19 @@ void WindowContext::Shutdown()
         m_Windows.clear();
     }
 
+    SOLARC_WINDOW_INFO("Destroying {} window(s)", windowsToDestroy.size());
     for (auto& w : windowsToDestroy)
-        w->Destroy();
+    {
+        if (w)
+        {
+            w->Destroy();
+        }
+    }
 
     if (m_Platform)
+    {
         m_Platform->Shutdown();
+    }
+
+    SOLARC_WINDOW_INFO("WindowContext shutdown complete");
 }

@@ -14,8 +14,9 @@ if (NOT MSVC)
     $<$<CONFIG:Debug>:-Wl,-v -Wl,-Map>
   )
 else()
+
   target_compile_options(COMMON_FLAGS INTERFACE
-    /permissive- /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t
+    /permissive- /utf-8 /GS /Zc:__cplusplus /Zc:alignedNew /Zc:char8_t
     $<$<CONFIG:Debug>:/Zi /Od /MDd>
     $<$<CONFIG:Release>:/O2 /MD>
   )

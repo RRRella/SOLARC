@@ -21,3 +21,5 @@
 #include <atomic>
 #include <stdexcept>
 #include <string>
+#include <deque>
+#include <cassert>

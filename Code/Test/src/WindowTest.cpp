@@ -105,6 +105,7 @@ TEST(Window_CloseEvent, CustomWindowHandlesCloseRequested)
 
     auto* rawPlatform = static_cast<MockWindowContextPlatform*>(mockCtxPlatform.get());
     
+    EXPECT_CALL(*mockPlatform, IsVisible()).WillOnce(Return(true));
     EXPECT_CALL(*mockCtxPlatform, CreateWindowPlatform("TestWindow", 1024, 768))
         .WillOnce(Return(mockPlatform));
     EXPECT_CALL(*mockCtxPlatform, Shutdown()).Times(1);
@@ -125,6 +126,8 @@ TEST(Window_CloseEvent, CustomWindowHandlesCloseRequested)
     ctx.PollEvents();
 
     EXPECT_EQ(window->GetCloseEventCount(), 1);
+
+    ASSERT_TRUE(window->IsClosed());
 }
 
 // Test: WindowContext::Shutdown destroys all windows

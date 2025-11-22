@@ -32,3 +32,5 @@ add_custom_command(
         "$<TARGET_FILE_DIR:SOLARC_TEST>/Data"
     COMMENT "Copying data files to output directory"
 )
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE SOLARC_NO_LOGGING)
