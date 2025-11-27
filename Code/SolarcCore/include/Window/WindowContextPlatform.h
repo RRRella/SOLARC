@@ -1,11 +1,17 @@
 ﻿#pragma once
 #include "Event/WindowEvent.h"
+#include <functional>
+#include <memory>
+#include <mutex>
 
 class WindowPlatform;
+class WindowPlatformFactory;
 
 using WindowEventDispatcher = std::function<void(std::shared_ptr<const WindowEvent>)>;
 
-// Abstract backend for WindowContext (per-platform)
+/**
+ * Abstract backend for WindowContext (per-platform)
+ */
 class WindowContextPlatform
 {
 public:
@@ -17,16 +23,25 @@ public:
         m_Dispatcher = std::move(dispatcher);
     }
 
+    /**
+     * Register a window with the platform for event routing
+     * param window: Window platform to register
+     * note: Called after window creation to associate platform-specific handles
+     */
+    virtual void RegisterWindow(WindowPlatform* window) = 0;
+
+    /**
+     * Unregister a window from the platform
+     * param window: Window platform to unregister
+     * note: Called before window destruction to clean up associations
+     */
+    virtual void UnregisterWindow(WindowPlatform* window) = 0;
+
     virtual void PollEvents() = 0;
     virtual void Shutdown() = 0;
 
-    virtual std::shared_ptr<WindowPlatform> CreateWindowPlatform(
-        const std::string& title, const int32_t& width, const int32_t& height) = 0;
-
-    static std::unique_ptr<WindowContextPlatform> CreateWindowContextPlatform();
-
 protected:
-    WindowContextPlatform(){}
+    WindowContextPlatform() {}
 
     void DispatchWindowEvent(std::shared_ptr<const WindowEvent> event)
     {
@@ -41,4 +56,3 @@ protected:
     // Allow test to access dispatcher for verification
     friend class MockWindowContextPlatform;
 };
-

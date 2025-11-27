@@ -1,20 +1,35 @@
 #include "Window/WindowContext.h"
 #include <algorithm>
 
-WindowContext::WindowContext(std::unique_ptr<WindowContextPlatform> platform)
-    : m_Platform(std::move(platform))
+WindowContext::WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory)
 {
+    if (!factory)
+    {
+        SOLARC_WINDOW_ERROR("WindowContextPlatformFactory cannot be null");
+        throw std::invalid_argument("WindowContextPlatformFactory must not be null");
+    }
+
+    auto components = factory->CreateComponents();
+    m_Platform = std::move(components.context);
+    m_WindowFactory = std::move(components.windowFactory);
+
     if (!m_Platform)
     {
-        SOLARC_WINDOW_ERROR("WindowContextPlatform cannot be null");
-        throw std::invalid_argument("WindowContextPlatform must not be null");
+        SOLARC_WINDOW_ERROR("Failed to create WindowContextPlatform");
+        throw std::runtime_error("Failed to create WindowContextPlatform");
+    }
+
+    if (!m_WindowFactory)
+    {
+        SOLARC_WINDOW_ERROR("Failed to create WindowPlatformFactory");
+        throw std::runtime_error("Failed to create WindowPlatformFactory");
     }
 
     m_Bus.RegisterProducer(this);
 
     m_Platform->SetEventDispatcher([this](std::shared_ptr<const WindowEvent> e) {
         DispatchEvent(e);
-        });
+    });
 
     SOLARC_WINDOW_INFO("WindowContext initialized");
 }
@@ -36,6 +51,13 @@ void WindowContext::OnDestroyWindow(Window* window)
     if (it != m_Windows.end())
     {
         SOLARC_WINDOW_DEBUG("Removing window from tracking: '{}'", (*it)->GetTitle());
+        
+        // Unregister from platform before removing
+        if (window->GetPlatform())
+        {
+            m_Platform->UnregisterWindow(window->GetPlatform());
+        }
+        
         m_Windows.erase(it);
     }
 }
@@ -79,7 +101,6 @@ void WindowContext::Shutdown()
     {
         std::lock_guard lock(m_WindowsMutex);
         windowsToDestroy.assign(m_Windows.begin(), m_Windows.end());
-        m_Windows.clear();
     }
 
     SOLARC_WINDOW_INFO("Destroying {} window(s)", windowsToDestroy.size());

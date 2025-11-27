@@ -1,11 +1,10 @@
-
 #ifdef _WIN32
 
-#include "Window/WindowsWindowPlatform.h"
+#include "Window/Platform/Windows/WindowsWindowPlatform.h"
 #include <stdexcept>
 
 WindowsWindowPlatform::WindowsWindowPlatform(const std::string& title, const int32_t& width, const int32_t& height)
-    : WindowPlatform(title, width , height )
+    : WindowPlatform(title, width, height)
 {
     m_hWnd = CreateWindowEx(
         0,
@@ -17,7 +16,7 @@ WindowsWindowPlatform::WindowsWindowPlatform(const std::string& title, const int
         nullptr,
         nullptr,
         GetModuleHandle(nullptr),
-        this
+        nullptr
     );
 
     if (!m_hWnd)
@@ -54,9 +53,49 @@ bool WindowsWindowPlatform::IsVisible() const
     return m_Visible;
 }
 
-LRESULT CALLBACK WindowsWindowPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+void WindowsWindowPlatform::SetTitle(const std::string& title)
 {
-    return DefWindowProc(hWnd, msg, wParam, lParam);
+    WindowPlatform::SetTitle(title);
+    
+    if (m_hWnd)
+    {
+        SetWindowTextA(m_hWnd, title.c_str());
+    }
+}
+
+void WindowsWindowPlatform::Resize(int32_t width, int32_t height)
+{
+    WindowPlatform::Resize(width, height);
+    
+    if (m_hWnd)
+    {
+        SetWindowPos(m_hWnd, nullptr, 0, 0, width, height, 
+            SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+    }
+}
+
+void WindowsWindowPlatform::Minimize()
+{
+    if (m_hWnd)
+    {
+        ShowWindow(m_hWnd, SW_MINIMIZE);
+    }
+}
+
+void WindowsWindowPlatform::Maximize()
+{
+    if (m_hWnd)
+    {
+        ShowWindow(m_hWnd, SW_MAXIMIZE);
+    }
+}
+
+void WindowsWindowPlatform::Restore()
+{
+    if (m_hWnd)
+    {
+        ShowWindow(m_hWnd, SW_RESTORE);
+    }
 }
 
 #endif

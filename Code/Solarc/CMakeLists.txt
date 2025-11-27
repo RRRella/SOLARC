@@ -8,15 +8,17 @@ add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HDRS})
 
 include("${CMAKE_SOURCE_DIR}/cmake/GROUP_FILES.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/PCH.cmake")
-add_compile_options("/ENTRY:wWinMainCRTStartup")
+
+# Windows-specific entry point
+if(WIN32)
+    add_compile_options("/ENTRY:wWinMainCRTStartup")
+endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INC_DIR})
 target_link_directories(${PROJECT_NAME} PRIVATE ${LIB_DIR})
 target_link_libraries(${PROJECT_NAME}
-
-PRIVATE SOLARC_CORE COMMON_FLAGS
-
+    PRIVATE SOLARC_CORE COMMON_FLAGS
 )
 
 set_target_properties( ${PROJECT_NAME}
