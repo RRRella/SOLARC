@@ -16,9 +16,8 @@
  * - Destruction triggers callback to WindowContext for cleanup
  *
  * Thread Safety:
- * - Show/Hide/IsVisible: Thread-safe
- * - Update: Should be called from main thread only
- * - Destroy: Thread-safe, idempotent
+ * - All methods must be called from main thread only
+ * - Destroy: Idempotent - safe to call multiple times
  */
 class SOLARC_CORE_API Window : public EventListener<WindowEvent>
 {
@@ -26,8 +25,7 @@ class SOLARC_CORE_API Window : public EventListener<WindowEvent>
 
 public:
     Window(
-        std::shared_ptr<WindowPlatform> platform,
-        Window* parent = nullptr,
+        std::unique_ptr<WindowPlatform> platform,
         std::function<void(Window*)> onDestroy = nullptr
     );
 
@@ -36,29 +34,33 @@ public:
     /**
      * Manually destroy the window
      * note: Idempotent - safe to call multiple times
-     * note: Thread-safe
+     * note: Must be called from main thread
      */
     void Destroy();
 
     /**
      * Show the window
+     * note: Must be called from main thread
      */
     void Show();
 
     /**
      * Hide the window
+     * note: Must be called from main thread
      */
     void Hide();
 
     /**
      * Check if window is visible
      * return true if visible, false otherwise
+     * note: Must be called from main thread
      */
     bool IsVisible() const;
 
     /**
      * Check if window is closed
      * return true if closed, false otherwise
+     * note: Must be called from main thread
      */
     bool IsClosed() const;
 
@@ -78,14 +80,14 @@ public:
     const int32_t& GetHeight() const { return m_Platform->GetHeight(); }
 
     /**
-     * Get parent window
-     * return Pointer to parent, or nullptr if no parent
+     * Get platform handle (for internal use by WindowContext)
+     * return Raw pointer to platform (never null while window is alive)
      */
-    Window* GetParent() const { return m_Parent; }
+    WindowPlatform* GetPlatform() const { return m_Platform.get(); }
 
     /**
      * Process queued window events
-     * note: Should be called from main thread
+     * note: Must be called from main thread
      */
     void Update();
 
@@ -94,12 +96,12 @@ protected:
      * Handle a window event
      * param e: Event to handle
      * note: Override to customize event handling
+     * note: Automatically filters events by window handle
      */
     void OnEvent(const std::shared_ptr<const WindowEvent>& e) override;
 
 private:
-    std::shared_ptr<WindowPlatform> m_Platform;
-    Window* m_Parent;
+    std::unique_ptr<WindowPlatform> m_Platform;
     std::function<void(Window*)> m_OnDestroy;
     bool m_Destroyed = false;
     mutable std::mutex m_DestroyMutex;

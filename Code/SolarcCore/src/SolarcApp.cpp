@@ -1,6 +1,6 @@
 ﻿#include "SolarcApp.h"
 #include "Utility/CompileTimeUtil.h"
-#include "Window/WindowContextPlatform.h"
+#include "Window/Platform/Windows/WindowsWindowContextPlatformFactory.h"
 #include <thread>
 #include <algorithm>
 #include <cmath>
@@ -28,9 +28,9 @@ SolarcApp::SolarcApp(const std::string& configDataPath)
     // Note: We don't parse config here anymore - that happens in INITIALIZE state
 
     // Create the WindowContext with the platform
-    m_Ctx.windowCtx = std::make_unique<WindowContext>(
-        WindowContextPlatform::CreateWindowContextPlatform()
-    );
+
+    ;
+    m_Ctx.windowCtx = std::make_unique<WindowContext>( std::make_unique<WindowsWindowContextPlatformFactory>() );
 
     m_StateMachine = std::make_unique<SolarcStateMachine>(m_Ctx , configDataPath);
 
