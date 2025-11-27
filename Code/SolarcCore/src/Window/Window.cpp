@@ -2,11 +2,9 @@
 #include <stdexcept>
 
 Window::Window(
-    std::shared_ptr<WindowPlatform> platform,
-    Window* parent,
+    std::unique_ptr<WindowPlatform> platform,
     std::function<void(Window*)> onDestroy)
     : m_Platform(std::move(platform))
-    , m_Parent(parent)
     , m_OnDestroy(std::move(onDestroy))
 {
     if (!m_Platform)
@@ -43,6 +41,7 @@ void Window::Destroy()
 
 void Window::Show()
 {
+    std::lock_guard lock(m_DestroyMutex);
     if (m_Platform && !m_Destroyed)
     {
         m_Platform->Show();
@@ -52,6 +51,7 @@ void Window::Show()
 
 void Window::Hide()
 {
+    std::lock_guard lock(m_DestroyMutex);
     if (m_Platform && !m_Destroyed)
     {
         m_Platform->Hide();
@@ -61,6 +61,7 @@ void Window::Hide()
 
 bool Window::IsVisible() const
 {
+    std::lock_guard lock(m_DestroyMutex);
     return m_Platform && !m_Destroyed ? m_Platform->IsVisible() : false;
 }
 
@@ -78,6 +79,13 @@ void Window::Update()
 
 void Window::OnEvent(const std::shared_ptr<const WindowEvent>& e)
 {
+    // Filter events by window handle - ignore events not meant for this window
+    if (e->GetWindowHandle() && 
+        e->GetWindowHandle() != m_Platform->GetNativeHandle())
+    {
+        return;
+    }
+
     switch (e->GetWindowEventType())
     {
     case WindowEvent::TYPE::CLOSE:

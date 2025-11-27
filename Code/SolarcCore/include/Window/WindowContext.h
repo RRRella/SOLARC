@@ -1,6 +1,8 @@
 #pragma once
 #include "Window.h"
 #include "WindowContextPlatform.h"
+#include "WindowContextPlatformFactory.h"
+#include "WindowPlatformFactory.h"
 #include "Event/ObserverBus.h"
 #include "Event/EventProducer.h"
 #include "MT/ThreadChecker.h"
@@ -19,15 +21,12 @@
  * - Manage window cleanup
  *
  * Thread Safety:
- * - CreateWindow: Thread-safe
- * - PollEvents: Main thread only (enforced by ThreadChecker)
- * - Shutdown: Thread-safe, can be called from any thread
+ * - All methods must be called from main thread only
  */
-
 class SOLARC_CORE_API WindowContext : public EventProducer<WindowEvent>
 {
 public:
-    explicit WindowContext(std::unique_ptr<WindowContextPlatform> platform);
+    explicit WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory);
     ~WindowContext() override;
 
     /**
@@ -40,7 +39,7 @@ public:
      * param args: Additional constructor arguments for custom window types
      * return Shared pointer to created window
      * throws std::runtime_error if platform window creation fails
-     * note: Thread-safe
+     * note: Must be called from main thread
      */
     template<typename T = Window, typename... Args>
     std::shared_ptr<T> CreateWindow(const std::string& title,
@@ -51,19 +50,25 @@ public:
     {
         SOLARC_WINDOW_INFO("Creating window: '{}' ({}x{})", title, width, height);
 
-        auto platform = m_Platform->CreateWindowPlatform(title, width, height);
+        // Create platform window
+        auto platform = m_WindowFactory->Create(title, width, height);
         if (!platform)
         {
             SOLARC_WINDOW_ERROR("Failed to create window platform for: '{}'", title);
             throw std::runtime_error("Failed to create window platform");
         }
 
-        auto window = std::make_shared<T>(platform, std::forward<Args>(args)...);
-        window->m_Platform = std::move(platform);
+        // Register window with platform for event routing
+        m_Platform->RegisterWindow(platform.get());
 
         // Set destruction callback
         auto onDestroy = [this](Window* w) { OnDestroyWindow(w); };
-        window->m_OnDestroy = onDestroy;
+
+        auto window = std::make_shared<T>(
+            std::move(platform),
+            onDestroy,
+            std::forward<Args>(args)...
+        );
 
         // Register as event listener
         m_Bus.RegisterListener(window.get());
@@ -86,7 +91,7 @@ public:
 
     /**
      * Shutdown window context and destroy all windows
-     * note: Thread-safe, idempotent
+     * note: Must be called from main thread, idempotent
      */
     void Shutdown();
 
@@ -104,6 +109,7 @@ private:
     void OnDestroyWindow(Window* window);
 
     std::unique_ptr<WindowContextPlatform> m_Platform;
+    std::unique_ptr<WindowPlatformFactory> m_WindowFactory;
     ObserverBus<WindowEvent> m_Bus;
     std::unordered_set<std::shared_ptr<Window>> m_Windows;
     mutable std::mutex m_WindowsMutex;

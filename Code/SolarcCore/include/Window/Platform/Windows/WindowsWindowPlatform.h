@@ -2,7 +2,6 @@
 
 #ifdef _WIN32
 
-
 #include "Window/WindowPlatform.h"
 #include <windows.h>
 
@@ -15,11 +14,17 @@ public:
     void Show() override;
     void Hide() override;
     bool IsVisible() const override;
+    void* GetNativeHandle() const override { return m_hWnd; }
+    
+    void SetTitle(const std::string& title) override;
+    void Resize(int32_t width, int32_t height) override;
+    void Minimize() override;
+    void Maximize() override;
+    void Restore() override;
+    
     HWND GetHWND() const { return m_hWnd; }
 
 private:
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
     HWND m_hWnd = nullptr;
     bool m_Visible = false;
 };

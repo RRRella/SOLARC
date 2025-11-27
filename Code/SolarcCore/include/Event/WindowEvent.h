@@ -12,25 +12,26 @@ public:
         GENERIC
     };
 
-    WindowEvent(TYPE t)
+    WindowEvent(TYPE t, void* windowHandle = nullptr)
         : Event(Event::TYPE::WINDOW_EVENT)
         , m_WindowEventType(t)
+        , m_WindowHandle(windowHandle)
     {
     }
 
     TYPE GetWindowEventType() const { return m_WindowEventType; }
+    void* GetWindowHandle() const { return m_WindowHandle; }
 
 protected:
-
     TYPE m_WindowEventType;
+    void* m_WindowHandle;
 };
 
 class WindowCloseEvent : public WindowEvent
 {
 public:
-    WindowCloseEvent() : WindowEvent(TYPE::CLOSE)
+    explicit WindowCloseEvent(void* windowHandle = nullptr)
+        : WindowEvent(TYPE::CLOSE, windowHandle)
     {
     }
-    
-private:
 };
