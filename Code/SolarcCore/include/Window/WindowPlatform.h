@@ -1,9 +1,12 @@
 #pragma once
 #include <string>
+#include "Event/EventProducer.h"
+#include <Event/WindowEvent.h>
+#include <memory>
 
 // Abstract platform for a window (Win32, Wayland).
 
-class WindowPlatform
+class WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
     WindowPlatform(const std::string& title, const int32_t& width, const int32_t& height)
@@ -51,6 +54,11 @@ public:
     const std::string& GetTitle() const { return m_Title; }
     const int32_t& GetWidth() const { return m_Width; }
     const int32_t& GetHeight() const { return m_Height; }
+
+    void ReceiveWindowEvent(const std::shared_ptr<const WindowEvent>& e)
+    {
+        DispatchEvent(e);
+    }
 
 protected:
     std::string m_Title;

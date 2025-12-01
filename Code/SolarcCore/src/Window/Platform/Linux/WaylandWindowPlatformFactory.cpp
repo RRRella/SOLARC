@@ -1,8 +1,7 @@
-#ifdef linux
+#ifdef __linux__
 
 #include "Window/Platform/Linux/WaylandWindowPlatformFactory.h"
 #include "Window/Platform/Linux/WaylandWindowPlatform.h"
-#include "Window/Platform/Linux/WaylandWindowContextPlatform.h"
 
 std::unique_ptr<WindowPlatform> WaylandWindowPlatformFactory::Create(
     const std::string& title,

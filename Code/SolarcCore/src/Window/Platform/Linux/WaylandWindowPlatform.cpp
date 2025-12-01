@@ -241,18 +241,12 @@ void WaylandWindowPlatform::xdg_toplevel_close(
     void* data,
     xdg_toplevel* toplevel)
 {
-    // NULL safety check
     if (!data) return;
-    
     auto* window = static_cast<WaylandWindowPlatform*>(data);
-    
-    // NULL safety check for context
-    if (!window->m_Context) return;
-    
     window->HandleClose();
-    
-    // Dispatch close event through context (which does its own validation)
-    window->m_Context->DispatchCloseEvent(window->m_Surface);
+
+    auto ev = std::make_shared<WindowCloseEvent>();
+    window->ReceiveWindowEvent(std::move(ev));
 }
 
 #endif

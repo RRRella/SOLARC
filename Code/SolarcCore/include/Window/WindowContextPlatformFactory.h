@@ -2,15 +2,7 @@
 #include "WindowContextPlatform.h"
 #include "WindowPlatformFactory.h"
 #include <memory>
-
-/**
- * Components created by platform factory
- */
-struct PlatformComponents
-{
-    std::unique_ptr<WindowContextPlatform> context;
-    std::unique_ptr<WindowPlatformFactory> windowFactory;
-};
+#include <utility>
 
 /**
  * Abstract factory for creating platform-specific window context implementations
@@ -18,12 +10,18 @@ struct PlatformComponents
 class WindowContextPlatformFactory
 {
 public:
+    struct Components
+    {
+        std::unique_ptr<WindowContextPlatform> context;
+        std::unique_ptr<WindowPlatformFactory> windowFactory;
+    };
+
     virtual ~WindowContextPlatformFactory() = default;
 
     /**
-     * Create both platform context and window factory atomically
-     * This ensures correct initialization order and lifetime dependencies
-     * return Platform components with guaranteed valid pointers
+     * Create both platform context and window factory atomically.
+     * This is required for platforms where window creation depends on context state
+     * (e.g., Wayland requires shared wl_display/compositor).
      */
-    virtual PlatformComponents CreateComponents() = 0;
+    virtual Components Create() const = 0;
 };

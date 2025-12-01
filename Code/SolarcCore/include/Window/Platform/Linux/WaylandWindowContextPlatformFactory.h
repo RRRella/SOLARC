@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef linux
+#ifdef __linux__
 
 #include "Window/WindowContextPlatformFactory.h"
 
@@ -8,8 +8,7 @@ class WaylandWindowContextPlatformFactory : public WindowContextPlatformFactory
 {
 public:
     WaylandWindowContextPlatformFactory() = default;
-
-    PlatformComponents CreateComponents() override;
+    Components Create() const override;
 };
 
 #endif

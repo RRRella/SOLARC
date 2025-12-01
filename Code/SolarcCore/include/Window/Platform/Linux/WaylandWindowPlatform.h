@@ -30,10 +30,6 @@ public:
     void Maximize() override;
     void Restore() override;
 
-    wl_surface* GetSurface() const { return m_Surface; }
-    xdg_surface* GetXdgSurface() const { return m_XdgSurface; }
-    xdg_toplevel* GetXdgToplevel() const { return m_XdgToplevel; }
-
     // Called by context when configure event arrives
     void HandleConfigure(int32_t width, int32_t height);
     void HandleClose();

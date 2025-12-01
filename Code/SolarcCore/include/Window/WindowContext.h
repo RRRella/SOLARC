@@ -23,11 +23,11 @@
  * Thread Safety:
  * - All methods must be called from main thread only
  */
-class SOLARC_CORE_API WindowContext : public EventProducer<WindowEvent>
+class SOLARC_CORE_API WindowContext
 {
 public:
     explicit WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory);
-    ~WindowContext() override;
+    ~WindowContext();
 
     /**
      * Create a window
@@ -58,9 +58,6 @@ public:
             throw std::runtime_error("Failed to create window platform");
         }
 
-        // Register window with platform for event routing
-        m_Platform->RegisterWindow(platform.get());
-
         // Set destruction callback
         auto onDestroy = [this](Window* w) { OnDestroyWindow(w); };
 
@@ -69,9 +66,6 @@ public:
             onDestroy,
             std::forward<Args>(args)...
         );
-
-        // Register as event listener
-        m_Bus.RegisterListener(window.get());
 
         // Track ownership
         {
@@ -110,7 +104,6 @@ private:
 
     std::unique_ptr<WindowContextPlatform> m_Platform;
     std::unique_ptr<WindowPlatformFactory> m_WindowFactory;
-    ObserverBus<WindowEvent> m_Bus;
     std::unordered_set<std::shared_ptr<Window>> m_Windows;
     mutable std::mutex m_WindowsMutex;
     ThreadChecker m_ThreadChecker;

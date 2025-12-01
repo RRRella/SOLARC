@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef linux
+#ifdef __linux__
 
 #include "Window/WindowPlatformFactory.h"
 
@@ -20,7 +20,7 @@ public:
         int32_t height) override;
 
 private:
-    WaylandWindowContextPlatform* m_Context;
+    WaylandWindowContextPlatform* m_Context; // Safe: owned by same WindowContext
 };
 
 #endif

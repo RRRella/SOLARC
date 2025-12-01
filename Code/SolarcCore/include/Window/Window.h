@@ -1,6 +1,7 @@
 #pragma once
 #include "WindowPlatform.h"
 #include "Event/EventListener.h"
+#include "Event/ObserverBus.h"
 #include "Event/WindowEvent.h"
 #include "Logging/LogMacros.h"
 #include <memory>
@@ -105,4 +106,6 @@ private:
     std::function<void(Window*)> m_OnDestroy;
     bool m_Destroyed = false;
     mutable std::mutex m_DestroyMutex;
+
+    ObserverBus<WindowEvent> m_Bus;
 };

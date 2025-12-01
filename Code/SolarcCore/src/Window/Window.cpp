@@ -13,6 +13,9 @@ Window::Window(
         throw std::invalid_argument("Window platform must not be null");
     }
 
+    m_Bus.RegisterProducer(m_Platform.get());
+    m_Bus.RegisterListener(this);
+
     SOLARC_WINDOW_TRACE("Window created: '{}'", m_Platform->GetTitle());
 }
 
@@ -74,17 +77,14 @@ bool Window::IsClosed() const
 void Window::Update()
 {
     // Process all queued events
+
+    m_Bus.Communicate();
+
     ProcessEvents();
 }
 
 void Window::OnEvent(const std::shared_ptr<const WindowEvent>& e)
 {
-    // Filter events by window handle - ignore events not meant for this window
-    if (e->GetWindowHandle() && 
-        e->GetWindowHandle() != m_Platform->GetNativeHandle())
-    {
-        return;
-    }
 
     switch (e->GetWindowEventType())
     {

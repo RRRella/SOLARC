@@ -1,4 +1,4 @@
-#include "Window/WindowContext.h"
+﻿#include "Window/WindowContext.h"
 #include <algorithm>
 
 WindowContext::WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory)
@@ -9,7 +9,8 @@ WindowContext::WindowContext(std::unique_ptr<WindowContextPlatformFactory> facto
         throw std::invalid_argument("WindowContextPlatformFactory must not be null");
     }
 
-    auto components = factory->CreateComponents();
+    // ✅ Atomic creation — safe for Wayland
+    auto components = factory->Create();
     m_Platform = std::move(components.context);
     m_WindowFactory = std::move(components.windowFactory);
 
@@ -25,12 +26,6 @@ WindowContext::WindowContext(std::unique_ptr<WindowContextPlatformFactory> facto
         throw std::runtime_error("Failed to create WindowPlatformFactory");
     }
 
-    m_Bus.RegisterProducer(this);
-
-    m_Platform->SetEventDispatcher([this](std::shared_ptr<const WindowEvent> e) {
-        DispatchEvent(e);
-    });
-
     SOLARC_WINDOW_INFO("WindowContext initialized");
 }
 
@@ -38,7 +33,6 @@ WindowContext::~WindowContext()
 {
     SOLARC_WINDOW_INFO("WindowContext destructor");
     Shutdown();
-    m_Bus.UnregisterProducer(this);
 }
 
 void WindowContext::OnDestroyWindow(Window* window)
@@ -52,12 +46,6 @@ void WindowContext::OnDestroyWindow(Window* window)
     {
         SOLARC_WINDOW_DEBUG("Removing window from tracking: '{}'", (*it)->GetTitle());
         
-        // Unregister from platform before removing
-        if (window->GetPlatform())
-        {
-            m_Platform->UnregisterWindow(window->GetPlatform());
-        }
-        
         m_Windows.erase(it);
     }
 }
@@ -70,9 +58,6 @@ void WindowContext::PollEvents()
 
     // Poll platform events
     m_Platform->PollEvents();
-
-    // Distribute events from bus to windows
-    m_Bus.Communicate();
 
     // Update all windows to process their queued events
     std::vector<std::shared_ptr<Window>> windows;

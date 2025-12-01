@@ -1,22 +1,19 @@
-#ifdef linux
+#ifdef __linux__
 
 #include "Window/Platform/Linux/WaylandWindowContextPlatformFactory.h"
 #include "Window/Platform/Linux/WaylandWindowContextPlatform.h"
 #include "Window/Platform/Linux/WaylandWindowPlatformFactory.h"
 
-PlatformComponents WaylandWindowContextPlatformFactory::CreateComponents()
+auto WaylandWindowContextPlatformFactory::Create() const -> Components
 {
-    PlatformComponents components;
-    
-    // Create context first
     auto context = std::make_unique<WaylandWindowContextPlatform>();
-    auto* contextPtr = context.get();
-    
-    // Create window factory with pointer to context
-    components.context = std::move(context);
-    components.windowFactory = std::make_unique<WaylandWindowPlatformFactory>(contextPtr);
-    
-    return components;
+    auto* contextPtr = context.get(); // Safe: same scope
+    auto windowFactory = std::make_unique<WaylandWindowPlatformFactory>(contextPtr);
+
+    return Components{
+        .context = std::move(context),
+        .windowFactory = std::move(windowFactory)
+    };
 }
 
 #endif
