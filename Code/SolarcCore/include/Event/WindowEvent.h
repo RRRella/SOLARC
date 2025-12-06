@@ -32,3 +32,23 @@ public:
     {
     }
 };
+
+
+class WindowShownEvent : public WindowEvent
+{
+public:
+    explicit WindowShownEvent()
+        : WindowEvent(TYPE::SHOWN)
+    {
+    }
+};
+
+
+class WindowHiddenEvent : public WindowEvent
+{
+public:
+    explicit WindowHiddenEvent()
+        : WindowEvent(TYPE::HIDDEN)
+    {
+    }
+};

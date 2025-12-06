@@ -1,32 +1,15 @@
 ﻿#include "Window/WindowContext.h"
 #include <algorithm>
+#include <memory>
 
-WindowContext::WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory)
+WindowContext& WindowContext::Get()
 {
-    if (!factory)
-    {
-        SOLARC_WINDOW_ERROR("WindowContextPlatformFactory cannot be null");
-        throw std::invalid_argument("WindowContextPlatformFactory must not be null");
-    }
+    static WindowContext instance;
+    return instance;
+}
 
-    // ✅ Atomic creation — safe for Wayland
-    auto components = factory->Create();
-    m_Platform = std::move(components.context);
-    m_WindowFactory = std::move(components.windowFactory);
-
-    if (!m_Platform)
-    {
-        SOLARC_WINDOW_ERROR("Failed to create WindowContextPlatform");
-        throw std::runtime_error("Failed to create WindowContextPlatform");
-    }
-
-    if (!m_WindowFactory)
-    {
-        SOLARC_WINDOW_ERROR("Failed to create WindowPlatformFactory");
-        throw std::runtime_error("Failed to create WindowPlatformFactory");
-    }
-
-    SOLARC_WINDOW_INFO("WindowContext initialized");
+WindowContext::WindowContext()
+{
 }
 
 WindowContext::~WindowContext()
@@ -57,7 +40,7 @@ void WindowContext::PollEvents()
     if (m_Shutdown) return;
 
     // Poll platform events
-    m_Platform->PollEvents();
+    m_Platform.PollEvents();
 
     // Update all windows to process their queued events
     std::vector<std::shared_ptr<Window>> windows;
@@ -97,10 +80,7 @@ void WindowContext::Shutdown()
         }
     }
 
-    if (m_Platform)
-    {
-        m_Platform->Shutdown();
-    }
+    m_Platform.Shutdown();
 
     SOLARC_WINDOW_INFO("WindowContext shutdown complete");
 }

@@ -10,17 +10,17 @@ public:
     WindowsWindowContextPlatform();
     ~WindowsWindowContextPlatform() override;
 
-    void PollEvents() override;
-    void Shutdown() override;
+    void PollEvents();
+    void Shutdown();
 
-    const std::string& GetWindowClassName() const { return m_WindowClassName; }
-    HINSTANCE GetInstance() const { return m_hInstance; }
+    static const std::string& GetWindowClassName() { return m_WindowClassName; }
+    static HINSTANCE GetInstance() { return m_hInstance; }
 
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
-    std::string m_WindowClassName = "SolarcEngineWindowClass";
-    HINSTANCE m_hInstance = nullptr;
+    static inline std::string m_WindowClassName = "SolarcEngineWindowClass";
+    static inline HINSTANCE m_hInstance = nullptr;
     bool m_ClassRegistered = false;
 };
 #endif

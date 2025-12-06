@@ -1,10 +1,12 @@
 ﻿#include "SolarcApp.h"
 #include "Utility/CompileTimeUtil.h"
-#include "Window/Platform/Windows/WindowsWindowContextPlatformFactory.h"
 #include <thread>
 #include <algorithm>
 #include <cmath>
 #include "Logging/LogMacros.h"
+
+#undef min
+#undef max
 
 // ============================================================================
 // SolarcApp - Singleton and Initialization
@@ -29,8 +31,7 @@ SolarcApp::SolarcApp(const std::string& configDataPath)
 
     // Create the WindowContext with the platform
 
-    ;
-    m_Ctx.windowCtx = std::make_unique<WindowContext>( std::make_unique<WindowsWindowContextPlatformFactory>() );
+    m_Ctx.windowCtx = &WindowContext::Get();
 
     m_StateMachine = std::make_unique<SolarcStateMachine>(m_Ctx , configDataPath);
 
@@ -42,7 +43,7 @@ SolarcApp::~SolarcApp()
 {
     // Destroy in reverse order of creation
     m_StateMachine.reset();
-    m_Ctx.windowCtx.reset();
+    m_Ctx.windowCtx->Shutdown();
     m_JobSystem.reset();
 }
 

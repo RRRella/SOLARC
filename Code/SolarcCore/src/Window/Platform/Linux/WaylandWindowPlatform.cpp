@@ -1,46 +1,43 @@
-#ifdef linux
+#ifdef __linux__
 
-#include "Window/Platform/Linux/WaylandWindowPlatform.h"
-#include "Window/Platform/Linux/WaylandWindowContextPlatform.h"
+#include "Window/WindowPlatform.h"
+#include "Window/WindowContextPlatform.h"
 #include "Logging/LogMacros.h"
 #include <stdexcept>
 
-const xdg_surface_listener WaylandWindowPlatform::s_XdgSurfaceListener = {
+const xdg_surface_listener WindowPlatform::s_XdgSurfaceListener = {
     .configure = xdg_surface_configure
 };
 
-const xdg_toplevel_listener WaylandWindowPlatform::s_XdgToplevelListener = {
+const xdg_toplevel_listener WindowPlatform::s_XdgToplevelListener = {
     .configure = xdg_toplevel_configure,
     .close = xdg_toplevel_close
 };
 
-WaylandWindowPlatform::WaylandWindowPlatform(
+WindowPlatform::WindowPlatform(
     const std::string& title,
     int32_t width,
-    int32_t height,
-    WaylandWindowContextPlatform* context)
-    : WindowPlatform(title, width, height)
-    , m_Context(context)
+    int32_t height)
+    :m_Title(title)
+    , m_Width(width > 0 ? width : 800)
+    , m_Height(height > 0 ? height : 600)
     , m_Surface(nullptr)
     , m_XdgSurface(nullptr)
     , m_XdgToplevel(nullptr)
     , m_Visible(false)
     , m_Configured(false)
 {
-    if (!m_Context)
-    {
-        throw std::invalid_argument("WaylandWindowContextPlatform cannot be null");
-    }
+    auto& context = WindowContextPlatform::Get(); // Use singleton
 
     // Create Wayland surface
-    m_Surface = m_Context->CreateSurface();
+    m_Surface = context.CreateSurface();
     if (!m_Surface)
     {
         throw std::runtime_error("Failed to create Wayland surface");
     }
 
     // Create XDG surface
-    m_XdgSurface = m_Context->CreateXdgSurface(m_Surface);
+    m_XdgSurface = context.CreateXdgSurface(m_Surface);
     if (!m_XdgSurface)
     {
         wl_surface_destroy(m_Surface);
@@ -73,7 +70,7 @@ WaylandWindowPlatform::WaylandWindowPlatform(
     SOLARC_WINDOW_TRACE("Wayland window platform created: '{}'", m_Title);
 }
 
-WaylandWindowPlatform::~WaylandWindowPlatform()
+WindowPlatform::~WindowPlatform()
 {
     if (m_XdgToplevel)
         xdg_toplevel_destroy(m_XdgToplevel);
@@ -87,7 +84,7 @@ WaylandWindowPlatform::~WaylandWindowPlatform()
     SOLARC_WINDOW_TRACE("Wayland window platform destroyed: '{}'", m_Title);
 }
 
-void WaylandWindowPlatform::Show()
+void WindowPlatform::Show()
 {
     if (!m_Visible)
     {
@@ -107,7 +104,7 @@ void WaylandWindowPlatform::Show()
     }
 }
 
-void WaylandWindowPlatform::Hide()
+void WindowPlatform::Hide()
 {
     if (m_Visible)
     {
@@ -121,14 +118,14 @@ void WaylandWindowPlatform::Hide()
     }
 }
 
-bool WaylandWindowPlatform::IsVisible() const
+bool WindowPlatform::IsVisible() const
 {
     return m_Visible && m_Configured;
 }
 
-void WaylandWindowPlatform::SetTitle(const std::string& title)
+void WindowPlatform::SetTitle(const std::string& title)
 {
-    WindowPlatform::SetTitle(title);
+    m_Title = title;
     
     if (m_XdgToplevel)
     {
@@ -137,9 +134,10 @@ void WaylandWindowPlatform::SetTitle(const std::string& title)
     }
 }
 
-void WaylandWindowPlatform::Resize(int32_t width, int32_t height)
+void WindowPlatform::Resize(int32_t width, int32_t height)
 {
-    WindowPlatform::Resize(width, height);
+    m_Width = width;
+    m_Height = height;
     
     // Note: On Wayland, we can only suggest sizes via min/max size hints
     // The compositor ultimately decides the actual size
@@ -153,7 +151,7 @@ void WaylandWindowPlatform::Resize(int32_t width, int32_t height)
     }
 }
 
-void WaylandWindowPlatform::Minimize()
+void WindowPlatform::Minimize()
 {
     if (m_XdgToplevel)
     {
@@ -162,7 +160,7 @@ void WaylandWindowPlatform::Minimize()
     }
 }
 
-void WaylandWindowPlatform::Maximize()
+void WindowPlatform::Maximize()
 {
     if (m_XdgToplevel)
     {
@@ -172,7 +170,7 @@ void WaylandWindowPlatform::Maximize()
     }
 }
 
-void WaylandWindowPlatform::Restore()
+void WindowPlatform::Restore()
 {
     if (m_XdgToplevel)
     {
@@ -183,7 +181,7 @@ void WaylandWindowPlatform::Restore()
     }
 }
 
-void WaylandWindowPlatform::HandleConfigure(int32_t width, int32_t height)
+void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 {
     if (width > 0 && height > 0)
     {
@@ -195,13 +193,13 @@ void WaylandWindowPlatform::HandleConfigure(int32_t width, int32_t height)
     m_Configured = true;
 }
 
-void WaylandWindowPlatform::HandleClose()
+void WindowPlatform::HandleClose()
 {
     SOLARC_WINDOW_INFO("Wayland window close requested: '{}'", m_Title);
     // Context will dispatch close event
 }
 
-void WaylandWindowPlatform::xdg_surface_configure(
+void WindowPlatform::xdg_surface_configure(
     void* data,
     xdg_surface* xdg_surface,
     uint32_t serial)
@@ -209,7 +207,7 @@ void WaylandWindowPlatform::xdg_surface_configure(
     // NULL safety check
     if (!data) return;
     
-    auto* window = static_cast<WaylandWindowPlatform*>(data);
+    auto* window = static_cast<WindowPlatform*>(data);
     
     // Acknowledge the configure event
     xdg_surface_ack_configure(xdg_surface, serial);
@@ -223,7 +221,7 @@ void WaylandWindowPlatform::xdg_surface_configure(
     SOLARC_WINDOW_TRACE("XDG surface configure acknowledged: '{}'", window->m_Title);
 }
 
-void WaylandWindowPlatform::xdg_toplevel_configure(
+void WindowPlatform::xdg_toplevel_configure(
     void* data,
     xdg_toplevel* toplevel,
     int32_t width,
@@ -233,20 +231,25 @@ void WaylandWindowPlatform::xdg_toplevel_configure(
     // NULL safety check
     if (!data) return;
     
-    auto* window = static_cast<WaylandWindowPlatform*>(data);
+    auto* window = static_cast<WindowPlatform*>(data);
     window->HandleConfigure(width, height);
 }
 
-void WaylandWindowPlatform::xdg_toplevel_close(
+void WindowPlatform::xdg_toplevel_close(
     void* data,
     xdg_toplevel* toplevel)
 {
     if (!data) return;
-    auto* window = static_cast<WaylandWindowPlatform*>(data);
+    auto* window = static_cast<WindowPlatform*>(data);
     window->HandleClose();
 
     auto ev = std::make_shared<WindowCloseEvent>();
     window->ReceiveWindowEvent(std::move(ev));
+}
+
+void* WindowPlatform::GetNativeHandle() const
+{
+    return m_Surface;
 }
 
 #endif

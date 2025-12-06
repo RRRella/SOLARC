@@ -9,14 +9,10 @@ ${${PROJECT_NAME}_SRC_DIR}/Window/Window.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Window/WindowContext.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Windows/WindowsWindowPlatform.cpp
-${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Windows/WindowsWindowPlatformFactory.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Windows/WindowsWindowContextPlatform.cpp
-${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Windows/WindowsWindowContextPlatformFactory.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Linux/WaylandWindowPlatform.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Linux/WaylandWindowContextPlatform.cpp
-${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Linux/WaylandWindowPlatformFactory.cpp
-${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Linux/WaylandWindowContextPlatformFactory.cpp
 
 
 ${${PROJECT_NAME}_SRC_DIR}/Event/Event.cpp
@@ -41,20 +37,8 @@ ${${PROJECT_NAME}_INC_DIR}/SolarcApp.h
 
 ${${PROJECT_NAME}_INC_DIR}/Window/Window.h
 ${${PROJECT_NAME}_INC_DIR}/Window/WindowPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/WindowPlatformFactory.h
 ${${PROJECT_NAME}_INC_DIR}/Window/WindowContext.h
 ${${PROJECT_NAME}_INC_DIR}/Window/WindowContextPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/WindowContextPlatformFactory.h
-
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Windows/WindowsWindowPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Windows/WindowsWindowPlatformFactory.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Windows/WindowsWindowContextPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Windows/WindowsWindowContextPlatformFactory.h
-
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Linux/WaylandWindowPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Linux/WaylandWindowContextPlatform.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Linux/WaylandWindowPlatformFactory.h
-${${PROJECT_NAME}_INC_DIR}/Window/Platform/Linux/WaylandWindowContextPlatformFactory.h
 
 ${${PROJECT_NAME}_INC_DIR}/Event/Event.h
 ${${PROJECT_NAME}_INC_DIR}/Event/ApplicationEvent.h
