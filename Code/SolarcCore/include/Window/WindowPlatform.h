@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Event/EventProducer.h"
 #include <memory>
 #include "Preprocessor/API.h"
 #include "Event/WindowEvent.h"
 #include "Window/WindowContextPlatform.h"
+#include "Preprocessor/API.h"
 
 #ifdef _WIN32
 #include <windows.h>
