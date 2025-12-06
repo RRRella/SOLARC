@@ -1,8 +1,6 @@
 #pragma once
 #include "Window.h"
 #include "WindowContextPlatform.h"
-#include "WindowContextPlatformFactory.h"
-#include "WindowPlatformFactory.h"
 #include "Event/ObserverBus.h"
 #include "Event/EventProducer.h"
 #include "MT/ThreadChecker.h"
@@ -27,8 +25,14 @@
 class SOLARC_CORE_API WindowContext
 {
 public:
-    explicit WindowContext(std::unique_ptr<WindowContextPlatformFactory> factory);
-    ~WindowContext();
+    // Singleton access
+    static WindowContext& Get();
+
+    WindowContext(const WindowContext&) = delete;
+    WindowContext& operator=(const WindowContext&) = delete;
+
+    WindowContext(WindowContext&&) = delete;
+    WindowContext& operator=(WindowContext&&) = delete;
 
     /**
      * Create a window
@@ -43,16 +47,16 @@ public:
      * note: Must be called from main thread
      */
     template<typename T = Window, typename... Args>
+        requires std::derived_from<T, Window>
     std::shared_ptr<T> CreateWindow(const std::string& title,
         const int32_t& width,
         const int32_t& height,
         Args&&... args)
-        requires std::derived_from<T, Window>
     {
         SOLARC_WINDOW_INFO("Creating window: '{}' ({}x{})", title, width, height);
 
         // Create platform window
-        auto platform = m_WindowFactory->Create(title, width, height);
+        auto platform = std::make_unique<WindowPlatform>(title, width, height);
         if (!platform)
         {
             SOLARC_WINDOW_ERROR("Failed to create window platform for: '{}'", title);
@@ -101,10 +105,12 @@ public:
     }
 
 private:
+    WindowContext();  // Private
+    ~WindowContext(); // Private
+
     void OnDestroyWindow(Window* window);
 
-    std::unique_ptr<WindowContextPlatform> m_Platform;
-    std::unique_ptr<WindowPlatformFactory> m_WindowFactory;
+    WindowContextPlatform& m_Platform = WindowContextPlatform::Get(); // Reference to singleton
     std::unordered_set<std::shared_ptr<Window>> m_Windows;
     mutable std::mutex m_WindowsMutex;
     ThreadChecker m_ThreadChecker;

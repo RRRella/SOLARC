@@ -36,7 +36,7 @@ private:
 
     struct SolarcContext
     {
-        std::unique_ptr<WindowContext> windowCtx;
+        WindowContext* windowCtx;
         JobSystem* jobSystem = nullptr; // Non-owning pointer
     };
 
