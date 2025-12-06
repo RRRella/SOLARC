@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include "Preprocessor/API.h"
 
 class WindowPlatform;
 class WindowPlatformFactory;
@@ -10,7 +11,7 @@ class WindowPlatformFactory;
 /**
  * Abstract backend for WindowContext (per-platform)
  */
-class WindowContextPlatform
+class SOLARC_CORE_API WindowContextPlatform
 {
 public:
     virtual ~WindowContextPlatform() = default;

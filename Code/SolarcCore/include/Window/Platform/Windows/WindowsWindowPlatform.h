@@ -2,10 +2,11 @@
 #ifdef _WIN32
 #include "Window/WindowPlatform.h"
 #include <windows.h>
+#include "Preprocessor/API.h"
 
 class WindowsWindowContextPlatform;
 
-class WindowsWindowPlatform : public WindowPlatform
+class SOLARC_CORE_API WindowsWindowPlatform : public WindowPlatform
 {
 public:
     WindowsWindowPlatform(

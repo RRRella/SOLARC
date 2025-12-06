@@ -1,5 +1,9 @@
 #pragma once
 #include "Preprocessor/API.h"
+#include <optional>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
 
 template<typename T>
 class ThreadSafeQueue

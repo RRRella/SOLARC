@@ -62,6 +62,7 @@ ${${PROJECT_NAME}_INC_DIR}/Event/WindowEvent.h
 ${${PROJECT_NAME}_INC_DIR}/Event/InputEvent.h
 
 ${${PROJECT_NAME}_INC_DIR}/Event/ObserverBus.h
+
 ${${PROJECT_NAME}_INC_DIR}/Event/EventBus.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventListener.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventProducer.h

@@ -1,4 +1,4 @@
-#ifdef linux
+#ifdef __linux__
 
 #include "Window/Platform/Linux/WaylandWindowPlatform.h"
 #include "Window/Platform/Linux/WaylandWindowContextPlatform.h"
@@ -177,7 +177,7 @@ void WaylandWindowPlatform::Restore()
     if (m_XdgToplevel)
     {
         xdg_toplevel_unset_maximized(m_XdgToplevel);
-        xdg_toplevel_unset_minimized(m_XdgToplevel);
+        xdg_toplevel_unset_fullscreen(m_XdgToplevel);
         wl_surface_commit(m_Surface);
         SOLARC_WINDOW_DEBUG("Wayland window restore requested: '{}'", m_Title);
     }

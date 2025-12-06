@@ -3,8 +3,9 @@
 #include "Window/WindowContextPlatform.h"
 #include <windows.h>
 #include <string>
+#include "Preprocessor/API.h"
 
-class WindowsWindowContextPlatform : public WindowContextPlatform
+class SOLARC_CORE_API WindowsWindowContextPlatform : public WindowContextPlatform
 {
 public:
     WindowsWindowContextPlatform();

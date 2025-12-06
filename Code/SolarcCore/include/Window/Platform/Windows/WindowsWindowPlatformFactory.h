@@ -1,10 +1,11 @@
 #pragma once
 #ifdef _WIN32
 #include "Window/WindowPlatformFactory.h"
+#include "Preprocessor/API.h"
 
 class WindowsWindowContextPlatform;
 
-class WindowsWindowPlatformFactory : public WindowPlatformFactory
+class SOLARC_CORE_API WindowsWindowPlatformFactory : public WindowPlatformFactory
 {
 public:
     explicit WindowsWindowPlatformFactory(WindowsWindowContextPlatform* context)

@@ -3,11 +3,12 @@
 #include "WindowPlatformFactory.h"
 #include <memory>
 #include <utility>
+#include "Preprocessor/API.h"
 
 /**
  * Abstract factory for creating platform-specific window context implementations
  */
-class WindowContextPlatformFactory
+class SOLARC_CORE_API WindowContextPlatformFactory
 {
 public:
     struct Components
@@ -25,3 +26,5 @@ public:
      */
     virtual Components Create() const = 0;
 };
+
+SOLARC_CORE_API std::unique_ptr<WindowContextPlatformFactory> CreateWindowContextPlatformFactory();

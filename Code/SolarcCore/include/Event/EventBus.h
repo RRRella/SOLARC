@@ -2,6 +2,13 @@
 #include "Preprocessor/API.h"
 #include "Event/Event.h"
 
+#include <condition_variable>
+#include <mutex>
+#include <vector>
+#include <functional>
+#include <memory>
+#include <list>
+
 // ------------------------ EventBus ------------------------
 
 template<event_type EVENT_TYPE>
@@ -81,8 +88,8 @@ protected:
 private:
 };
 
-// ---------------- Implementation ----------------
 
+// ---------------- Implementation ----------------
 template<event_type EVENT_TYPE>
 inline void EventBus<EVENT_TYPE>::EventRegistration::Dispatch(std::shared_ptr<const EVENT_TYPE> e)
 {

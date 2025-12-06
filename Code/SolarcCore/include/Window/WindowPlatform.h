@@ -3,10 +3,11 @@
 #include "Event/EventProducer.h"
 #include <Event/WindowEvent.h>
 #include <memory>
+#include "Preprocessor/API.h"
 
 // Abstract platform for a window (Win32, Wayland).
 
-class WindowPlatform : public EventProducer<WindowEvent>
+class SOLARC_CORE_API WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
     WindowPlatform(const std::string& title, const int32_t& width, const int32_t& height)

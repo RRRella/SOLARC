@@ -3,10 +3,11 @@
 #ifdef __linux__
 
 #include "Window/WindowPlatformFactory.h"
+#include "Preprocessor/API.h"
 
 class WaylandWindowContextPlatform;
 
-class WaylandWindowPlatformFactory : public WindowPlatformFactory
+class SOLARC_CORE_API WaylandWindowPlatformFactory : public WindowPlatformFactory
 {
 public:
     explicit WaylandWindowPlatformFactory(WaylandWindowContextPlatform* context)

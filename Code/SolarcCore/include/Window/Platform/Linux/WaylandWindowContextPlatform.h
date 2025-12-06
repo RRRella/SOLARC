@@ -1,12 +1,15 @@
 #pragma once
+
 #ifdef __linux__
+
 #include "Window/WindowContextPlatform.h"
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
 #include <unordered_map>
 #include <mutex>
+#include "Preprocessor/API.h"
 
-class WaylandWindowContextPlatform : public WindowContextPlatform
+class SOLARC_CORE_API WaylandWindowContextPlatform : public WindowContextPlatform
 {
 public:
     WaylandWindowContextPlatform();

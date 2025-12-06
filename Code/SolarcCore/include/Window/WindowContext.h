@@ -6,6 +6,7 @@
 #include "Event/ObserverBus.h"
 #include "Event/EventProducer.h"
 #include "MT/ThreadChecker.h"
+#include "Preprocessor/API.h"
 #include <unordered_set>
 #include <memory>
 #include <mutex>

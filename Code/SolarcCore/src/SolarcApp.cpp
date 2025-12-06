@@ -1,6 +1,6 @@
 ﻿#include "SolarcApp.h"
 #include "Utility/CompileTimeUtil.h"
-#include "Window/Platform/Windows/WindowsWindowContextPlatformFactory.h"
+#include "Window/WindowContextPlatformFactory.h"
 #include <thread>
 #include <algorithm>
 #include <cmath>
@@ -29,8 +29,7 @@ SolarcApp::SolarcApp(const std::string& configDataPath)
 
     // Create the WindowContext with the platform
 
-    ;
-    m_Ctx.windowCtx = std::make_unique<WindowContext>( std::make_unique<WindowsWindowContextPlatformFactory>() );
+    m_Ctx.windowCtx = std::make_unique<WindowContext>( CreateWindowContextPlatformFactory() );
 
     m_StateMachine = std::make_unique<SolarcStateMachine>(m_Ctx , configDataPath);
 
@@ -467,7 +466,7 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
     */
 
     // Check if window was closed
-    if (!m_MainWindow->IsVisible())
+    if (m_MainWindow->IsClosed())
     {
         SOLARC_APP_INFO("Main window closed by user");
         return { StateTransition::TO_CLEANUP, "" };

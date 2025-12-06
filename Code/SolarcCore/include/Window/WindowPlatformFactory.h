@@ -2,11 +2,12 @@
 #include "WindowPlatform.h"
 #include <memory>
 #include <string>
+#include "Preprocessor/API.h"
 
 /**
  * Abstract factory for creating platform-specific window implementations
  */
-class WindowPlatformFactory
+class SOLARC_CORE_API WindowPlatformFactory
 {
 public:
     virtual ~WindowPlatformFactory() = default;

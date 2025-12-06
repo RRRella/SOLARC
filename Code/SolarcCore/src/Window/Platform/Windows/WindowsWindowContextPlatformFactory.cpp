@@ -12,4 +12,10 @@ auto WindowsWindowContextPlatformFactory::Create() const -> Components
         .windowFactory = std::move(windowFactory)
     };
 }
+
+std::unique_ptr<WindowContextPlatformFactory> CreateWindowContextPlatformFactory()
+{
+    return std::make_unique<WindowsWindowContextPlatformFactory>();
+}
+
 #endif

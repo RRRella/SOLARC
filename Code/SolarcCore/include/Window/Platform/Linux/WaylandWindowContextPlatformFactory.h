@@ -3,8 +3,9 @@
 #ifdef __linux__
 
 #include "Window/WindowContextPlatformFactory.h"
+#include "Preprocessor/API.h"
 
-class WaylandWindowContextPlatformFactory : public WindowContextPlatformFactory
+class SOLARC_CORE_API WaylandWindowContextPlatformFactory : public WindowContextPlatformFactory
 {
 public:
     WaylandWindowContextPlatformFactory() = default;

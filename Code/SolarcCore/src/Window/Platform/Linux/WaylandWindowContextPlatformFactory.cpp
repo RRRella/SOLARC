@@ -16,4 +16,10 @@ auto WaylandWindowContextPlatformFactory::Create() const -> Components
     };
 }
 
+std::unique_ptr<WindowContextPlatformFactory> CreateWindowContextPlatformFactory()
+{
+    return std::make_unique<WaylandWindowContextPlatformFactory>();
+}
+
+
 #endif
