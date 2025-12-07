@@ -9,9 +9,9 @@ if (NOT MSVC)
   )
 
   target_link_options(COMMON_FLAGS INTERFACE
-    -Wl,--gc-sections -Wl,--icf=all -Wl,-z,norelro
+    -Wl,--gc-sections -Wl,-z,norelro
     $<$<CONFIG:Release>:-flto>
-    $<$<CONFIG:Debug>:-Wl,-v -Wl,-Map>
+    $<$<CONFIG:Debug>:-Wl,-v>
   )
 else()
 
@@ -24,6 +24,6 @@ else()
   target_link_options(COMMON_FLAGS INTERFACE
     /OPT:REF /OPT:ICF /OPT:LBR /SUBSYSTEM:CONSOLE
     $<$<CONFIG:Release>:/LTCG /DEBUG:NONE /SUBSYSTEM:WINDOWS>
-    $<$<CONFIG:Debug>:/DEBUG /INCREMENTAL /MAP>
+    $<$<CONFIG:Debug>:/DEBUG /INCREMENTAL>
   )
 endif()

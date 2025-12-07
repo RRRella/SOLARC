@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Event/EventProducer.h"
 #include "Event/WindowEvent.h"
 #include "Window/WindowContextPlatform.h"
+#include "Preprocessor/API.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -11,7 +13,7 @@
 #include "xdg-shell-client-protocol.h"
 #endif
 
-class WindowPlatform : public EventProducer<WindowEvent>
+class SOLARC_CORE_API WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
     // Restored: Only title, width, height

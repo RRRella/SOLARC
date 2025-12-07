@@ -3,7 +3,10 @@
 #include "Event/Event.h"
 #include "Event/EventBus.h"
 #include "MT/ThreadChecker.h"
-
+#include <mutex>
+#include <optional>
+#include <unordered_map>
+#include <memory>
 /**
  * Queued event bus implementation
  *

@@ -15,9 +15,13 @@ const xdg_toplevel_listener WindowPlatform::s_XdgToplevelListener = {
 };
 
 WindowPlatform::WindowPlatform(
+<<<<<<< HEAD
     const std::string& title,
     int32_t width,
     int32_t height)
+=======
+    const std::string& title, const int32_t& width, const int32_t& height)
+>>>>>>> linux
     :m_Title(title)
     , m_Width(width > 0 ? width : 800)
     , m_Height(height > 0 ? height : 600)
@@ -175,7 +179,7 @@ void WindowPlatform::Restore()
     if (m_XdgToplevel)
     {
         xdg_toplevel_unset_maximized(m_XdgToplevel);
-        xdg_toplevel_unset_minimized(m_XdgToplevel);
+        xdg_toplevel_unset_fullscreen(m_XdgToplevel);
         wl_surface_commit(m_Surface);
         SOLARC_WINDOW_DEBUG("Wayland window restore requested: '{}'", m_Title);
     }

@@ -4,6 +4,10 @@
 #include "Event/EventBus.h"
 #include "Logging/LogMacros.h"
 
+#include <mutex>
+#include <list>
+#include <memory>
+
 /**
  * Base class for objects that listen to events
  *
@@ -74,9 +78,18 @@ protected:
     EventQueue<EVENT_TYPE> m_EventQueue;
 
 private:
-    void UnregisterEventConnections()
-    {
-        std::vector<std::shared_ptr<EventRegistration>> strongRef;
+    void UnregisterEventConnections();
+
+    mutable std::mutex m_RegisterMtx;
+    std::list<std::weak_ptr<EventRegistration>> m_Registration;
+};
+
+// ---------------- Implementation ----------------
+
+template<event_type EVENT_TYPE>
+inline void EventListener<EVENT_TYPE>::UnregisterEventConnections()
+{
+     std::vector<std::shared_ptr<EventRegistration>> strongRef;
         {
             std::lock_guard lock(m_RegisterMtx);
             strongRef = EventBus<EVENT_TYPE>::template CollectLive<
@@ -95,8 +108,4 @@ private:
                 reg->Unregister();
             }
         }
-    }
-
-    mutable std::mutex m_RegisterMtx;
-    std::list<std::weak_ptr<EventRegistration>> m_Registration;
 };

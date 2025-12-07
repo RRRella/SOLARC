@@ -468,7 +468,7 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
     */
 
     // Check if window was closed
-    if (!m_MainWindow->IsVisible())
+    if (m_MainWindow->IsClosed())
     {
         SOLARC_APP_INFO("Main window closed by user");
         return { StateTransition::TO_CLEANUP, "" };

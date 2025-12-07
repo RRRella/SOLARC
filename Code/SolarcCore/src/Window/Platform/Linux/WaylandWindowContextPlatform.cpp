@@ -4,6 +4,7 @@
 #include "Logging/LogMacros.h"
 #include <stdexcept>
 #include <cstring>
+#include <poll.h>
 
 const wl_registry_listener WindowContextPlatform::s_RegistryListener = {
     .global = registry_global,
@@ -48,6 +49,31 @@ WindowContextPlatform& WindowContextPlatform::Get()
 void WindowContextPlatform::PollEvents()
 {
     if (!m_Display || m_ShuttingDown) return;
+
+    if (wl_display_prepare_read(m_Display) == 0)
+    {
+        struct pollfd pfd = 
+        {
+            .fd = wl_display_get_fd(m_Display),
+            .events = POLLIN
+        };
+        
+
+        if (poll(&pfd, 1, 0) > 0 && (pfd.revents & POLLIN))
+        {
+            wl_display_read_events(m_Display);
+        }
+        else
+        {
+            wl_display_cancel_read(m_Display);
+        }
+
+    }
+
+
+
+    // Dispatch any events now available
+
     wl_display_dispatch_pending(m_Display);
     wl_display_flush(m_Display);
 }

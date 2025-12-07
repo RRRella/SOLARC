@@ -4,6 +4,11 @@
 #include "Event/EventBus.h"
 #include "Logging/LogMacros.h"
 
+#include <mutex>
+#include <list>
+#include <memory>
+
+
 /**
  * Base class for objects that produce events
  *

@@ -39,6 +39,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty
 
 # Platform-specific libraries
 if(UNIX AND NOT APPLE)
+
+    enable_language(C)
+    
     # Find Wayland
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(WAYLAND REQUIRED wayland-client)
@@ -72,10 +75,15 @@ if(UNIX AND NOT APPLE)
         ${XDG_SHELL_CODE}
     )
     
-    target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-    target_include_directories(${PROJECT_NAME} PRIVATE ${WAYLAND_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+    target_include_directories(${PROJECT_NAME} PUBLIC ${WAYLAND_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME} PRIVATE ${WAYLAND_LIBRARIES})
 endif()
+
+#boost uuid
+find_package(Boost REQUIRED COMPONENTS system)
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::system)
+#
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INC_DIR})

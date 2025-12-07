@@ -3,8 +3,15 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+<<<<<<< HEAD
 #include <string>
 #include <unordered_map>
+=======
+#include "Preprocessor/API.h"
+#include <string>
+#include <unordered_map>
+#include "Preprocessor/API.h"
+>>>>>>> linux
 
 #ifdef _WIN32
 #include <windows.h>
@@ -15,7 +22,14 @@
 
 class WindowPlatform; // Forward declare
 
+<<<<<<< HEAD
 class WindowContextPlatform
+=======
+/**
+ * Abstract backend for WindowContext (per-platform)
+ */
+class SOLARC_CORE_API WindowContextPlatform
+>>>>>>> linux
 {
 public:
     // Singleton access

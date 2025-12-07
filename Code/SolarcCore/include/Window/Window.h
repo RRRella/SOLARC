@@ -4,6 +4,7 @@
 #include "Event/ObserverBus.h"
 #include "Event/WindowEvent.h"
 #include "Logging/LogMacros.h"
+#include "Preprocessor/API.h"
 #include <memory>
 #include <mutex>
 #include <functional>
