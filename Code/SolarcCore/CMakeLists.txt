@@ -80,18 +80,74 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${WAYLAND_LIBRARIES})
 endif()
 
-#boost uuid
-find_package(Boost REQUIRED COMPONENTS system)
-target_link_libraries(${PROJECT_NAME} PUBLIC Boost::system)
-#
-
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INC_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog COMMON_FLAGS)
 
+
+# ============================================================================
+# Renderer Backend Selection
+# ============================================================================
+
+# Renderer selection variable (user-configurable)
+set(SOLARC_RENDERER "DX12" CACHE STRING "Graphics API backend (DX12 or VULKAN)")
+set_property(CACHE SOLARC_RENDERER PROPERTY STRINGS "DX12" "VULKAN")
+
+message(STATUS "Selected renderer backend: ${SOLARC_RENDERER}")
+
+# Platform validation
+if(WIN32)
+    if(SOLARC_RENDERER STREQUAL "DX12")
+        message(STATUS "Building with DirectX 12 backend on Windows")
+    elseif(SOLARC_RENDERER STREQUAL "VULKAN")
+        message(STATUS "Building with VULKAN backend on Windows")
+    else()
+        message(FATAL_ERROR "Invalid renderer: ${SOLARC_RENDERER}. Must be DX12 or VULKAN")
+    endif()
+elseif(UNIX AND NOT APPLE)
+    if(SOLARC_RENDERER STREQUAL "VULKAN")
+        message(STATUS "Building with VULKAN backend on Linux")
+    elseif(SOLARC_RENDERER STREQUAL "DX12")
+        message(FATAL_ERROR "DirectX 12 is not supported on Linux. Use VULKAN.")
+    else()
+        message(FATAL_ERROR "Invalid renderer: ${SOLARC_RENDERER}. Must be VULKAN on Linux")
+    endif()
+else()
+    message(FATAL_ERROR "Unsupported platform")
+endif()
+
+# Set renderer preprocessor definition
+target_compile_definitions(${PROJECT_NAME} PUBLIC SOLARC_RENDERER_${SOLARC_RENDERER})
+
+# ============================================================================
+# Renderer-Specific Libraries and Dependencies
+# ============================================================================
+
+if(SOLARC_RENDERER STREQUAL "DX12")
+    # DirectX 12 libraries (Windows SDK - already installed)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        d3d12.lib
+        dxgi.lib
+        dxguid.lib
+    )
+    message(STATUS "Linked DirectX 12 libraries: d3d12, dxgi, dxguid")
+
+elseif(SOLARC_RENDERER STREQUAL "VULKAN")
+    # VULKAN SDK
+    find_package(Vulkan REQUIRED)
+    
+    if(Vulkan_FOUND)
+        target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+        message(STATUS "Found VULKAN SDK: ${Vulkan_LIBRARY}")
+    else()
+        message(FATAL_ERROR "VULKAN SDK not found. Please install VULKAN SDK.")
+    endif()
+endif()
+
 set_target_properties( ${PROJECT_NAME}
      PROPERTIES
-  RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}"
+     RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}"
      LIBRARY_OUTPUT_DIRECTORY "${LIB_DIR}"
      ARCHIVE_OUTPUT_DIRECTORY "${LIB_DIR}"
 )

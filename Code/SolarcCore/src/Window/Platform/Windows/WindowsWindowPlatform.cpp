@@ -42,34 +42,40 @@ WindowPlatform::~WindowPlatform()
 
 void WindowPlatform::Show()
 {
+    std::lock_guard lk(mtx);
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_SHOW);
         UpdateWindow(m_hWnd);
-        m_Visible = true;
 
-        SOLARC_WINDOW_TRACE("Win32 window shown: '{}'", m_Title);
+        DispatchWindowEvent(std::make_shared<WindowShownEvent>());
+        SOLARC_WINDOW_TRACE("Win32 window shown request: '{}'", m_Title);
     }
 }
 
 void WindowPlatform::Hide()
 {
+    std::lock_guard lk(mtx);
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_HIDE);
-        m_Visible = false;
 
-        SOLARC_WINDOW_TRACE("Win32 window hidden: '{}'", m_Title);
+        DispatchWindowEvent(std::make_shared<WindowHiddenEvent>());
+        SOLARC_WINDOW_TRACE("Win32 window hidden request: '{}'", m_Title);
     }
 }
 
 bool WindowPlatform::IsVisible() const
 {
+    std::lock_guard lk(mtx);
+
     return m_Visible;
 }
 
 void WindowPlatform::SetTitle(const std::string& title)
 {
+    std::lock_guard lk(mtx);
+
     if (m_hWnd)
     {
         m_Title = title;
@@ -80,20 +86,20 @@ void WindowPlatform::SetTitle(const std::string& title)
 
 void WindowPlatform::Resize(int32_t width, int32_t height)
 {
+    std::lock_guard lk(mtx);
     if (m_hWnd)
     {
-        m_Width = width;
-        m_Height = height;
-
         SetWindowPos(m_hWnd, nullptr, 0, 0, width, height,
             SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 
-        SOLARC_WINDOW_TRACE("Win32 window resize requested: {}x{}", m_Width, m_Height);
+        SOLARC_WINDOW_TRACE("Win32 window resize requested: {}x{}", width, height);
     }
 }
 
 void WindowPlatform::Minimize()
 {
+    std::lock_guard lk(mtx);
+
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_MINIMIZE);
@@ -103,6 +109,8 @@ void WindowPlatform::Minimize()
 
 void WindowPlatform::Maximize()
 {
+    std::lock_guard lk(mtx);
+
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_MAXIMIZE);
@@ -112,6 +120,8 @@ void WindowPlatform::Maximize()
 
 void WindowPlatform::Restore()
 {
+    std::lock_guard lk(mtx);
+
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_RESTORE);
@@ -119,8 +129,11 @@ void WindowPlatform::Restore()
     }
 }
 
-void* WindowPlatform::GetNativeHandle() const
+bool WindowPlatform::IsMinimized() const
 {
-    return m_hWnd;
+    std::lock_guard lk(mtx);
+
+    return m_Minimized; 
 }
+
 #endif

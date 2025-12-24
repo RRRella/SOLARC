@@ -71,9 +71,43 @@ LRESULT CALLBACK WindowContextPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wPar
     case WM_CLOSE:
     {
         auto ev = std::make_shared<WindowCloseEvent>();
-        windowPlatform->ReceiveWindowEvent(std::move(ev));
+        windowPlatform->DispatchWindowEvent(std::move(ev));
         return 0;
     }
+
+    case WM_SIZE:
+    {
+        if (wParam == SIZE_MINIMIZED)
+        {
+            auto ev = std::make_shared<WindowMinimizedEvent>();
+            windowPlatform->DispatchWindowEvent(std::move(ev));
+
+            SOLARC_WINDOW_TRACE("Window minimized msg: '{}'", windowPlatform->GetTitle());
+            return 0;
+        }
+
+        if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
+        {
+            // We dispatch a restored event to ensure state is synchronized.
+            // It is safe to dispatch this even during normal resizing.
+            auto ev = std::make_shared<WindowRestoredEvent>();
+            windowPlatform->DispatchWindowEvent(std::move(ev));
+        }
+
+        int32_t newWidth = LOWORD(lParam);
+        int32_t newHeight = HIWORD(lParam);
+
+        if (newWidth > 0 && newHeight > 0)
+        {
+            auto ev = std::make_shared<WindowResizeEvent>(newWidth, newHeight);
+            windowPlatform->DispatchWindowEvent(std::move(ev));
+
+            SOLARC_WINDOW_TRACE("Window resize msg: {}x{}", newWidth, newHeight);
+        }
+
+        return 0;
+    }
+
     case WM_DESTROY:
         return 0;
     }

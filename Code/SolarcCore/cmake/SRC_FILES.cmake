@@ -28,6 +28,21 @@ ${${PROJECT_NAME}_SRC_DIR}/MT/JobSystem.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Logging/Log.cpp
 
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/RHI.cpp
+
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12Device.h
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12Device.cpp
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12SwapChain.h
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12SwapChain.cpp
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12CommandContext.h
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/DX12/DX12CommandContext.cpp
+
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanDevice.cpp
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanDevice.h
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanSwapchain.cpp
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanSwapchain.h
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanCommandContext.cpp
+${${PROJECT_NAME}_SRC_DIR}/Rendering/RHI/Platform/Vulkan/VulkanCommandContext.h
 
 )
 
@@ -36,9 +51,10 @@ set(${PROJECT_NAME}_HDRS
 ${${PROJECT_NAME}_INC_DIR}/SolarcApp.h
 
 ${${PROJECT_NAME}_INC_DIR}/Window/Window.h
-${${PROJECT_NAME}_INC_DIR}/Window/WindowPlatform.h
 ${${PROJECT_NAME}_INC_DIR}/Window/WindowContext.h
+${${PROJECT_NAME}_INC_DIR}/Window/WindowPlatform.h
 ${${PROJECT_NAME}_INC_DIR}/Window/WindowContextPlatform.h
+
 
 ${${PROJECT_NAME}_INC_DIR}/Event/Event.h
 ${${PROJECT_NAME}_INC_DIR}/Event/ApplicationEvent.h
@@ -68,5 +84,8 @@ ${${PROJECT_NAME}_INC_DIR}/MT/ThreadChecker.h
 ${${PROJECT_NAME}_INC_DIR}/Logging/Log.h
 ${${PROJECT_NAME}_INC_DIR}/Logging/LogMacros.h
 ${${PROJECT_NAME}_INC_DIR}/Logging/Log.h
+
+${${PROJECT_NAME}_INC_DIR}/Rendering/RHI/RHI.h
+${${PROJECT_NAME}_INC_DIR}/Rendering/RHI/RHIResult.h
 
 )

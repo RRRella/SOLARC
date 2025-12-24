@@ -1,6 +1,7 @@
 #pragma once
 #include "WindowPlatform.h"
 #include "Event/EventListener.h"
+#include "Event/EventProducer.h"
 #include "Event/ObserverBus.h"
 #include "Event/WindowEvent.h"
 #include "Logging/LogMacros.h"
@@ -23,6 +24,13 @@ concept WindowPlatformConcept = requires(T & t) {
     { t.Show() } -> std::same_as<void>;
     { t.Hide() } -> std::same_as<void>;
     { t.IsVisible() } -> std::convertible_to<bool>;
+    { t.IsMinimized() } -> std::convertible_to<bool>;
+
+    // Window State Commands
+    { t.Resize(0, 0) } -> std::same_as<void>;
+    { t.Minimize() } -> std::same_as<void>;
+    { t.Maximize() } -> std::same_as<void>;
+    { t.Restore() } -> std::same_as<void>;
 
     // Events (optional but expected for integration)
     // We assume it derives from EventProducer<WindowEvent> externally
@@ -42,7 +50,7 @@ concept WindowPlatformConcept = requires(T & t) {
  */
 
 template<WindowPlatformConcept PlatformT>
-class WindowT : public EventListener<WindowEvent>
+class WindowT : public EventListener<WindowEvent> , public EventProducer<WindowEvent>
 {
 
 public:
@@ -73,11 +81,42 @@ public:
     void Hide();
 
     /**
+    * Resize the window
+    * note: Must be called from main thread
+    */
+    void Resize(int32_t width, int32_t height);
+
+    /**
+     * Minimize the window
+     * note: Must be called from main thread
+     */
+    void Minimize();
+
+    /**
+     * Maximize the window
+     * note: Must be called from main thread
+     */
+    void Maximize();
+
+    /**
+     * Restore the window (from minimized/maximized state)
+     * note: Must be called from main thread
+     */
+    void Restore();
+
+    /**
      * Check if window is visible
      * return true if visible, false otherwise
      * note: Must be called from main thread
      */
     bool IsVisible() const;
+
+    /**
+    * Check if window is minimized
+    * return true if minimized, false otherwise
+    * note: Must be called from main thread
+    */
+    bool IsMinimized() const;
 
     /**
      * Check if window is closed
@@ -105,7 +144,7 @@ public:
      * Get platform handle (for internal use by WindowContext)
      * return Raw pointer to platform (never null while window is alive)
      */
-    PlatformT* GetPlatform() const { return m_Platform.get(); }
+    const PlatformT* GetPlatform() const { return m_Platform.get(); }
 
     /**
      * Process queued window events
@@ -131,11 +170,13 @@ private:
     ObserverBus<WindowEvent> m_Bus;
 };
 
+extern template class WindowT<WindowPlatform>;
+
 // Production alias
-using Window = WindowT<class WindowPlatform>;
+using Window = WindowT<WindowPlatform>;
 
 template<WindowPlatformConcept PlatformT>
-WindowT<PlatformT>::WindowT(
+inline WindowT<PlatformT>::WindowT(
     std::unique_ptr<PlatformT> platform,
     std::function<void(WindowT<PlatformT>*)> onDestroy)
     : m_Platform(std::move(platform))
@@ -154,7 +195,7 @@ WindowT<PlatformT>::WindowT(
 }
 
 template<WindowPlatformConcept PlatformT>
-WindowT<PlatformT>::~WindowT()
+inline WindowT<PlatformT>::~WindowT()
 {
     SOLARC_WINDOW_TRACE("Window destructor: '{}'",
         m_Platform ? m_Platform->GetTitle() : "null");
@@ -162,7 +203,7 @@ WindowT<PlatformT>::~WindowT()
 }
 
 template<WindowPlatformConcept PlatformT>
-void WindowT<PlatformT>::Destroy()
+inline void WindowT<PlatformT>::Destroy()
 {
     std::lock_guard lock(m_DestroyMutex);
     if (m_Destroyed) return;
@@ -176,10 +217,12 @@ void WindowT<PlatformT>::Destroy()
     {
         m_OnDestroy(this);
     }
+
+    m_Platform.reset();
 }
 
 template<WindowPlatformConcept PlatformT>
-void WindowT<PlatformT>::Show()
+inline void WindowT<PlatformT>::Show()
 {
     std::lock_guard lock(m_DestroyMutex);
     if (m_Platform && !m_Destroyed)
@@ -190,7 +233,7 @@ void WindowT<PlatformT>::Show()
 }
 
 template<WindowPlatformConcept PlatformT>
-void WindowT<PlatformT>::Hide()
+inline void WindowT<PlatformT>::Hide()
 {
     std::lock_guard lock(m_DestroyMutex);
     if (m_Platform && !m_Destroyed)
@@ -201,21 +244,73 @@ void WindowT<PlatformT>::Hide()
 }
 
 template<WindowPlatformConcept PlatformT>
-bool WindowT<PlatformT>::IsVisible() const
+inline void WindowT<PlatformT>::Resize(int32_t width, int32_t height)
+{
+    std::lock_guard lock(m_DestroyMutex);
+    if (m_Platform && !m_Destroyed)
+    {
+        m_Platform->Resize(width, height);
+        SOLARC_WINDOW_DEBUG("Window resize requested: '{}' to {}x{}",
+            m_Platform->GetTitle(), width, height);
+    }
+}
+
+template<WindowPlatformConcept PlatformT>
+inline void WindowT<PlatformT>::Minimize()
+{
+    std::lock_guard lock(m_DestroyMutex);
+    if (m_Platform && !m_Destroyed)
+    {
+        m_Platform->Minimize();
+        SOLARC_WINDOW_DEBUG("Window minimize requested: '{}'", m_Platform->GetTitle());
+    }
+}
+
+template<WindowPlatformConcept PlatformT>
+inline void WindowT<PlatformT>::Maximize()
+{
+    std::lock_guard lock(m_DestroyMutex);
+    if (m_Platform && !m_Destroyed)
+    {
+        m_Platform->Maximize();
+        SOLARC_WINDOW_DEBUG("Window maximize requested: '{}'", m_Platform->GetTitle());
+    }
+}
+
+template<WindowPlatformConcept PlatformT>
+inline void WindowT<PlatformT>::Restore()
+{
+    std::lock_guard lock(m_DestroyMutex);
+    if (m_Platform && !m_Destroyed)
+    {
+        m_Platform->Restore();
+        SOLARC_WINDOW_DEBUG("Window restore requested: '{}'", m_Platform->GetTitle());
+    }
+}
+
+template<WindowPlatformConcept PlatformT>
+inline bool WindowT<PlatformT>::IsVisible() const
 {
     std::lock_guard lock(m_DestroyMutex);
     return m_Platform && !m_Destroyed ? m_Platform->IsVisible() : false;
 }
 
 template<WindowPlatformConcept PlatformT>
-bool WindowT<PlatformT>::IsClosed() const
+inline bool WindowT<PlatformT>::IsMinimized() const
+{
+    std::lock_guard lock(m_DestroyMutex);
+    return m_Platform && !m_Destroyed ? m_Platform->IsMinimized() : false;
+}
+
+template<WindowPlatformConcept PlatformT>
+inline bool WindowT<PlatformT>::IsClosed() const
 {
     std::lock_guard lock(m_DestroyMutex);
     return m_Destroyed;
 }
 
 template<WindowPlatformConcept PlatformT>
-void WindowT<PlatformT>::Update()
+inline void WindowT<PlatformT>::Update()
 {
     // Process all queued events
 
@@ -225,29 +320,71 @@ void WindowT<PlatformT>::Update()
 }
 
 template<WindowPlatformConcept PlatformT>
-void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>& e)
+inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>& e)
 {
     switch (e->GetWindowEventType())
     {
+
     case WindowEvent::TYPE::CLOSE:
+    {
         SOLARC_WINDOW_INFO("Window close event received: '{}'", GetTitle());
         Destroy();
         break;
+    }
 
     case WindowEvent::TYPE::SHOWN:
+    {
+        // Update Platform State
+        if (m_Platform) m_Platform->SyncVisibility(true);
         SOLARC_WINDOW_TRACE("Window shown event: '{}'", GetTitle());
         break;
+    }
 
     case WindowEvent::TYPE::HIDDEN:
+    {
+        // Update Platform State
+        if (m_Platform) m_Platform->SyncVisibility(false);
         SOLARC_WINDOW_TRACE("Window hidden event: '{}'", GetTitle());
         break;
+    }
+
+    case WindowEvent::TYPE::RESIZED:
+    {
+        auto resizeEvent = std::static_pointer_cast<const WindowResizeEvent>(e);
+
+        // Update Platform State
+        if (m_Platform) {
+            m_Platform->SyncDimensions(resizeEvent->GetWidth(), resizeEvent->GetHeight());
+            // Implicitly not minimized if we get a specific size, 
+            // usually you might want a specific Minimized Event, but for now:
+            m_Platform->SyncMinimized(false);
+        }
+
+        SOLARC_WINDOW_DEBUG("Window resize event: '{}' ({}x{})",
+            GetTitle(), resizeEvent->GetWidth(), resizeEvent->GetHeight());
+        break;
+    }
+
+    case WindowEvent::TYPE::MINIMIZED:
+    {
+        if (m_Platform) m_Platform->SyncMinimized(true);
+        SOLARC_WINDOW_TRACE("Window minimized event: '{}'", GetTitle());
+        break;
+    }
+
+    case WindowEvent::TYPE::RESTORED:
+    {
+        if (m_Platform) m_Platform->SyncMinimized(false);
+        SOLARC_WINDOW_TRACE("Window restored event: '{}'", GetTitle());
+        break;
+    }
 
     default:
         SOLARC_WINDOW_TRACE("Window generic event: '{}'", GetTitle());
         break;
     }
+
+    DispatchEvent(e);
 }
 
-// Explicit instantiation for production type
-template class WindowT<WindowPlatform>;
 

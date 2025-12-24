@@ -74,10 +74,17 @@
 #define SOLARC_ASSERT(condition, ...)                                       \
     do {                                                                    \
         if (!(condition)) {                                                 \
+            /* 1. Log to the normal logger*/               \
             SOLARC_CRITICAL("Assertion failed: {}", #condition);            \
             SOLARC_CRITICAL(__VA_ARGS__);                                   \
             SOLARC_CRITICAL("File: {}, Line: {}", __FILE__, __LINE__);      \
-            ::Solarc::Log::FlushAll();                                      \
+            ::Log::FlushAll();                                              \
+                                                                            \
+            /* 2. FORCE output to stderr so EXPECT_DEATH can see it */      \
+            /* fmt::print allows using the same format args as spdlog */    \
+            fmt::print(stderr, __VA_ARGS__);                                \
+            fmt::print(stderr, "\n");                                       \
+                                                                            \
             std::abort();                                                   \
         }                                                                   \
     } while(0)

@@ -51,7 +51,7 @@ void WindowContext::PollEvents()
 
     for (auto& window : windows)
     {
-        if (window && window->IsVisible())
+        if (window)
         {
             window->Update();
         }

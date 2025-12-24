@@ -24,6 +24,8 @@ struct CommandLineArgs
     std::string projectPath;
     bool showHelp = false;
     bool showVersion = false;
+    bool vsyncOverride = false;
+    bool vsyncEnabled = true;
 };
 
 // NOTE: PrintUsage and PrintVersion use std::cout because they're called
@@ -35,12 +37,15 @@ void PrintUsage(const char* exeName)
         << "Options:\n"
         << "  --help, -h          Show this help message\n"
         << "  --version, -v       Show version information\n"
-        << "  --config PATH       Specify config file (default: ./Data/config.toml)\n\n"
+        << "  --config PATH       Specify config file (default: ./Data/config.toml)\n"
+        << "  --vsync on|off      Override VSync setting (default: on)\n"
+        << "\n"
         << "Arguments:\n"
         << "  PROJECT_FILE        Path to .solarcproj file to open on startup\n\n"
         << "Examples:\n"
         << "  " << exeName << "                         # Start without project\n"
         << "  " << exeName << " --config custom.toml    # Use custom config\n"
+        << "  " << exeName << " --vsync off             # Disable VSync\n"
         << "  " << exeName << " myproject.solarcproj    # Open specific project\n";
 }
 
@@ -85,6 +90,33 @@ bool ParseCommandLine(int argc, char** argv, CommandLineArgs& args, std::string&
                 return false;
             }
             args.configPath = argv[i];
+        }
+        else if (arg == "--vsync")
+        {
+            if (++i >= argc)
+            {
+                errorMsg = "Error: --vsync requires on/off argument";
+                return false;
+            }
+
+            std::string vsyncArg = argv[i];
+            std::transform(vsyncArg.begin(), vsyncArg.end(), vsyncArg.begin(), ::tolower);
+
+            if (vsyncArg == "on" || vsyncArg == "1" || vsyncArg == "true")
+            {
+                args.vsyncOverride = true;
+                args.vsyncEnabled = true;
+            }
+            else if (vsyncArg == "off" || vsyncArg == "0" || vsyncArg == "false")
+            {
+                args.vsyncOverride = true;
+                args.vsyncEnabled = false;
+            }
+            else
+            {
+                errorMsg = "Error: --vsync must be on/off, true/false, or 1/0";
+                return false;
+            }
         }
         else if (arg.starts_with("--"))
         {
@@ -232,6 +264,12 @@ int main(int argc, char** argv)
                     args.projectPath, e.what());
                 throw;
             }
+        }
+
+        // Apply VSync override if specified
+        if (args.vsyncOverride)
+        {
+            app.SetVSyncPreference(args.vsyncEnabled);
         }
 
         // Run the application

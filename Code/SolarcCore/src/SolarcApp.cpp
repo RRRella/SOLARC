@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include "Logging/LogMacros.h"
+#include "Rendering/RHI/RHI.h"
 
 #undef min
 #undef max
@@ -192,6 +193,27 @@ void SolarcApp::ParseStartupData(const toml::value& configData)
     }
 }
 
+void SolarcApp::ParseRenderingData(const toml::value& configData)
+{
+    if (!configData.contains("rendering"))
+    {
+        SOLARC_APP_DEBUG("No [rendering] section in config, using defaults");
+        return;
+    }
+
+    const auto& rendering = toml::find(configData, "rendering");
+    if (!rendering.is_table())
+    {
+        SOLARC_APP_ERROR("[rendering] must be a table");
+        return;
+    }
+
+    // Parse VSync setting
+    bool vsync = toml::find_or(rendering, "vsync", true);
+    SetVSyncPreference(vsync);
+    SOLARC_APP_INFO("Config: VSync = {}", vsync ? "enabled" : "disabled");
+}
+
 // ============================================================================
 // State Machine
 // ============================================================================
@@ -314,6 +336,9 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateInitialize::Update()
     // Parse startup data (sets initial project path)
     app.ParseStartupData(configData);
 
+    // Parse rendering data
+    app.ParseRenderingData(configData);
+
     // Create JobSystem now that we have thread counts
     size_t numWorkers = app.GetThreadCountFor("job_system");
     if (numWorkers == 0) {
@@ -430,8 +455,30 @@ void SolarcApp::SolarcStateRunning::OnEnter()
         app.m_WindowHeight
     );
 
+    m_Bus.RegisterProducer(m_MainWindow.get());
+
     m_MainWindow->Show();
     SOLARC_APP_INFO("Main window created and shown");
+
+    // Initialize RHI with the main window
+    try {
+        SOLARC_APP_INFO("Initializing RHI...");
+        RHI::Initialize(m_MainWindow);
+        m_Bus.RegisterListener(&RHI::Get());
+        SOLARC_APP_INFO("RHI initialized successfully");
+    }
+    catch (const std::exception& e) {
+        SOLARC_CRITICAL("Failed to initialize RHI: {}", e.what());
+        throw; // Re-throw to trigger cleanup state
+    }
+
+    // Apply VSync preference if overridden
+    if (app.m_VSyncOverride)
+    {
+        RHI::Get().SetVSync(app.m_VSyncEnabled);
+        SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
+    }
+
 }
 
 SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
@@ -439,33 +486,28 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
     // Update the window (processes its event queue)
     m_MainWindow->Update();
 
-    // TODO: Main application loop work goes here:
-    // - Update game logic
-    // - Kick off parallel jobs (physics, animation, etc.)
-    // - Record rendering commands
-    // - Submit to GPU
+    m_Bus.Communicate();
 
-    // Example of how you'd use the job system in the future:
-    /*
-    auto& jobSys = *m_SolarctCtxRef.jobSystem;
+    // Render frame if RHI is initialized and window is not minimized
+    if (RHI::IsInitialized() && !m_MainWindow->IsMinimized())
+    {
+        auto& rhi = RHI::Get();
 
-    // Update physics
-    auto physicsJob = jobSys.Schedule([&]() {
-        m_PhysicsWorld.Simulate(deltaTime);
-    }, {}, "Physics");
+        // Begin frame
+        rhi.BeginFrame();
 
-    // Update animation (depends on physics)
-    auto animJob = jobSys.Schedule([&]() {
-        m_AnimationSystem.Update(deltaTime);
-    }, {physicsJob}, "Animation");
+        // Clear screen to dark blue
+        rhi.Clear(0.1f, 0.2f, 0.3f, 1.0f);
 
-    // Wait for simulation to complete
-    jobSys.WaitAll({physicsJob, animJob});
+        // TODO: Future rendering work goes here:
+        // - Draw scene geometry
+        // - Render UI
+        // - Post-processing effects
 
-    // Render
-    m_Renderer.RecordFrame(m_Scene);
-    m_Renderer.Submit();
-    */
+        // End frame and present
+        rhi.EndFrame();
+        rhi.Present();
+    }
 
     // Check if window was closed
     if (m_MainWindow->IsClosed())
@@ -479,12 +521,27 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
 
 void SolarcApp::SolarcStateRunning::OnExit()
 {
-    SOLARC_APP_INFO("Exiting running state - cleaning up window");
+    SOLARC_APP_INFO("Exiting running state - cleaning up RHI and window");
 
+    // Shutdown RHI BEFORE destroying the window
+    if (RHI::IsInitialized())
+    {
+        SOLARC_APP_INFO("Shutting down RHI...");
+        try {
+            RHI::Shutdown();
+            SOLARC_APP_INFO("RHI shutdown complete");
+        }
+        catch (const std::exception& e) {
+            SOLARC_APP_ERROR("Exception during RHI shutdown: {}", e.what());
+        }
+    }
+
+    // Now safe to destroy the window
     if (m_MainWindow)
     {
         m_MainWindow->Hide();
         m_MainWindow.reset();
+        SOLARC_APP_INFO("Main window destroyed");
     }
 }
 

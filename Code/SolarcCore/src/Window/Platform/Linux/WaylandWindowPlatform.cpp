@@ -5,6 +5,7 @@
 #include "Logging/LogMacros.h"
 #include <stdexcept>
 
+
 const xdg_surface_listener WindowPlatform::s_XdgSurfaceListener = {
     .configure = xdg_surface_configure
 };
@@ -15,13 +16,7 @@ const xdg_toplevel_listener WindowPlatform::s_XdgToplevelListener = {
 };
 
 WindowPlatform::WindowPlatform(
-<<<<<<< HEAD
-    const std::string& title,
-    int32_t width,
-    int32_t height)
-=======
     const std::string& title, const int32_t& width, const int32_t& height)
->>>>>>> linux
     :m_Title(title)
     , m_Width(width > 0 ? width : 800)
     , m_Height(height > 0 ? height : 600)
@@ -90,10 +85,10 @@ WindowPlatform::~WindowPlatform()
 
 void WindowPlatform::Show()
 {
+    std::lock_guard lk(mtx);
+
     if (!m_Visible)
     {
-        m_Visible = true;
-        
         // Wait for initial configure before showing
         if (!m_Configured)
         {
@@ -103,32 +98,35 @@ void WindowPlatform::Show()
         else
         {
             wl_surface_commit(m_Surface);
-            SOLARC_WINDOW_DEBUG("Wayland window shown: '{}'", m_Title);
+            DispatchWindowEvent(std::make_shared<WindowShownEvent>());
         }
     }
 }
 
 void WindowPlatform::Hide()
 {
+    std::lock_guard lk(mtx);
+
     if (m_Visible)
     {
-        m_Visible = false;
-        
         // Wayland doesn't have explicit hide - we can attach a null buffer
         wl_surface_attach(m_Surface, nullptr, 0, 0);
         wl_surface_commit(m_Surface);
-        
-        SOLARC_WINDOW_DEBUG("Wayland window hidden: '{}'", m_Title);
+        DispatchWindowEvent(std::make_shared<WindowHiddenEvent>());
     }
 }
 
 bool WindowPlatform::IsVisible() const
 {
+    std::lock_guard lk(mtx);
+
     return m_Visible && m_Configured;
 }
 
 void WindowPlatform::SetTitle(const std::string& title)
 {
+    std::lock_guard lk(mtx);
+
     m_Title = title;
     
     if (m_XdgToplevel)
@@ -140,6 +138,8 @@ void WindowPlatform::SetTitle(const std::string& title)
 
 void WindowPlatform::Resize(int32_t width, int32_t height)
 {
+    std::lock_guard lk(mtx);
+
     m_Width = width;
     m_Height = height;
     
@@ -157,15 +157,23 @@ void WindowPlatform::Resize(int32_t width, int32_t height)
 
 void WindowPlatform::Minimize()
 {
+    std::lock_guard lk(mtx);
+
     if (m_XdgToplevel)
     {
         xdg_toplevel_set_minimized(m_XdgToplevel);
+
+        // Optimistically dispatch event so Window wrapper updates state
+        DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
+
         SOLARC_WINDOW_DEBUG("Wayland window minimize requested: '{}'", m_Title);
     }
 }
 
 void WindowPlatform::Maximize()
 {
+    std::lock_guard lk(mtx);
+
     if (m_XdgToplevel)
     {
         xdg_toplevel_set_maximized(m_XdgToplevel);
@@ -176,29 +184,51 @@ void WindowPlatform::Maximize()
 
 void WindowPlatform::Restore()
 {
+    std::lock_guard lk(mtx);
+
     if (m_XdgToplevel)
     {
         xdg_toplevel_unset_maximized(m_XdgToplevel);
         xdg_toplevel_unset_fullscreen(m_XdgToplevel);
         wl_surface_commit(m_Surface);
+
+        // Dispatch restored event
+        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
+
         SOLARC_WINDOW_DEBUG("Wayland window restore requested: '{}'", m_Title);
     }
 }
 
 void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 {
+    std::lock_guard lk(mtx);
+
+    if (m_Minimized)
+    {
+        m_Minimized = false;
+
+        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
+        SOLARC_WINDOW_TRACE("Wayland window implicitly restored via configure");
+    }
+
     if (width > 0 && height > 0)
     {
-        m_Width = width;
-        m_Height = height;
-        SOLARC_WINDOW_TRACE("Wayland window configured: {}x{}", width, height);
+        SOLARC_WINDOW_TRACE("Wayland window configure msg: {}x{}", width, height);
+
+        if (m_Configured)
+        {
+            DispatchWindowEvent(std::make_shared<WindowResizeEvent>(width, height));
+        }
     }
-    
+
     m_Configured = true;
+}
 }
 
 void WindowPlatform::HandleClose()
 {
+    std::lock_guard lk(mtx);
+
     SOLARC_WINDOW_INFO("Wayland window close requested: '{}'", m_Title);
     // Context will dispatch close event
 }
@@ -208,6 +238,8 @@ void WindowPlatform::xdg_surface_configure(
     xdg_surface* xdg_surface,
     uint32_t serial)
 {
+    std::lock_guard lk(mtx);
+
     // NULL safety check
     if (!data) return;
     
@@ -232,6 +264,8 @@ void WindowPlatform::xdg_toplevel_configure(
     int32_t height,
     wl_array* states)
 {
+    std::lock_guard lk(mtx);
+
     // NULL safety check
     if (!data) return;
     
@@ -243,6 +277,8 @@ void WindowPlatform::xdg_toplevel_close(
     void* data,
     xdg_toplevel* toplevel)
 {
+    std::lock_guard lk(mtx);
+
     if (!data) return;
     auto* window = static_cast<WindowPlatform*>(data);
     window->HandleClose();
@@ -251,9 +287,10 @@ void WindowPlatform::xdg_toplevel_close(
     window->ReceiveWindowEvent(std::move(ev));
 }
 
-void* WindowPlatform::GetNativeHandle() const
+bool WindowPlatform::IsMinimized() const
 {
-    return m_Surface;
+    std::lock_guard lk(mtx);
+    return m_Minimized;
 }
 
 #endif

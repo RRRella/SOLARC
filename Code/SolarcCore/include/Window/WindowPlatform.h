@@ -13,42 +13,74 @@
 #include "xdg-shell-client-protocol.h"
 #endif
 
-class SOLARC_CORE_API WindowPlatform : public EventProducer<WindowEvent>
+class WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
     // Restored: Only title, width, height
     WindowPlatform(const std::string& title, const int32_t& width, const int32_t& height);
     ~WindowPlatform();
 
+    // -- Commands (Tell the OS what to do) --
     void Show();
     void Hide();
-    bool IsVisible() const;
-    void* GetNativeHandle() const;
-
     void Resize(int32_t width, int32_t height);
     void Minimize();
     void Maximize();
     void Restore();
-
     void SetTitle(const std::string& title);
 
+    // -- Getters --
     const std::string& GetTitle() const { return m_Title; }
     const int32_t& GetWidth() const { return m_Width; }
     const int32_t& GetHeight() const { return m_Height; }
+    bool IsVisible() const;
+    bool IsMinimized() const;
 
-    void ReceiveWindowEvent(const std::shared_ptr<const WindowEvent>& e)
+    // -- State Synchronization (Called by Window::OnEvent) --
+    // These are public so WindowT can update the cache based on events
+    void SyncDimensions(int32_t width, int32_t height)
+    {
+        std::lock_guard lk(mtx);
+        m_Width = width;
+        m_Height = height;
+    }
+
+    void SyncVisibility(bool visible)
+    {
+        std::lock_guard lk(mtx);
+        m_Visible = visible;
+    }
+
+    void SyncMinimized(bool minimized)
+    {
+        std::lock_guard lk(mtx);
+        m_Minimized = minimized;
+    }
+
+    // Helper for internal dispatch
+    void DispatchWindowEvent(const std::shared_ptr<const WindowEvent>& e)
     {
         DispatchEvent(e);
     }
+
+#ifdef _WIN32
+    HWND GetWin32Handle() const { return m_hWnd; }
+#elif defined(linux)
+    wl_surface* GetWaylandSurface() const { return m_Surface; }
+#endif
 
 private:
     std::string m_Title;
     int32_t m_Width;
     int32_t m_Height;
     bool m_Visible = false;
+    bool m_Minimized = false;
+
+    mutable std::mutex mtx;
 
 #ifdef _WIN32
     HWND m_hWnd = nullptr;
+    friend LRESULT CALLBACK WindowContextPlatform::WndProc(HWND, UINT, WPARAM, LPARAM);
 
 #elif defined(__linux__)
     void HandleConfigure(int32_t width, int32_t height);

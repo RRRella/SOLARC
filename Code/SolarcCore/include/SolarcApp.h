@@ -24,6 +24,12 @@ public:
 
     void SetInitialProject(const std::string& projectPath);
 
+    void SetVSyncPreference(bool enabled)
+    {
+        m_VSyncOverride = true;
+        m_VSyncEnabled = enabled;
+    }
+
     uint8_t GetThreadCountFor(const std::string& systemComponent);
 
     void Run();
@@ -77,6 +83,7 @@ private:
     void ParseWindowData(const toml::value& configData);
     void ParseMTData(const toml::value& configData);
     void ParseStartupData(const toml::value& configData);
+    void ParseRenderingData(const toml::value& configData);
 
     inline static std::unique_ptr<SolarcApp> m_Instance = nullptr;
 
@@ -92,6 +99,9 @@ private:
     int m_WindowHeight = 1080;
     bool m_WindowFullscreen = false;
     std::string m_WindowName = "Solarc Window";
+
+    bool m_VSyncOverride = false;
+    bool m_VSyncEnabled = true;
 
     // Initial project path (set before state machine starts)
     std::string m_InitialProjectPath;
@@ -186,6 +196,7 @@ public:
 
 private:
     std::shared_ptr<Window> m_MainWindow;
+    ObserverBus<WindowEvent> m_Bus;
 };
 
 class SolarcApp::SolarcStateCleanup : public SolarcState

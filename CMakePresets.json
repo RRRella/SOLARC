@@ -1,83 +1,73 @@
 {
     "version": 6,
-    "cmakeMinimumRequired": { "major": 3, "minor": 22, "patch": 0 },
+    "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
 
     "configurePresets": [
         {
-            "name": "windows-msvc-debug",
-            "displayName": "Windows MSVC Debug (vcpkg)",
-            "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build/windows-msvc-debug",
-
+            "name": "windows-base",
+            "hidden": true,
+            "generator": "Visual Studio 18 2026",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
             },
-
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "SOLARC_RENDERER": "DX12"
             }
         },
-
+        {
+            "name": "linux-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "SOLARC_RENDERER": "Vulkan"
+            }
+        },
+        {
+            "name": "windows-msvc-debug",
+            "displayName": "Windows MSVC Debug",
+            "inherits": "windows-base",
+            "binaryDir": "${sourceDir}/build/windows-msvc-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
         {
             "name": "windows-msvc-release",
-            "displayName": "Windows MSVC Release (vcpkg)",
-            "generator": "Visual Studio 17 2022",
+            "displayName": "Windows MSVC Release",
+            "inherits": "windows-base",
             "binaryDir": "${sourceDir}/build/windows-msvc-release",
-
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            },
-
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
-
         {
             "name": "linux-gcc-debug",
             "displayName": "Linux GCC Debug",
-            "generator": "Ninja",
+            "inherits": "linux-base",
             "binaryDir": "${sourceDir}/build/linux-gcc-debug",
-
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
-
         {
             "name": "linux-gcc-release",
             "displayName": "Linux GCC Release",
-            "generator": "Ninja",
+            "inherits": "linux-base",
             "binaryDir": "${sourceDir}/build/linux-gcc-release",
-
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++",
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],

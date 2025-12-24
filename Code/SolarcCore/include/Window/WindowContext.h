@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include "WindowContextPlatform.h"
+#include "Window/WindowContextPlatform.h"
 #include "Event/ObserverBus.h"
 #include "Event/EventProducer.h"
 #include "MT/ThreadChecker.h"

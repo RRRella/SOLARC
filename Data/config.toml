@@ -5,6 +5,10 @@ height = 1080
 fullscreen = false
 Name = "Solarc Window"
 
+[rendering]
+vsync = true
+# clearColor = [0.1, 0.2, 0.3, 1.0]  # Future: configurable clear color
+
 [threading]
 "Render Thread" = 70
 "Asset Loader" = 30
