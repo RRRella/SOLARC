@@ -44,7 +44,7 @@ public:
 
 #ifdef _WIN32
     HWND GetWin32Handle() const { return m_hWnd; }
-#elif defined(linux)
+#elif defined(__linux__)
     wl_surface* GetWaylandSurface() const { return m_Surface; }
 #endif
 

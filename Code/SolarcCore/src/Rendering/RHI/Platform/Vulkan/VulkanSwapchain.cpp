@@ -86,7 +86,7 @@
 
         auto window = m_Window.lock();
 
-        SOLARC_ASSERT(!window->IsMinimized() || window->IsVisible() , "Creating Vulkan swapchain with hidden/minimized window – may cause failures.");
+        SOLARC_ASSERT(!window->IsMinimized() || window->IsVisible() , "Creating Vulkan swapchain with hidden/minimized window ï¿½ may cause failures.");
 
         if (!window) {
             throw std::runtime_error("Window expired during swapchain creation");
@@ -108,7 +108,7 @@
 #elif __linux__
         VkWaylandSurfaceCreateInfoKHR createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
-        createInfo.display = window->GetPlatform()->GetWaylandDisplay();
+        createInfo.display = WindowContextPlatform::Get().GetDisplay();
         createInfo.surface = window->GetPlatform()->GetWaylandSurface();
 
         VkResult result = vkCreateWaylandSurfaceKHR(

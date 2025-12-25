@@ -31,7 +31,7 @@
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "SOLARC_RENDERER": "Vulkan"
+                "SOLARC_RENDERER": "VULKAN"
             }
         },
         {

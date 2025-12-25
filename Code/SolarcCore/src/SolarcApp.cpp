@@ -499,6 +499,8 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
     {
         auto& rhi = RHI::Get();
 
+        if(!m_MainWindow->IsVisible())
+
         // Begin frame
         rhi.BeginFrame();
 

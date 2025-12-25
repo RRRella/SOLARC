@@ -211,6 +211,10 @@ void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 
     m_Configured = true;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 19d0227 (fixed weird bugs)
 
 void WindowPlatform::HandleClose()
 {
@@ -270,6 +274,7 @@ void WindowPlatform::xdg_toplevel_configure(
     if (!data) return;
     auto* window = static_cast<WindowPlatform*>(data);
 
+<<<<<<< HEAD
     // Parse states
     bool isMinimized = false;
     bool isMaximized = false;
@@ -321,6 +326,10 @@ void WindowPlatform::xdg_toplevel_configure(
             }
         }
     }
+=======
+    auto ev = std::make_shared<WindowCloseEvent>();
+    window->DispatchWindowEvent(std::move(ev));
+>>>>>>> 19d0227 (fixed weird bugs)
 }
 
 bool WindowPlatform::IsMinimized() const

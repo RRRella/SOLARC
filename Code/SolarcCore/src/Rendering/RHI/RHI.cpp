@@ -443,7 +443,7 @@ void RHI::ResizeSwapchain(int32_t width, int32_t height)
 
     // Resize swapchain
     SOLARC_RENDER_DEBUG("Resizing swapchain buffers...");
-    auto result = m_Swapchain->Resize(static_cast<UINT>(width), static_cast<UINT>(height));
+    auto result = m_Swapchain->Resize(static_cast<uint32_t>(width), static_cast<uint32_t>(height));
     if (!result) {
         SOLARC_RENDER_ERROR("Swapchain resize failed: {}", result.GetResultMessage());
         throw std::runtime_error("Failed to resize swapchain");
