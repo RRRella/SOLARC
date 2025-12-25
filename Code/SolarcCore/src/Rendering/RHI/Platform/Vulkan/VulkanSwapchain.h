@@ -8,6 +8,11 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 #include <memory>
+#ifdef __linux__
+#include <wayland-client.h>
+#include "xdg-shell-client-protocol.h"
+#endif
+
 
 
     /**
@@ -173,6 +178,18 @@
 
         uint32_t m_CurrentFrame = 0;
         uint32_t m_CurrentImageIndex = 0;
+
+#ifdef __linux__
+        wl_callback* m_FrameCallback = nullptr;
+        bool m_WaitingForFrame = false;
+        static void frame_done_callback(void* data, wl_callback* cb, uint32_t time);
+        static const wl_callback_listener s_FrameListener;
+#endif
 };
 
 #endif // SOLARC_RENDERER_VULKAN
+
+
+
+    
+   

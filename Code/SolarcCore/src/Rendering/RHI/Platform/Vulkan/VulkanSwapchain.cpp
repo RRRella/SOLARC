@@ -452,8 +452,35 @@
             return rhiResult;
         }
 
+    #ifdef __linux__
+        auto window = m_Window.lock();
+        if (window) {
+            wl_surface* surface = window->GetPlatform()->GetWaylandSurface();
+
+            // Request next frame callback
+            m_FrameCallback = wl_surface_frame(surface);
+            wl_callback_add_listener(m_FrameCallback, &s_FrameListener, this);
+
+            // Commit to apply buffer
+            wl_surface_commit(surface);
+            wl_display_flush(WindowContextPlatform::Get().GetDisplay());
+        }
+    #endif
+
         return RHIResult(RHIStatus::SUCCESS);
     }
+#ifdef __linux
+    const wl_callback_listener VulkanSwapchain::s_FrameListener = {
+        .done = frame_done_callback
+    };
+
+    void VulkanSwapchain::frame_done_callback(void* data, wl_callback* cb, uint32_t time) {
+        auto* swapchain = static_cast<VulkanSwapchain*>(data);
+        wl_callback_destroy(cb);
+        swapchain->m_FrameCallback = nullptr;
+        swapchain->m_WaitingForFrame = false;
+    }
+#endif
 
     RHIResult VulkanSwapchain::Resize(uint32_t width, uint32_t height)
     {

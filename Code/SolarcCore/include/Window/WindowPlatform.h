@@ -10,7 +10,6 @@
 #include <windows.h>
 #elif defined(__linux__)
 #include <wayland-client.h>
-#include "xdg-shell-client-protocol.h"
 #endif
 
 class WindowPlatform : public EventProducer<WindowEvent>
