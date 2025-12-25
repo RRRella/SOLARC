@@ -335,7 +335,6 @@ inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>
     case WindowEvent::TYPE::SHOWN:
     {
         // Update Platform State
-        if (m_Platform) m_Platform->SyncVisibility(true);
         SOLARC_WINDOW_TRACE("Window shown event: '{}'", GetTitle());
         break;
     }
@@ -343,7 +342,6 @@ inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>
     case WindowEvent::TYPE::HIDDEN:
     {
         // Update Platform State
-        if (m_Platform) m_Platform->SyncVisibility(false);
         SOLARC_WINDOW_TRACE("Window hidden event: '{}'", GetTitle());
         break;
     }
@@ -352,14 +350,6 @@ inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>
     {
         auto resizeEvent = std::static_pointer_cast<const WindowResizeEvent>(e);
 
-        // Update Platform State
-        if (m_Platform) {
-            m_Platform->SyncDimensions(resizeEvent->GetWidth(), resizeEvent->GetHeight());
-            // Implicitly not minimized if we get a specific size, 
-            // usually you might want a specific Minimized Event, but for now:
-            m_Platform->SyncMinimized(false);
-        }
-
         SOLARC_WINDOW_DEBUG("Window resize event: '{}' ({}x{})",
             GetTitle(), resizeEvent->GetWidth(), resizeEvent->GetHeight());
         break;
@@ -367,14 +357,18 @@ inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>
 
     case WindowEvent::TYPE::MINIMIZED:
     {
-        if (m_Platform) m_Platform->SyncMinimized(true);
         SOLARC_WINDOW_TRACE("Window minimized event: '{}'", GetTitle());
+        break;
+    }
+
+    case WindowEvent::TYPE::MAXIMIZED:
+    {
+        SOLARC_WINDOW_TRACE("Window maximized event: '{}'", GetTitle());
         break;
     }
 
     case WindowEvent::TYPE::RESTORED:
     {
-        if (m_Platform) m_Platform->SyncMinimized(false);
         SOLARC_WINDOW_TRACE("Window restored event: '{}'", GetTitle());
         break;
     }

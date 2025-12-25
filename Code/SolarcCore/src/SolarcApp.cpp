@@ -460,12 +460,18 @@ void SolarcApp::SolarcStateRunning::OnEnter()
     m_MainWindow->Show();
     SOLARC_APP_INFO("Main window created and shown");
 
+    m_MainWindow->Update();
+    m_Bus.Communicate();
+
     // Initialize RHI with the main window
     try {
-        SOLARC_APP_INFO("Initializing RHI...");
-        RHI::Initialize(m_MainWindow);
-        m_Bus.RegisterListener(&RHI::Get());
-        SOLARC_APP_INFO("RHI initialized successfully");
+        if (m_MainWindow->IsVisible() && !m_MainWindow->IsMinimized())
+        {
+            SOLARC_APP_INFO("Initializing RHI...");
+            RHI::Initialize(m_MainWindow);
+            m_Bus.RegisterListener(&RHI::Get());
+            SOLARC_APP_INFO("RHI initialized successfully");
+        }
     }
     catch (const std::exception& e) {
         SOLARC_CRITICAL("Failed to initialize RHI: {}", e.what());

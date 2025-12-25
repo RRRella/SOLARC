@@ -48,6 +48,8 @@ void WindowPlatform::Show()
         ShowWindow(m_hWnd, SW_SHOW);
         UpdateWindow(m_hWnd);
 
+        m_Visible = true;
+
         DispatchWindowEvent(std::make_shared<WindowShownEvent>());
         SOLARC_WINDOW_TRACE("Win32 window shown request: '{}'", m_Title);
     }
@@ -59,6 +61,8 @@ void WindowPlatform::Hide()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_HIDE);
+
+        m_Visible = false;
 
         DispatchWindowEvent(std::make_shared<WindowHiddenEvent>());
         SOLARC_WINDOW_TRACE("Win32 window hidden request: '{}'", m_Title);
@@ -92,6 +96,11 @@ void WindowPlatform::Resize(int32_t width, int32_t height)
         SetWindowPos(m_hWnd, nullptr, 0, 0, width, height,
             SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 
+        SetDimensions(width,height);
+        m_Minimized = false;
+
+        DispatchWindowEvent(std::make_shared<WindowResizeEvent>(width, height));
+
         SOLARC_WINDOW_TRACE("Win32 window resize requested: {}x{}", width, height);
     }
 }
@@ -103,6 +112,12 @@ void WindowPlatform::Minimize()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_MINIMIZE);
+
+        m_Minimized = true;
+        m_Maximized = false;
+
+        DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
+
         SOLARC_WINDOW_TRACE("Win32 window minimize requested: '{}'", m_Title);
     }
 }
@@ -114,6 +129,12 @@ void WindowPlatform::Maximize()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_MAXIMIZE);
+
+        m_Minimized = false;
+        m_Maximized = true;
+
+        DispatchWindowEvent(std::make_shared<WindowMaximizedEvent>());
+
         SOLARC_WINDOW_TRACE("Win32 window maximize requested: '{}'", m_Title);
     }
 }
@@ -125,6 +146,12 @@ void WindowPlatform::Restore()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_RESTORE);
+
+        m_Minimized = false;
+        m_Maximized = false;
+
+        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
+
         SOLARC_WINDOW_DEBUG("Win32 window restore requested: '{}'", m_Title);
     }
 }
@@ -134,6 +161,12 @@ bool WindowPlatform::IsMinimized() const
     std::lock_guard lk(mtx);
 
     return m_Minimized; 
+}
+
+bool WindowPlatform::IsMaximized() const
+{
+    std::lock_guard lk(mtx);
+    return m_Maximized;
 }
 
 #endif

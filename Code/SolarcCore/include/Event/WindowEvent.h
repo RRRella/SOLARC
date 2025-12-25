@@ -12,6 +12,7 @@ public:
         CLOSE,
         RESIZED,
         MINIMIZED,
+        MAXIMIZED,
         RESTORED,
         GENERIC
     };
@@ -80,6 +81,15 @@ class WindowMinimizedEvent : public WindowEvent
 public:
     explicit WindowMinimizedEvent()
         : WindowEvent(TYPE::MINIMIZED)
+    {
+    }
+};
+
+class WindowMaximizedEvent : public WindowEvent
+{
+public:
+    explicit WindowMaximizedEvent()
+        : WindowEvent(TYPE::MAXIMIZED)
     {
     }
 };

@@ -34,27 +34,7 @@ public:
     const int32_t& GetHeight() const { return m_Height; }
     bool IsVisible() const;
     bool IsMinimized() const;
-
-    // -- State Synchronization (Called by Window::OnEvent) --
-    // These are public so WindowT can update the cache based on events
-    void SyncDimensions(int32_t width, int32_t height)
-    {
-        std::lock_guard lk(mtx);
-        m_Width = width;
-        m_Height = height;
-    }
-
-    void SyncVisibility(bool visible)
-    {
-        std::lock_guard lk(mtx);
-        m_Visible = visible;
-    }
-
-    void SyncMinimized(bool minimized)
-    {
-        std::lock_guard lk(mtx);
-        m_Minimized = minimized;
-    }
+    bool IsMaximized() const;
 
     // Helper for internal dispatch
     void DispatchWindowEvent(const std::shared_ptr<const WindowEvent>& e)
@@ -74,8 +54,16 @@ private:
     int32_t m_Height;
     bool m_Visible = false;
     bool m_Minimized = false;
+    bool m_Maximized = false;
 
     mutable std::mutex mtx;
+
+    void SetDimensions(int32_t width, int32_t height)
+    {
+        std::lock_guard lk(mtx);
+        m_Width = width;
+        m_Height = height;
+    }
 
 #ifdef _WIN32
     HWND m_hWnd = nullptr;

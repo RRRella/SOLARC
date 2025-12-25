@@ -87,20 +87,14 @@ void WindowPlatform::Show()
 {
     std::lock_guard lk(mtx);
 
-    if (!m_Visible)
-    {
-        // Wait for initial configure before showing
-        if (!m_Configured)
-        {
-            SOLARC_WINDOW_DEBUG("Waiting for XDG surface configure before showing: '{}'", m_Title);
-            // The surface will become visible after configure event
-        }
-        else
-        {
-            wl_surface_commit(m_Surface);
-            DispatchWindowEvent(std::make_shared<WindowShownEvent>());
-        }
+    if (m_Visible) {
+        return;
     }
+
+    m_Visible = true;
+    wl_surface_commit(m_Surface);
+
+    SOLARC_WINDOW_DEBUG("Wayland surface show requested (pending configure): '{}'", m_Title);
 }
 
 void WindowPlatform::Hide()
@@ -163,9 +157,6 @@ void WindowPlatform::Minimize()
     {
         xdg_toplevel_set_minimized(m_XdgToplevel);
 
-        // Optimistically dispatch event so Window wrapper updates state
-        DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
-
         SOLARC_WINDOW_DEBUG("Wayland window minimize requested: '{}'", m_Title);
     }
 }
@@ -191,9 +182,6 @@ void WindowPlatform::Restore()
         xdg_toplevel_unset_maximized(m_XdgToplevel);
         xdg_toplevel_unset_fullscreen(m_XdgToplevel);
         wl_surface_commit(m_Surface);
-
-        // Dispatch restored event
-        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
 
         SOLARC_WINDOW_DEBUG("Wayland window restore requested: '{}'", m_Title);
     }
@@ -223,7 +211,6 @@ void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 
     m_Configured = true;
 }
-}
 
 void WindowPlatform::HandleClose()
 {
@@ -238,22 +225,24 @@ void WindowPlatform::xdg_surface_configure(
     xdg_surface* xdg_surface,
     uint32_t serial)
 {
-    std::lock_guard lk(mtx);
-
-    // NULL safety check
     if (!data) return;
-    
+
     auto* window = static_cast<WindowPlatform*>(data);
-    
-    // Acknowledge the configure event
+    std::lock_guard lk(window->mtx);
+
     xdg_surface_ack_configure(xdg_surface, serial);
-    
-    // Surface is now configured and can be shown
-    if (window->m_Visible && window->m_Surface)
-    {
-        wl_surface_commit(window->m_Surface);
+
+    bool wasConfigured = window->m_Configured;
+    window->m_Configured = true;
+
+    // Commit to finalize configuration
+    wl_surface_commit(window->m_Surface);
+
+    if (!wasConfigured && window->m_Visible) {
+        window->DispatchWindowEvent(std::make_shared<WindowShownEvent>());
+        SOLARC_WINDOW_INFO("Wayland window configured and shown: '{}'", window->m_Title);
     }
-    
+
     SOLARC_WINDOW_TRACE("XDG surface configure acknowledged: '{}'", window->m_Title);
 }
 
@@ -264,8 +253,6 @@ void WindowPlatform::xdg_toplevel_configure(
     int32_t height,
     wl_array* states)
 {
-    std::lock_guard lk(mtx);
-
     // NULL safety check
     if (!data) return;
     
@@ -273,18 +260,67 @@ void WindowPlatform::xdg_toplevel_configure(
     window->HandleConfigure(width, height);
 }
 
-void WindowPlatform::xdg_toplevel_close(
+void WindowPlatform::xdg_toplevel_configure(
     void* data,
-    xdg_toplevel* toplevel)
+    xdg_toplevel* toplevel,
+    int32_t width,
+    int32_t height,
+    wl_array* states)
 {
-    std::lock_guard lk(mtx);
-
     if (!data) return;
     auto* window = static_cast<WindowPlatform*>(data);
-    window->HandleClose();
 
-    auto ev = std::make_shared<WindowCloseEvent>();
-    window->ReceiveWindowEvent(std::move(ev));
+    // Parse states
+    bool isMinimized = false;
+    bool isMaximized = false;
+    bool isFullscreen = false;
+
+    if (states) {
+        const uint32_t* state = static_cast<const uint32_t*>(states->data);
+        for (size_t i = 0; i < states->size / sizeof(uint32_t); ++i) {
+            switch (state[i]) {
+            case XDG_TOPLEVEL_STATE_MINIMIZED: isMinimized = true; break;
+            case XDG_TOPLEVEL_STATE_MAXIMIZED: isMaximized = true; break;
+            case XDG_TOPLEVEL_STATE_FULLSCREEN: isFullscreen = true; break;
+            }
+        }
+    }
+
+    {
+        std::lock_guard lk(window->mtx);
+
+        if (isMinimized && !window->m_Minimized) {
+            window->m_Minimized = true;
+            window->DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
+        }
+        else if (!isMinimized && window->m_Minimized) {
+            window->m_Minimized = false;
+            // Note: restore might also come from unmaximize/unfullscreen
+            window->DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
+        }
+
+        // Similarly handle maximize toggle
+        if (isMaximized && !window->m_Maximized) {
+            window->m_Maximized = true;
+            window->DispatchWindowEvent(std::make_shared<WindowMaximizedEvent>());
+        }
+        else if (!isMaximized && window->m_Maximized) {
+            window->m_Maximized = false;
+            // Could emit restore, but be cautious about double-emission
+        }
+
+        // Handle size
+        if (width > 0 && height > 0) {
+            if (!window->m_Configured) {
+                window->HandleConfigure(width, height); // includes first-show logic
+            }
+            else if (width != window->m_Width || height != window->m_Height) {
+                window->m_Width = width;
+                window->m_Height = height;
+                window->DispatchWindowEvent(std::make_shared<WindowResizeEvent>(width, height));
+            }
+        }
+    }
 }
 
 bool WindowPlatform::IsMinimized() const

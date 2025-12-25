@@ -86,13 +86,11 @@ LRESULT CALLBACK WindowContextPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wPar
             return 0;
         }
 
-        if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
-        {
-            // We dispatch a restored event to ensure state is synchronized.
-            // It is safe to dispatch this even during normal resizing.
-            auto ev = std::make_shared<WindowRestoredEvent>();
-            windowPlatform->DispatchWindowEvent(std::move(ev));
-        }
+        if(wParam == SIZE_MAXIMIZED)
+            windowPlatform->DispatchWindowEvent(std::move(std::make_shared<WindowMaximizedEvent>()));
+
+        if (wParam == SIZE_RESTORED)
+            windowPlatform->DispatchWindowEvent(std::move(std::make_shared<WindowRestoredEvent>()));
 
         int32_t newWidth = LOWORD(lParam);
         int32_t newHeight = HIWORD(lParam);
