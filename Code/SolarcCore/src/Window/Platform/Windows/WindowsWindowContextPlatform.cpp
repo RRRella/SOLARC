@@ -70,8 +70,7 @@ LRESULT CALLBACK WindowContextPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wPar
     {
     case WM_CLOSE:
     {
-        auto ev = std::make_shared<WindowCloseEvent>();
-        windowPlatform->DispatchWindowEvent(std::move(ev));
+        windowPlatform->DispatchWindowEvent(std::make_shared<WindowCloseEvent>());
         return 0;
     }
 
@@ -79,29 +78,35 @@ LRESULT CALLBACK WindowContextPlatform::WndProc(HWND hWnd, UINT msg, WPARAM wPar
     {
         if (wParam == SIZE_MINIMIZED)
         {
-            auto ev = std::make_shared<WindowMinimizedEvent>();
-            windowPlatform->DispatchWindowEvent(std::move(ev));
+            windowPlatform->SyncMaximized(false);
+            windowPlatform->SyncMinimized(true);
 
-            SOLARC_WINDOW_TRACE("Window minimized msg: '{}'", windowPlatform->GetTitle());
-            return 0;
+            windowPlatform->DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
         }
 
-        if(wParam == SIZE_MAXIMIZED)
+        if (wParam == SIZE_MAXIMIZED)
+        {
+            windowPlatform->SyncMaximized(true);
+            windowPlatform->SyncMinimized(false);
+
             windowPlatform->DispatchWindowEvent(std::move(std::make_shared<WindowMaximizedEvent>()));
+        }
 
         if (wParam == SIZE_RESTORED)
+        {
+            windowPlatform->SyncMaximized(false);
+            windowPlatform->SyncMinimized(false);
+
             windowPlatform->DispatchWindowEvent(std::move(std::make_shared<WindowRestoredEvent>()));
+        }
 
         int32_t newWidth = LOWORD(lParam);
         int32_t newHeight = HIWORD(lParam);
 
-        if (newWidth > 0 && newHeight > 0)
-        {
-            auto ev = std::make_shared<WindowResizeEvent>(newWidth, newHeight);
-            windowPlatform->DispatchWindowEvent(std::move(ev));
+        windowPlatform->SyncDimensions(newWidth, newHeight);
+        windowPlatform->DispatchWindowEvent(std::make_shared<WindowResizeEvent>(newWidth, newHeight));
 
-            SOLARC_WINDOW_TRACE("Window resize msg: {}x{}", newWidth, newHeight);
-        }
+        SOLARC_WINDOW_TRACE("Window resize msg: {}x{}", newWidth, newHeight);
 
         return 0;
     }

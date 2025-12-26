@@ -9,6 +9,7 @@ ${${PROJECT_NAME}_SRC_DIR}/Event/EventSystemStressTest.cpp
 ${${PROJECT_NAME}_SRC_DIR}/MT/JobSystemTest.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Window/WindowTest.cpp
+${${PROJECT_NAME}_SRC_DIR}/Window/WindowIntegrationTest.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Rendering/RHIIntegrationTestFixture.h
 ${${PROJECT_NAME}_SRC_DIR}/Rendering/RHIIntegrationTest.cpp

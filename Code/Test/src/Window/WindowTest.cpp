@@ -84,12 +84,6 @@ public:
         // Simulate OS response: Dispatch Restored Event
         DispatchEvent(std::make_shared<WindowRestoredEvent>());
     }
-
-    // Helper for testing events manually
-    void SimulateEvent(std::shared_ptr<WindowEvent> e)
-    {
-        DispatchEvent(e);
-    }
 };
 
 // Define the Window type using our Mock Platform
@@ -125,7 +119,7 @@ TEST_F(WindowTest, Constructor_ThrowsOnNullPlatform)
 }
 
 TEST_F(WindowTest, Properties_DelegatesToPlatform)
-{ 
+{
     MockWindowPlatform* mock = nullptr;
     auto window = CreateWindowAndMock(&mock, nullptr);
 

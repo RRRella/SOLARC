@@ -458,10 +458,8 @@ void SolarcApp::SolarcStateRunning::OnEnter()
     m_Bus.RegisterProducer(m_MainWindow.get());
 
     m_MainWindow->Show();
-    SOLARC_APP_INFO("Main window created and shown");
-
     m_MainWindow->Update();
-    m_Bus.Communicate();
+    SOLARC_APP_INFO("Main window created and shown");
 
     // Initialize RHI with the main window
     try {
@@ -492,8 +490,6 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
 {
     // Update the window (processes its event queue)
     m_MainWindow->Update();
-
-    m_Bus.Communicate();
 
     if (!RHI::IsInitialized())
     {
@@ -566,6 +562,7 @@ void SolarcApp::SolarcStateRunning::OnExit()
     if (m_MainWindow)
     {
         m_MainWindow->Hide();
+        m_MainWindow->Update();
         m_MainWindow.reset();
         SOLARC_APP_INFO("Main window destroyed");
     }

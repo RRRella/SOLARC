@@ -11,7 +11,17 @@ WindowPlatform::WindowPlatform(
     , m_Width(width > 0 ? width : 800)
     , m_Height(height > 0 ? height : 600)
 {
-    auto& context = WindowContextPlatform::Get(); // Use singleton
+    auto& context = WindowContextPlatform::Get();
+
+    // Compute window rect that gives us desired client area
+    DWORD style = WS_OVERLAPPEDWINDOW;
+    DWORD exStyle = 0;
+
+    RECT rect = { 0, 0, m_Width, m_Height };
+    AdjustWindowRectEx(&rect, style, FALSE, exStyle);
+
+    int winWidth = rect.right - rect.left;
+    int winHeight = rect.bottom - rect.top;
 
     m_hWnd = CreateWindowEx(
         0,
@@ -19,7 +29,7 @@ WindowPlatform::WindowPlatform(
         title.c_str(),
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        m_Width, m_Height,
+        winWidth, winHeight,
         nullptr,
         nullptr,
         context.GetInstance(),
@@ -91,18 +101,24 @@ void WindowPlatform::SetTitle(const std::string& title)
 void WindowPlatform::Resize(int32_t width, int32_t height)
 {
     std::lock_guard lk(mtx);
-    if (m_hWnd)
-    {
-        SetWindowPos(m_hWnd, nullptr, 0, 0, width, height,
-            SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+    if (!m_hWnd) return;
 
-        SetDimensions(width,height);
-        m_Minimized = false;
+    // Get current window style
+    DWORD style = GetWindowLong(m_hWnd, GWL_STYLE);
+    DWORD exStyle = GetWindowLong(m_hWnd, GWL_EXSTYLE);
 
-        DispatchWindowEvent(std::make_shared<WindowResizeEvent>(width, height));
+    // Compute window rect needed for desired client area
+    RECT r = { 0, 0, width, height };
+    AdjustWindowRectEx(&r, style, FALSE, exStyle);
 
-        SOLARC_WINDOW_TRACE("Win32 window resize requested: {}x{}", width, height);
-    }
+    int windowWidth = r.right - r.left;
+    int windowHeight = r.bottom - r.top;
+
+    SetWindowPos(m_hWnd, nullptr, 0, 0, windowWidth, windowHeight,
+        SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+
+    SOLARC_WINDOW_TRACE("Win32 resize: client {}x{} -> window {}x{}",
+        width, height, windowWidth, windowHeight);
 }
 
 void WindowPlatform::Minimize()
@@ -112,11 +128,6 @@ void WindowPlatform::Minimize()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_MINIMIZE);
-
-        m_Minimized = true;
-        m_Maximized = false;
-
-        DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
 
         SOLARC_WINDOW_TRACE("Win32 window minimize requested: '{}'", m_Title);
     }
@@ -130,11 +141,6 @@ void WindowPlatform::Maximize()
     {
         ShowWindow(m_hWnd, SW_MAXIMIZE);
 
-        m_Minimized = false;
-        m_Maximized = true;
-
-        DispatchWindowEvent(std::make_shared<WindowMaximizedEvent>());
-
         SOLARC_WINDOW_TRACE("Win32 window maximize requested: '{}'", m_Title);
     }
 }
@@ -146,11 +152,6 @@ void WindowPlatform::Restore()
     if (m_hWnd)
     {
         ShowWindow(m_hWnd, SW_RESTORE);
-
-        m_Minimized = false;
-        m_Maximized = false;
-
-        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
 
         SOLARC_WINDOW_DEBUG("Win32 window restore requested: '{}'", m_Title);
     }

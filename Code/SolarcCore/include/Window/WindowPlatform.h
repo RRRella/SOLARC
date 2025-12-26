@@ -12,6 +12,29 @@
 #include <wayland-client.h>
 #endif
 
+template<typename T>
+concept WindowPlatformConcept = requires(T & t) {
+    // Basic properties
+    { t.GetTitle() } -> std::same_as<const std::string&>;
+    { t.GetWidth() } -> std::same_as<const int32_t&>;
+    { t.GetHeight() } -> std::same_as<const int32_t&>;
+
+    // Visibility
+    { t.Show() } -> std::same_as<void>;
+    { t.Hide() } -> std::same_as<void>;
+    { t.IsVisible() } -> std::convertible_to<bool>;
+    { t.IsMinimized() } -> std::convertible_to<bool>;
+
+    // Window State Commands
+    { t.Resize(0, 0) } -> std::same_as<void>;
+    { t.Minimize() } -> std::same_as<void>;
+    { t.Maximize() } -> std::same_as<void>;
+    { t.Restore() } -> std::same_as<void>;
+
+    // Events (optional but expected for integration)
+    // We assume it derives from EventProducer<WindowEvent> externally
+};
+
 class WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
@@ -49,6 +72,7 @@ public:
 #endif
 
 private:
+
     std::string m_Title;
     int32_t m_Width;
     int32_t m_Height;
@@ -56,13 +80,31 @@ private:
     bool m_Minimized = false;
     bool m_Maximized = false;
 
-    mutable std::mutex mtx;
+    mutable std::recursive_mutex mtx;
 
-    void SetDimensions(int32_t width, int32_t height)
+    void SyncDimensions(int32_t width, int32_t height)
     {
         std::lock_guard lk(mtx);
         m_Width = width;
         m_Height = height;
+    }
+
+    void SyncVisibility(bool visible)
+    {
+        std::lock_guard lk(mtx);
+        m_Visible = visible;
+    }
+
+    void SyncMinimized(bool minimized)
+    {
+        std::lock_guard lk(mtx);
+        m_Minimized = minimized;
+    }
+
+    void SyncMaximized(bool maximized)
+    {
+        std::lock_guard lk(mtx);
+        m_Maximized = maximized;
     }
 
 #ifdef _WIN32

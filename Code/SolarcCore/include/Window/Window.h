@@ -12,30 +12,6 @@
 #include <type_traits>
 #include <stdexcept>
 
-// C++20 Concept: defines required interface for a window platform
-template<typename T>
-concept WindowPlatformConcept = requires(T & t) {
-    // Basic properties
-    { t.GetTitle() } -> std::same_as<const std::string&>;
-    { t.GetWidth() } -> std::same_as<const int32_t&>;
-    { t.GetHeight() } -> std::same_as<const int32_t&>;
-
-    // Visibility
-    { t.Show() } -> std::same_as<void>;
-    { t.Hide() } -> std::same_as<void>;
-    { t.IsVisible() } -> std::convertible_to<bool>;
-    { t.IsMinimized() } -> std::convertible_to<bool>;
-
-    // Window State Commands
-    { t.Resize(0, 0) } -> std::same_as<void>;
-    { t.Minimize() } -> std::same_as<void>;
-    { t.Maximize() } -> std::same_as<void>;
-    { t.Restore() } -> std::same_as<void>;
-
-    // Events (optional but expected for integration)
-    // We assume it derives from EventProducer<WindowEvent> externally
-};
-
 /**
  * Platform-agnostic window class
  *
@@ -380,5 +356,3 @@ inline void WindowT<PlatformT>::OnEvent(const std::shared_ptr<const WindowEvent>
 
     DispatchEvent(e);
 }
-
-

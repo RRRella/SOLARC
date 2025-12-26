@@ -277,7 +277,6 @@ void WindowPlatform::xdg_toplevel_configure(
     auto* window = static_cast<WindowPlatform*>(data);
 
     // Parse states
-    bool isMinimized = false;
     bool isMaximized = false;
     bool isFullscreen = false;
 
@@ -285,7 +284,6 @@ void WindowPlatform::xdg_toplevel_configure(
         const uint32_t* state = static_cast<const uint32_t*>(states->data);
         for (size_t i = 0; i < states->size / sizeof(uint32_t); ++i) {
             switch (state[i]) {
-            case XDG_TOPLEVEL_STATE_MINIMIZED: isMinimized = true; break;
             case XDG_TOPLEVEL_STATE_MAXIMIZED: isMaximized = true; break;
             case XDG_TOPLEVEL_STATE_FULLSCREEN: isFullscreen = true; break;
             }
@@ -294,16 +292,6 @@ void WindowPlatform::xdg_toplevel_configure(
 
     {
         std::lock_guard lk(window->mtx);
-
-        if (isMinimized && !window->m_Minimized) {
-            window->m_Minimized = true;
-            window->DispatchWindowEvent(std::make_shared<WindowMinimizedEvent>());
-        }
-        else if (!isMinimized && window->m_Minimized) {
-            window->m_Minimized = false;
-            // Note: restore might also come from unmaximize/unfullscreen
-            window->DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
-        }
 
         // Similarly handle maximize toggle
         if (isMaximized && !window->m_Maximized) {
