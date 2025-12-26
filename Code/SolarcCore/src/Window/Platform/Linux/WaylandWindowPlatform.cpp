@@ -60,9 +60,26 @@ WindowPlatform::WindowPlatform(
     xdg_toplevel_set_title(m_XdgToplevel, m_Title.c_str());
     xdg_toplevel_set_app_id(m_XdgToplevel, "com.solarc.engine");
 
-    // Request server-side decorations if available
-    // Note: This requires xdg-decoration protocol which we'll add later if needed
-    
+    // Request Server-Side Decorations
+    auto* decorationManager = context.GetDecorationManager();
+    if (decorationManager) {
+        m_Decoration = zxdg_decoration_manager_v1_get_toplevel_decoration(
+            decorationManager, m_XdgToplevel);
+
+        if (m_Decoration) {
+            zxdg_toplevel_decoration_v1_set_mode(
+                m_Decoration,
+                ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE);
+            SOLARC_WINDOW_DEBUG("Requested server-side decorations for: '{}'", m_Title);
+        }
+        else {
+            SOLARC_WINDOW_WARN("Failed to get decoration object for: '{}'", m_Title);
+        }
+    }
+    else {
+        SOLARC_WINDOW_WARN("Compositor doesn't support xdg-decoration protocol");
+    }
+
     // Commit the surface to apply initial configuration
     wl_surface_commit(m_Surface);
 
@@ -79,6 +96,9 @@ WindowPlatform::~WindowPlatform()
     
     if (m_Surface)
         wl_surface_destroy(m_Surface);
+
+    if (m_Decoration)
+        zxdg_toplevel_decoration_v1_destroy(m_Decoration);
 
     SOLARC_WINDOW_TRACE("Wayland window platform destroyed: '{}'", m_Title);
 }
@@ -211,10 +231,6 @@ void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 
     m_Configured = true;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 19d0227 (fixed weird bugs)
 
 void WindowPlatform::HandleClose()
 {
@@ -257,24 +273,9 @@ void WindowPlatform::xdg_toplevel_configure(
     int32_t height,
     wl_array* states)
 {
-    // NULL safety check
-    if (!data) return;
-    
-    auto* window = static_cast<WindowPlatform*>(data);
-    window->HandleConfigure(width, height);
-}
-
-void WindowPlatform::xdg_toplevel_configure(
-    void* data,
-    xdg_toplevel* toplevel,
-    int32_t width,
-    int32_t height,
-    wl_array* states)
-{
     if (!data) return;
     auto* window = static_cast<WindowPlatform*>(data);
 
-<<<<<<< HEAD
     // Parse states
     bool isMinimized = false;
     bool isMaximized = false;
@@ -326,10 +327,16 @@ void WindowPlatform::xdg_toplevel_configure(
             }
         }
     }
-=======
-    auto ev = std::make_shared<WindowCloseEvent>();
-    window->DispatchWindowEvent(std::move(ev));
->>>>>>> 19d0227 (fixed weird bugs)
+}
+
+void WindowPlatform::xdg_toplevel_close(
+    void* data,
+    xdg_toplevel* toplevel)
+{
+    if (!data) return;
+    auto window = static_cast<WindowPlatform*>(data);
+
+    windwo->DispatchWindowEvent(std::make_shared<WindowCloseEvent>());
 }
 
 bool WindowPlatform::IsMinimized() const

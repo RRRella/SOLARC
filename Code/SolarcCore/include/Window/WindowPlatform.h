@@ -81,6 +81,7 @@ private:
     wl_surface* m_Surface = nullptr;
     xdg_surface* m_XdgSurface = nullptr;
     xdg_toplevel* m_XdgToplevel = nullptr;
+    zxdg_toplevel_decoration_v1* m_Decoration = nullptr;
     bool m_Configured = false;
 
     static const xdg_surface_listener s_XdgSurfaceListener;

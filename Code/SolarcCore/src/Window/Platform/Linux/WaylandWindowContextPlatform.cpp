@@ -87,6 +87,10 @@ void WindowContextPlatform::Shutdown()
     if (m_Compositor) { wl_compositor_destroy(m_Compositor); m_Compositor = nullptr; }
     if (m_Registry) { wl_registry_destroy(m_Registry); m_Registry = nullptr; }
     if (m_Display) { wl_display_disconnect(m_Display); m_Display = nullptr; }
+    if (m_DecorationManager) {
+        zxdg_decoration_manager_v1_destroy(m_DecorationManager);
+        m_DecorationManager = nullptr;
+    }
 
     SOLARC_WINDOW_INFO("Wayland context shut down");
 }
@@ -115,6 +119,12 @@ void WindowContextPlatform::registry_global(
         ctx->m_XdgWmBase = static_cast<xdg_wm_base*>(
             wl_registry_bind(registry, name, &xdg_wm_base_interface, std::min(version, 1u)));
     }
+    else if (strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0)
+    {
+        ctx->m_DecorationManager = static_cast<zxdg_decoration_manager_v1*>(
+            wl_registry_bind(registry, name, &zxdg_decoration_manager_v1_interface, 1));
+    }
+
 }
 
 void WindowContextPlatform::registry_global_remove(void*, wl_registry*, uint32_t) {}

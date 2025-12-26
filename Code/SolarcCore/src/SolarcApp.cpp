@@ -471,6 +471,13 @@ void SolarcApp::SolarcStateRunning::OnEnter()
             RHI::Initialize(m_MainWindow);
             m_Bus.RegisterListener(&RHI::Get());
             SOLARC_APP_INFO("RHI initialized successfully");
+
+            // Apply VSync preference if overridden
+            if (app.m_VSyncOverride)
+            {
+                RHI::Get().SetVSync(app.m_VSyncEnabled);
+                SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
+            }
         }
     }
     catch (const std::exception& e) {
@@ -478,12 +485,6 @@ void SolarcApp::SolarcStateRunning::OnEnter()
         throw; // Re-throw to trigger cleanup state
     }
 
-    // Apply VSync preference if overridden
-    if (app.m_VSyncOverride)
-    {
-        RHI::Get().SetVSync(app.m_VSyncEnabled);
-        SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
-    }
 
 }
 
@@ -494,12 +495,29 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
 
     m_Bus.Communicate();
 
+    if (!RHI::IsInitialized())
+    {
+        if (m_MainWindow->IsVisible() && !m_MainWindow->IsMinimized())
+        {
+            SOLARC_APP_INFO("Initializing RHI...");
+            RHI::Initialize(m_MainWindow);
+            m_Bus.RegisterListener(&RHI::Get());
+            SOLARC_APP_INFO("RHI initialized successfully");
+        }
+
+        SolarcApp& app = SolarcApp::Get();
+        // Apply VSync preference if overridden
+        if (app.m_VSyncOverride)
+        {
+            RHI::Get().SetVSync(app.m_VSyncEnabled);
+            SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
+        }
+    }
+
     // Render frame if RHI is initialized and window is not minimized
     if (RHI::IsInitialized() && !m_MainWindow->IsMinimized())
     {
         auto& rhi = RHI::Get();
-
-        if(!m_MainWindow->IsVisible())
 
         // Begin frame
         rhi.BeginFrame();

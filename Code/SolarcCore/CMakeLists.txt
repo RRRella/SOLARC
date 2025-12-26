@@ -68,11 +68,31 @@ if(UNIX AND NOT APPLE)
         DEPENDS "${XDG_SHELL_PROTOCOL}"
         VERBATIM
     )
+
+    set(XDG_DECORATION_PROTOCOL "${WAYLAND_PROTOCOLS_DIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml")
+    set(XDG_DECORATION_CLIENT_HEADER "${CMAKE_CURRENT_BINARY_DIR}/xdg-decoration-unstable-v1-client-protocol.h")
+    set(XDG_DECORATION_CODE "${CMAKE_CURRENT_BINARY_DIR}/xdg-decoration-unstable-v1-protocol.c")
+    
+    add_custom_command(
+        OUTPUT "${XDG_DECORATION_CLIENT_HEADER}"
+        COMMAND ${WAYLAND_SCANNER} client-header "${XDG_DECORATION_PROTOCOL}" "${XDG_DECORATION_CLIENT_HEADER}"
+        DEPENDS "${XDG_DECORATION_PROTOCOL}"
+        VERBATIM
+    )
+    
+    add_custom_command(
+        OUTPUT "${XDG_DECORATION_CODE}"
+        COMMAND ${WAYLAND_SCANNER} private-code "${XDG_DECORATION_PROTOCOL}" "${XDG_DECORATION_CODE}"
+        DEPENDS "${XDG_DECORATION_PROTOCOL}"
+        VERBATIM
+    )
     
     # Add generated files to sources
     target_sources(${PROJECT_NAME} PRIVATE
         ${XDG_SHELL_CLIENT_HEADER}
         ${XDG_SHELL_CODE}
+        ${XDG_DECORATION_CLIENT_HEADER}
+        ${XDG_DECORATION_CODE}
     )
     
     target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

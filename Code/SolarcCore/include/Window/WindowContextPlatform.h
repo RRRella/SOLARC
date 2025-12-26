@@ -12,6 +12,7 @@
 #elif defined(__linux__)
 #include <wayland-client.h>
 #include "xdg-shell-client-protocol.h"
+#include "xdg-decoration-unstable-v1-client-protocol.h"
 #endif
 
 class WindowPlatform; // Forward declare
@@ -44,6 +45,10 @@ public:
     wl_surface* CreateSurface();
     xdg_surface* CreateXdgSurface(wl_surface* surface);
     wl_display* GetDisplay() const { return m_Display; }
+    zxdg_decoration_manager_v1* GetDecorationManager() const {
+        return m_DecorationManager;
+    }
+
 #endif
 
 private:
@@ -65,6 +70,8 @@ private:
     wl_registry* m_Registry = nullptr;
     wl_compositor* m_Compositor = nullptr;
     xdg_wm_base* m_XdgWmBase = nullptr;
+    zxdg_decoration_manager_v1* m_DecorationManager = nullptr;
+
     bool m_ShuttingDown = false;
 
     static const wl_registry_listener s_RegistryListener;
