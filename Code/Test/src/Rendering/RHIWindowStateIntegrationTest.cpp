@@ -23,7 +23,7 @@ TEST_F(RHIWindowStateIntegrationTest, MinimizedWindow_FrameCycleIsSafe)
 
     // Get platform and minimize
     m_Window->Minimize();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     // Frame cycle while minimized should be safe (no-op internally)
     EXPECT_NO_THROW({
@@ -44,7 +44,7 @@ TEST_F(RHIWindowStateIntegrationTest, RestoreFromMinimize_ResumesRendering)
 
     // Minimize
     m_Window->Minimize();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     // Frame while minimized
     EXPECT_NO_THROW({
@@ -55,7 +55,7 @@ TEST_F(RHIWindowStateIntegrationTest, RestoreFromMinimize_ResumesRendering)
 
     // Restore
     m_Window->Restore();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     // Normal frame should work again
     EXPECT_NO_THROW({
@@ -75,7 +75,7 @@ TEST_F(RHIWindowStateIntegrationTest, MultipleMinimizeRestoreCycles_Stable)
 
         // Minimize
         m_Window->Minimize();
-        m_Window->Update();
+        PumpWindowEvents(m_Window);
 
         EXPECT_NO_THROW({
             rhi.BeginFrame();
@@ -85,7 +85,7 @@ TEST_F(RHIWindowStateIntegrationTest, MultipleMinimizeRestoreCycles_Stable)
 
         // Restore
         m_Window->Restore();
-        m_Window->Update();
+        PumpWindowEvents(m_Window);
     }
 
     // Final frame
@@ -103,7 +103,7 @@ TEST_F(RHIWindowStateIntegrationTest, HiddenWindow_FrameCycleSucceeds)
     auto& rhi = RHI::Get();
 
     m_Window->Hide();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     // Window starts hidden in fixture
     EXPECT_FALSE(m_Window->IsVisible());
@@ -120,7 +120,7 @@ TEST_F(RHIWindowStateIntegrationTest, ShowAndHideWindow_RenderingContinues)
 
     // Show window
     m_Window->Show();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     EXPECT_TRUE(m_Window->IsVisible());
 
@@ -130,7 +130,7 @@ TEST_F(RHIWindowStateIntegrationTest, ShowAndHideWindow_RenderingContinues)
 
     // Hide window
     m_Window->Hide();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     EXPECT_FALSE(m_Window->IsVisible());
 

@@ -97,7 +97,7 @@ if(UNIX AND NOT APPLE)
     
     target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
     target_include_directories(${PROJECT_NAME} PUBLIC ${WAYLAND_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${WAYLAND_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${WAYLAND_LIBRARIES})
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SRC_DIR})

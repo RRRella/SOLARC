@@ -499,15 +499,17 @@ SolarcApp::StateTransitionData SolarcApp::SolarcStateRunning::Update()
             RHI::Initialize(m_MainWindow);
             m_Bus.RegisterListener(&RHI::Get());
             SOLARC_APP_INFO("RHI initialized successfully");
+
+
+            SolarcApp& app = SolarcApp::Get();
+            // Apply VSync preference if overridden
+            if (app.m_VSyncOverride)
+            {
+                RHI::Get().SetVSync(app.m_VSyncEnabled);
+                SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
+            }
         }
 
-        SolarcApp& app = SolarcApp::Get();
-        // Apply VSync preference if overridden
-        if (app.m_VSyncOverride)
-        {
-            RHI::Get().SetVSync(app.m_VSyncEnabled);
-            SOLARC_APP_INFO("Applied VSync preference: {}", app.m_VSyncEnabled ? "ON" : "OFF");
-        }
     }
 
     // Render frame if RHI is initialized and window is not minimized

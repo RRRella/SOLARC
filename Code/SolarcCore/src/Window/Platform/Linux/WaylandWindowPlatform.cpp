@@ -124,6 +124,7 @@ void WindowPlatform::Hide()
     if (m_Visible)
     {
         // Wayland doesn't have explicit hide - we can attach a null buffer
+        m_Visible = false;
         wl_surface_attach(m_Surface, nullptr, 0, 0);
         wl_surface_commit(m_Surface);
         DispatchWindowEvent(std::make_shared<WindowHiddenEvent>());
@@ -154,9 +155,6 @@ void WindowPlatform::Resize(int32_t width, int32_t height)
 {
     std::lock_guard lk(mtx);
 
-    m_Width = width;
-    m_Height = height;
-    
     // Note: On Wayland, we can only suggest sizes via min/max size hints
     // The compositor ultimately decides the actual size
     if (m_XdgToplevel)
@@ -211,17 +209,12 @@ void WindowPlatform::HandleConfigure(int32_t width, int32_t height)
 {
     std::lock_guard lk(mtx);
 
-    if (m_Minimized)
-    {
-        m_Minimized = false;
-
-        DispatchWindowEvent(std::make_shared<WindowRestoredEvent>());
-        SOLARC_WINDOW_TRACE("Wayland window implicitly restored via configure");
-    }
-
     if (width > 0 && height > 0)
     {
         SOLARC_WINDOW_TRACE("Wayland window configure msg: {}x{}", width, height);
+
+        m_Width = width;
+        m_Height = height;
 
         if (m_Configured)
         {
@@ -324,13 +317,13 @@ void WindowPlatform::xdg_toplevel_close(
     if (!data) return;
     auto window = static_cast<WindowPlatform*>(data);
 
-    windwo->DispatchWindowEvent(std::make_shared<WindowCloseEvent>());
+    window->DispatchWindowEvent(std::make_shared<WindowCloseEvent>());
 }
 
 bool WindowPlatform::IsMinimized() const
 {
     std::lock_guard lk(mtx);
-    return m_Minimized;
+    return m_Visible & (m_Width == 0 && m_Height == 0);
 }
 
 #endif

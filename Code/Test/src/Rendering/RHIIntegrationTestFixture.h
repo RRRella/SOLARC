@@ -29,7 +29,7 @@ protected:
         // Keep window hidden during tests
         m_Window->Hide();
 
-        m_Window->Update();
+        PumpWindowEvents(m_Window);
 
         // Initialize RHI with the real window
         RHI::Initialize(m_Window);
@@ -60,6 +60,15 @@ protected:
         rhi.Clear(r, g, b, a);
         rhi.EndFrame();
         rhi.Present();
+    }
+
+    void PumpWindowEvents(std::shared_ptr<Window> window) {
+        #ifdef _WIN32
+            m_Context->PollEvents();     // triggers WndProc / Wayland callbacks
+        #elif defined(__linux__)
+            wl_display_roundtrip(WindowContextPlatform::Get().GetDisplay()); 
+            window->Update();
+        #endif
     }
 
     std::shared_ptr<Window> m_Window;

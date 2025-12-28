@@ -12,29 +12,6 @@
 #include <wayland-client.h>
 #endif
 
-template<typename T>
-concept WindowPlatformConcept = requires(T & t) {
-    // Basic properties
-    { t.GetTitle() } -> std::same_as<const std::string&>;
-    { t.GetWidth() } -> std::same_as<const int32_t&>;
-    { t.GetHeight() } -> std::same_as<const int32_t&>;
-
-    // Visibility
-    { t.Show() } -> std::same_as<void>;
-    { t.Hide() } -> std::same_as<void>;
-    { t.IsVisible() } -> std::convertible_to<bool>;
-    { t.IsMinimized() } -> std::convertible_to<bool>;
-
-    // Window State Commands
-    { t.Resize(0, 0) } -> std::same_as<void>;
-    { t.Minimize() } -> std::same_as<void>;
-    { t.Maximize() } -> std::same_as<void>;
-    { t.Restore() } -> std::same_as<void>;
-
-    // Events (optional but expected for integration)
-    // We assume it derives from EventProducer<WindowEvent> externally
-};
-
 class WindowPlatform : public EventProducer<WindowEvent>
 {
 public:
@@ -77,10 +54,11 @@ private:
     int32_t m_Width;
     int32_t m_Height;
     bool m_Visible = false;
-    bool m_Minimized = false;
     bool m_Maximized = false;
 
     mutable std::recursive_mutex mtx;
+
+#ifdef _WIN32
 
     void SyncDimensions(int32_t width, int32_t height)
     {
@@ -95,21 +73,20 @@ private:
         m_Visible = visible;
     }
 
-    void SyncMinimized(bool minimized)
-    {
-        std::lock_guard lk(mtx);
-        m_Minimized = minimized;
-    }
-
     void SyncMaximized(bool maximized)
     {
         std::lock_guard lk(mtx);
         m_Maximized = maximized;
     }
 
-#ifdef _WIN32
     HWND m_hWnd = nullptr;
     friend LRESULT CALLBACK WindowContextPlatform::WndProc(HWND, UINT, WPARAM, LPARAM);
+    void SyncMinimized(bool minimized)
+    {
+        std::lock_guard lk(mtx);
+        m_Minimized = minimized;
+    }
+    bool m_Minimized = false;
 
 #elif defined(__linux__)
     void HandleConfigure(int32_t width, int32_t height);

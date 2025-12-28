@@ -135,7 +135,12 @@ TEST(RHILifecycleDeathTest, GetAfterShutdown_Asserts)
     auto& windowCtx = WindowContext::Get();
     auto window = windowCtx.CreateWindow("Temp", 800, 600);
     window->Hide();
-    window->Update();
+#ifdef _WIN32
+        m_Context->PollEvents(); // triggers WndProc / Wayland callbacks
+#elif defined(__linux__)
+        wl_display_roundtrip(WindowContextPlatform::Get().GetDisplay()); 
+        window->Update();
+#endif
 
     RHI::Initialize(window);
     RHI::Shutdown();

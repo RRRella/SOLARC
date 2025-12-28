@@ -34,7 +34,7 @@ TEST_F(RHIFrameCycleIntegrationTest, PresentBeforeEndFrame_Asserts)
     auto& rhi = RHI::Get();
 
     m_Window->Show();
-    m_Window->Update();
+    PumpWindowEvents(m_Window);
 
     rhi.BeginFrame();
 
