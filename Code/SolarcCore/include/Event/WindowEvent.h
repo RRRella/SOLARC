@@ -14,7 +14,8 @@ public:
         MINIMIZED,
         MAXIMIZED,
         RESTORED,
-        GENERIC
+        GENERIC,
+        INPUT
     };
 
     WindowEvent(TYPE t)

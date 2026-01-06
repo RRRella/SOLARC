@@ -5,7 +5,6 @@
 #include "Logging/LogMacros.h"
 #include <stdexcept>
 
-
 const xdg_surface_listener WindowPlatform::s_XdgSurfaceListener = {
     .configure = xdg_surface_configure
 };
@@ -28,12 +27,17 @@ WindowPlatform::WindowPlatform(
 {
     auto& context = WindowContextPlatform::Get(); // Use singleton
 
+    m_CurrentKeyState.fill(false);
+
     // Create Wayland surface
     m_Surface = context.CreateSurface();
     if (!m_Surface)
     {
         throw std::runtime_error("Failed to create Wayland surface");
     }
+
+    // Attach this WindowPlatform instance to the wl_surface
+    wl_surface_set_user_data(m_Surface, this);
 
     // Create XDG surface
     m_XdgSurface = context.CreateXdgSurface(m_Surface);
@@ -95,7 +99,11 @@ WindowPlatform::~WindowPlatform()
         xdg_surface_destroy(m_XdgSurface);
     
     if (m_Surface)
+    {
+        wl_surface_set_user_data(m_Surface, nullptr);
         wl_surface_destroy(m_Surface);
+        m_Surface = nullptr;
+    }
 
     if (m_Decoration)
         zxdg_toplevel_decoration_v1_destroy(m_Decoration);
@@ -324,6 +332,28 @@ bool WindowPlatform::IsMinimized() const
 {
     std::lock_guard lk(mtx);
     return m_Visible & (m_Width == 0 && m_Height == 0);
+}
+
+void WindowPlatform::OnFocusLost()
+{
+    std::lock_guard lk(mtx);
+
+    SOLARC_WINDOW_DEBUG("Window '{}' lost focus, clearing held keys", m_Title);
+
+    // Synthesize key release transitions for all held keys
+    for (uint16_t scancode = 0; scancode < 512; ++scancode)
+    {
+        if (m_CurrentKeyState[scancode])
+        {
+            // Generate release transition
+            m_ThisFrameInput.keyTransitions.emplace_back(scancode, false, false);
+
+            // Clear held state
+            m_CurrentKeyState[scancode] = false;
+        }
+    }
+
+    m_HasKeyboardFocus = false;
 }
 
 #endif

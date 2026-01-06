@@ -38,11 +38,43 @@ void WindowContext::PollEvents()
     m_ThreadChecker.AssertOnOwnerThread("WindowContext::PollEvents");
 
     if (m_Shutdown) return;
+    // ========================================================================
+    // Phase 1: Reset all windows' input accumulators
+    // ========================================================================
+    // This must happen BEFORE OS event processing so that input captured
+    // during this frame starts from a clean slate.
+    {
+        std::lock_guard lock(m_WindowsMutex);
+        for (auto& window : m_Windows)
+        {
+            if (window)
+            {
+                // Access platform via non-const method (we need to mutate it)
+                // Note: This is safe because Window manages platform lifetime
+                WindowPlatform* platform = window->GetPlatform();
+                if (platform)
+                {
+                    platform->ResetThisFrameInput();
+                }
+            }
+        }
+    }
 
-    // Poll platform events
+    // ========================================================================
+    // Phase 2: Poll platform events (triggers OS callbacks)
+    // ========================================================================
+    // Win32: Calls DispatchMessage() which triggers WndProc
+    // Wayland: Calls wl_display_dispatch_pending() which triggers listeners
+    // 
+    // During this phase, WindowPlatform::m_ThisFrameInput is populated
+    // with key/mouse transitions and deltas.
     m_Platform.PollEvents();
 
-    // Update all windows to process their queued events
+    // ========================================================================
+    // Phase 3: Update all windows (process input, emit events)
+    // ========================================================================
+    // Window::Update() will call UpdateInput() which reads m_ThisFrameInput
+    // and updates InputState, then emits transition events.
     std::vector<std::shared_ptr<Window>> windows;
     {
         std::lock_guard lock(m_WindowsMutex);

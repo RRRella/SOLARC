@@ -8,11 +8,19 @@
 #include <unordered_map>
 
 #ifdef _WIN32
-#include <windows.h>
+
+    #include <windows.h>
+
 #elif defined(__linux__)
-#include <wayland-client.h>
-#include "xdg-shell-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
+
+    struct wl_seat;
+    struct wl_keyboard;
+    struct wl_pointer;
+    
+    #include <wayland-client.h>
+    #include "xdg-shell-client-protocol.h"
+    #include "xdg-decoration-unstable-v1-client-protocol.h"
+
 #endif
 
 class WindowPlatform; // Forward declare
@@ -62,6 +70,7 @@ private:
     static inline bool m_ClassRegistered = false;
 
 #elif defined(__linux__)
+
     static void registry_global(void* data, wl_registry* registry, uint32_t name, const char* interface, uint32_t version);
     static void registry_global_remove(void* data, wl_registry* registry, uint32_t name);
     static void xdg_wm_base_ping(void* data, xdg_wm_base* xdg_wm_base, uint32_t serial);
@@ -76,5 +85,57 @@ private:
 
     static const wl_registry_listener s_RegistryListener;
     static const xdg_wm_base_listener s_XdgWmBaseListener;
+
+
+    // ========================================================================
+    // Input: Seat and Input Device Objects
+    // ========================================================================
+    wl_seat* m_Seat = nullptr;
+    wl_keyboard* m_Keyboard = nullptr;
+    wl_pointer* m_Pointer = nullptr;
+
+    // Listener structures
+    static const wl_seat_listener s_SeatListener;
+    static const wl_keyboard_listener s_KeyboardListener;
+    static const wl_pointer_listener s_PointerListener;
+
+    // Seat capabilities tracking
+    static void seat_capabilities(void* data, wl_seat* seat, uint32_t capabilities);
+    static void seat_name(void* data, wl_seat* seat, const char* name);
+
+    // Keyboard event handlers
+    static void keyboard_keymap(void* data, wl_keyboard* keyboard, uint32_t format,
+        int32_t fd, uint32_t size);
+    static void keyboard_enter(void* data, wl_keyboard* keyboard, uint32_t serial,
+        wl_surface* surface, wl_array* keys);
+    static void keyboard_leave(void* data, wl_keyboard* keyboard, uint32_t serial,
+        wl_surface* surface);
+    static void keyboard_key(void* data, wl_keyboard* keyboard, uint32_t serial,
+        uint32_t time, uint32_t key, uint32_t state);
+    static void keyboard_modifiers(void* data, wl_keyboard* keyboard, uint32_t serial,
+        uint32_t mods_depressed, uint32_t mods_latched,
+        uint32_t mods_locked, uint32_t group);
+    static void keyboard_repeat_info(void* data, wl_keyboard* keyboard,
+        int32_t rate, int32_t delay);
+
+    // Pointer (mouse) event handlers
+    static void pointer_enter(void* data, wl_pointer* pointer, uint32_t serial,
+        wl_surface* surface, wl_fixed_t sx, wl_fixed_t sy);
+    static void pointer_leave(void* data, wl_pointer* pointer, uint32_t serial,
+        wl_surface* surface);
+    static void pointer_motion(void* data, wl_pointer* pointer, uint32_t time,
+        wl_fixed_t sx, wl_fixed_t sy);
+    static void pointer_button(void* data, wl_pointer* pointer, uint32_t serial,
+        uint32_t time, uint32_t button, uint32_t state);
+    static void pointer_axis(void* data, wl_pointer* pointer, uint32_t time,
+        uint32_t axis, wl_fixed_t value);
+    static void pointer_frame(void* data, wl_pointer* pointer);
+    static void pointer_axis_source(void* data, wl_pointer* pointer, uint32_t axis_source);
+    static void pointer_axis_stop(void* data, wl_pointer* pointer, uint32_t time, uint32_t axis);
+    static void pointer_axis_discrete(void* data, wl_pointer* pointer, uint32_t axis, int32_t discrete);
+
+    WindowPlatform* m_PointerFocusedWindow = nullptr;
+    WindowPlatform* m_KeyboardFocusedWindow = nullptr;
+
 #endif
 };

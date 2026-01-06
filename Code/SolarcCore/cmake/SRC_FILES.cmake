@@ -18,7 +18,8 @@ ${${PROJECT_NAME}_SRC_DIR}/Window/Platform/Linux/WaylandWindowContextPlatform.cp
 ${${PROJECT_NAME}_SRC_DIR}/Event/Event.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Event/WindowEvent.cpp
 
-${${PROJECT_NAME}_SRC_DIR}/Input/InputManager.cpp
+${${PROJECT_NAME}_SRC_DIR}/Input/KeyCode.cpp
+${${PROJECT_NAME}_SRC_DIR}/Input/KeyMapping.cpp
 
 ${${PROJECT_NAME}_SRC_DIR}/Utility/CompileTimeUtil.cpp
 ${${PROJECT_NAME}_SRC_DIR}/Utility/FileSystemUtil.cpp
@@ -67,7 +68,13 @@ ${${PROJECT_NAME}_INC_DIR}/Event/EventBus.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventListener.h
 ${${PROJECT_NAME}_INC_DIR}/Event/EventProducer.h
 
-${${PROJECT_NAME}_INC_DIR}/Input/InputManager.h
+${${PROJECT_NAME}_INC_DIR}/Input/KeyCode.h
+${${PROJECT_NAME}_INC_DIR}/Input/MouseButton.h
+${${PROJECT_NAME}_INC_DIR}/Input/InputState.h
+${${PROJECT_NAME}_INC_DIR}/Input/InputFrame.h
+${${PROJECT_NAME}_INC_DIR}/Input/KeyMapping.h
+${${PROJECT_NAME}_INC_DIR}/Input/Platform/Windows/WindowsKeyMapping.h
+${${PROJECT_NAME}_INC_DIR}/Input/Platform/Linux/WaylandKeyMapping.h
 
 ${${PROJECT_NAME}_INC_DIR}/Preprocessor/API.h
 

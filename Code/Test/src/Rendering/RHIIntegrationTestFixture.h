@@ -64,7 +64,7 @@ protected:
 
     void PumpWindowEvents(std::shared_ptr<Window> window) {
         #ifdef _WIN32
-            m_Context->PollEvents();     // triggers WndProc / Wayland callbacks
+        WindowContext::Get().PollEvents();     // triggers WndProc / Wayland callbacks
         #elif defined(__linux__)
             wl_display_roundtrip(WindowContextPlatform::Get().GetDisplay()); 
             window->Update();

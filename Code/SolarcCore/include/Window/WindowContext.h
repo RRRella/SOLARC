@@ -83,9 +83,15 @@ public:
     }
 
     /**
-     * Poll platform events and distribute to windows
+     * Poll platform events and distribute to windows.
+     *
+     * This is the main input capture entry point. Call order:
+     * 1. Reset all windows' ThisFrameInput accumulators
+     * 2. Poll OS events (triggers WndProc / Wayland callbacks)
+     * 3. Update all windows (processes input, emits events)
+     *
      * note: Must be called from main thread only
-     */
+    */
     void PollEvents();
 
     /**

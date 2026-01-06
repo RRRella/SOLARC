@@ -9,7 +9,7 @@ int main(int argc, char** argv)
     {
         Log::Initialize(
             "logs/solarc.log",
-            LogLevel::Info,      // Console: Info and above
+            LogLevel::Trace,      // Console: Info and above
             LogLevel::Trace,     // File: Everything
             1024 * 1024 * 5,             // 5MB max file size
             3                             // Keep 3 backup files

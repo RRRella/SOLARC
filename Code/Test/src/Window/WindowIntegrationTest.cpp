@@ -150,8 +150,9 @@ TEST_F(WindowIntegrationTest, ResizeFromMainThread_DoesNotDeadlock)
     // - Calls SetWindowPos (Win32) -> triggers WM_SIZE
     // - Or commits resize (Wayland)
     // - Must not deadlock on mutex
+    const int32_t newW = 200, newH = 200;
     EXPECT_NO_THROW({
-        window->Resize(800, 600);
+        window->Resize(newW, newH);
         PumpWindowEvents(window);
         });
 

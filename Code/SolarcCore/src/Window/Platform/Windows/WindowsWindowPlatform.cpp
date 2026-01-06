@@ -11,6 +11,11 @@ WindowPlatform::WindowPlatform(
     , m_Width(width > 0 ? width : 800)
     , m_Height(height > 0 ? height : 600)
 {
+    // Initialize input state
+    m_CurrentKeyState.fill(false);
+    m_PrevMouseX = 0;
+    m_PrevMouseY = 0;
+
     auto& context = WindowContextPlatform::Get();
 
     // Compute window rect that gives us desired client area
@@ -168,6 +173,28 @@ bool WindowPlatform::IsMaximized() const
 {
     std::lock_guard lk(mtx);
     return m_Maximized;
+}
+
+void WindowPlatform::OnFocusLost()
+{
+    std::lock_guard lk(mtx);
+
+    SOLARC_WINDOW_DEBUG("Window '{}' lost focus, clearing held keys", m_Title);
+
+    // Synthesize key release transitions for all held keys
+    for (uint16_t scancode = 0; scancode < 512; ++scancode)
+    {
+        if (m_CurrentKeyState[scancode])
+        {
+            // Generate release transition
+            m_ThisFrameInput.keyTransitions.emplace_back(scancode, false, false);
+
+            // Clear held state
+            m_CurrentKeyState[scancode] = false;
+        }
+    }
+
+    m_HasKeyboardFocus = false;
 }
 
 #endif
